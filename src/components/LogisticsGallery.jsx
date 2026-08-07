@@ -93,7 +93,7 @@ export default function LogisticsGallery() {
       
       {/* Header Badge & Title */}
       <div className="text-center max-w-3xl mx-auto mb-10 px-4">
-        <span className="inline-block bg-[#fef3c7] text-[#d97706] text-[10px] sm:text-xs font-bold tracking-widest px-3 py-1.5 rounded-md uppercase mb-3">
+        <span className="mb-8 inline-flex items-center rounded-full bg-amber-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-400">
           Live Logistics Gallery
         </span>
         <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight uppercase leading-tight">

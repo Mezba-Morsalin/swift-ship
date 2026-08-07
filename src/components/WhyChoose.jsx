@@ -125,7 +125,7 @@ export default function WhyChoose() {
         </div>
 
         {/* 6 Grid Cards */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
@@ -134,48 +134,52 @@ export default function WhyChoose() {
         >
           {features.map((item, index) => {
             const IconComponent = item.icon;
+
             return (
               <motion.div
                 key={index}
                 variants={cardVariants}
-                className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col justify-between"
+                className="group bg-white rounded-3xl p-6 sm:p-7 lg:p-8 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full min-h-[350px]"
               >
-                <div>
-                  {/* Top Header Row with Icon and Dark Pill Badge */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="bg-[#fef3c7] p-3 rounded-2xl text-slate-900">
-                      <IconComponent className="text-xl sm:text-2xl" />
+                {/* Card Content */}
+                <div className="flex-1">
+                  {/* Top Header Row */}
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#fff3c7] flex items-center justify-center flex-shrink-0">
+                      <IconComponent className="text-[#111827] text-lg sm:text-xl" />
                     </div>
-                    <span className="bg-slate-900 text-white text-[10px] font-black tracking-wider px-3 py-1.5 rounded-full uppercase">
+
+                    <span className="bg-[#0f172a] text-white text-[9px] sm:text-[10px] font-black uppercase tracking-tight px-3 py-1.5 rounded-full whitespace-nowrap">
                       {item.badge}
                     </span>
                   </div>
 
                   {/* Card Title */}
-                  <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-snug uppercase mb-1">
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-snug uppercase mb-1.5">
                     {item.title}
                   </h3>
 
                   {/* Subtitle Accent */}
-                  <p className="text-[10px] font-bold tracking-wider text-[#fcb915] uppercase mb-3">
+                  <p className="text-[9px] sm:text-[10px] font-bold tracking-wider text-[#fcb915] uppercase leading-relaxed mb-3">
                     {item.subtitle}
                   </p>
 
                   {/* Main Paragraph */}
-                  <p className="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed mb-6">
+                  <p className="text-slate-500 text-xs sm:text-sm font-medium leading-relaxed max-w-[95%]">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Key Advantage List Section */}
-                <div className="pt-4 border-t border-slate-100">
+                <div className="pt-5 mt-6 border-t border-slate-100">
                   <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-3">
                     Key Advantage
                   </span>
+
                   <ul className="space-y-2">
                     {item.advantages.map((adv, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                        <FaCheckCircle className="text-[#fcb915] text-xs flex-shrink-0" />
+                      <li key={idx} className="flex items-start gap-2 text-xs font-bold text-slate-800 leading-relaxed">
+                        <FaCheckCircle className="text-[#fcb915] text-xs flex-shrink-0 mt-0.5" />
                         <span>{adv}</span>
                       </li>
                     ))}
@@ -185,7 +189,6 @@ export default function WhyChoose() {
             );
           })}
         </motion.div>
-
       </div>
     </section>
   );

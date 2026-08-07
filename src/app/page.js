@@ -1,6 +1,8 @@
 import BrandMarquee from "@/components/BrandMarquee";
 import Hero from "@/components/Hero";
 import LogisticsGallery from "@/components/LogisticsGallery";
+import MerchantVoices from "@/components/MerchantVoices";
+import MobileAppSection from "@/components/MobileAppSection";
 import WhyChoose from "@/components/WhyChoose";
 import { div } from "motion/react-client";
 import Image from "next/image";
@@ -12,6 +14,8 @@ export default function Home() {
       <BrandMarquee/>
       <WhyChoose/>
       <LogisticsGallery/>
+      <MobileAppSection/>
+      <MerchantVoices/>
     </div>
   );
 }
