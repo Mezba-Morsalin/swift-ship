@@ -28,7 +28,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
+    <div className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_4px_24px_rgba(15,23,42,0.06)]">
         <div className="max-w-7xl mx-auto py-5 px-5 lg:px-0">
             <div className="flex justify-between items-center">
                 <div className="">
