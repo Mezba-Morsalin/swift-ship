@@ -18,8 +18,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full bg-white py-12 md:py-20 lg:py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full bg-white py-12 md:py-16 lg:py-18 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Content & Controls */}
@@ -31,7 +31,7 @@ export default function Hero() {
           >
             {/* Top Badge */}
             <div>
-              <span className="inline-block bg-[#fef3c7] text-[#d97706] text-[10px] sm:text-xs font-bold tracking-widest px-3 py-1.5 rounded-md uppercase">
+              <span className="mb-8 inline-flex items-center rounded-full bg-amber-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-400">
                 Next Generation Logistics Network
               </span>
             </div>
@@ -39,7 +39,7 @@ export default function Hero() {
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight uppercase leading-[1.1]">
               Deliver <br />
-              <span className="text-[#ffb703]">Beyond</span> <br />
+              <span className="text-[#fcb915]">Beyond</span> <br />
               Expectation.
             </h1>
 
@@ -74,7 +74,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <a
                 href="/merchant"
-                className="bg-[#ffb703] hover:bg-amber-400 text-slate-900 font-extrabold text-xs tracking-wider px-6 py-3.5 rounded-full flex items-center gap-3 shadow-md shadow-amber-100 transition-all hover:gap-4"
+                className="bg-[#ffb703] hover:bg-slate-900 hover:text-slate-100 text-slate-900 font-extrabold text-xs tracking-wider px-6 py-3.5 rounded-full flex items-center gap-3 shadow-md shadow-amber-100 transition-all hover:gap-4"
               >
                 BECOME A MERCHANT
                 <FaArrowRight className="text-xs" />
@@ -119,7 +119,7 @@ export default function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative w-full max-w-md bg-slate-950 p-4 sm:p-5 rounded-[32px] shadow-2xl shadow-slate-400/20 border border-slate-800">
+            <div className="relative w-full max-w-md bg-slate-950 p-4 sm:p-5 rounded-[32px] shadow-2xl shadow-slate-400/20 border border-slate-800 shadow">
               
               {/* Inner Image Frame */}
               <div className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden">
@@ -133,7 +133,7 @@ export default function Hero() {
 
                 {/* Top Badge Overlay */}
                 <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-[#ffb703] text-slate-900 text-[10px] font-black px-3 py-1.5 rounded-md uppercase tracking-wider shadow">
+                  <span className="bg-[#fcb915] text-slate-900 text-[10px] font-black px-3 py-1.5 rounded-md uppercase tracking-wider shadow">
                     Speed: 24h Express
                   </span>
                 </div>
@@ -141,7 +141,7 @@ export default function Hero() {
                 {/* Bottom Live Tracking Card Overlay */}
                 <div className="absolute bottom-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md p-4 rounded-xl border border-slate-800 text-white space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="inline-flex items-center gap-1.5 bg-[#ffb703]/20 text-[#ffb703] text-[9px] font-extrabold px-2 py-0.5 rounded tracking-widest uppercase">
+                    <span className="inline-flex items-center gap-1.5 bg-[#fcb915]/20 text-[#fcb915] text-[9px] font-extrabold px-2 py-0.5 rounded tracking-widest uppercase">
   <span className="relative flex h-2 w-2">
     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
     <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
