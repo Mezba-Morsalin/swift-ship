@@ -1,4 +1,5 @@
 import BrandMarquee from "@/components/BrandMarquee";
+import CtaSection from "@/components/CtaSection";
 import Hero from "@/components/Hero";
 import LogisticsGallery from "@/components/LogisticsGallery";
 import MerchantVoices from "@/components/MerchantVoices";
@@ -16,6 +17,7 @@ export default function Home() {
       <LogisticsGallery/>
       <MobileAppSection/>
       <MerchantVoices/>
+      <CtaSection/>
     </div>
   );
 }

@@ -148,7 +148,7 @@ export default function MobileAppSection() {
                   {/* COD Balance Box */}
                   <div className="bg-[#ffb703] text-slate-900 p-4 rounded-2xl shadow-md space-y-1">
                     <span className="text-[9px] font-black uppercase tracking-widest text-slate-800 block">
-                      TODAY'S COD BALANCE
+                      TODAY&apos;S COD BALANCE
                     </span>
                     <h3 className="text-2xl font-black tracking-tight">
                       ৳ 48,250

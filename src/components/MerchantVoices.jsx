@@ -73,7 +73,7 @@ export default function MerchantVoices() {
             <span className="text-[#ffb703]">TOP BRANDS</span>
           </h2>
           <p className="text-slate-500 text-xs sm:text-sm md:text-base font-medium leading-relaxed max-w-2xl mx-auto">
-            Discover how thousands of e-commerce founders and enterprise leaders scale faster with SwiftShip's guaranteed COD payouts and express logistics.
+            Discover how thousands of e-commerce founders and enterprise leaders scale faster with SwiftShip&apos;s guaranteed COD payouts and express logistics.
           </p>
         </div>
 
