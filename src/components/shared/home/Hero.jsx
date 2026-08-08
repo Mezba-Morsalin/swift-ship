@@ -8,7 +8,7 @@ import {
   FaArrowRight, 
   FaCalculator 
 } from "react-icons/fa";
-import bannerImg from "../../public/assets/Banner.jpg"
+import bannerImg from "../../../../public/assets/Banner.jpg"
 
 export default function Hero() {
   const [trackingId, setTrackingId] = useState("");

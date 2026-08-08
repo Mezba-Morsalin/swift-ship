@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import footerImg from '../../public/assets/Footer.png'
+import footerImg from '../../../public/assets/Footer.png'
 import { 
   FaTruck, 
   FaMapMarkerAlt, 
