@@ -21,8 +21,6 @@ const navLinks = [
   { name: "ABOUT US", href: "/about" },
   { name: "SERVICES", href: "/services" },
   { name: "PRICING", href: "/pricing" },
-  { name: "TRACKING", href: "/tracking" },
-  { name: "FAQ", href: "/faq" },
   { name: "CONTACT", href: "/contact" },
 ];
 
@@ -31,7 +29,8 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="w-full bg-white border-b border-gray-100">
+    <header className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur-3xl border-b border-gray-100">
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-20 flex items-center justify-between gap-8">
 
