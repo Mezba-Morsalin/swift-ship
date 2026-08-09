@@ -51,7 +51,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`relative py-2 whitespace-nowrap text-xs font-bold tracking-wider transition-colors duration-200  ${
+                  className={`relative py-2 whitespace-nowrap text-xs font-bold tracking-wider transition-colors duration-200 ${
                     isActive
                       ? "text-[#fcb915]"
                       : "text-slate-800 hover:text-[#fcb915]"

@@ -49,7 +49,7 @@ export default function MilestonesSection() {
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <motion.div initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="inline-block"
           >
-            <span className=" inline-flex items-center rounded-full bg-amber-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-400">
+            <span className="inline-flex items-center gap-2 bg-[#fcb915] text-slate-900 text-[11px] sm:text-xs font-black tracking-widest px-4 py-2 rounded-full uppercase shadow-sm">
               OUR JOURNEY
             </span>
           </motion.div>

@@ -43,7 +43,7 @@ export default function BrandMarquee() {
     <section className="py-16">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center">
-          <p className="mb-8 inline-flex items-center rounded-full bg-amber-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-400">
+          <p className="inline-flex mb-8 items-center gap-2 bg-[#ffb703] text-slate-900 text-[11px] sm:text-xs font-black tracking-widest px-4 py-2 rounded-full uppercase shadow-sm">
             Trusted by Growing Businesses
           </p>
         </div>
