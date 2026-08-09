@@ -19,15 +19,16 @@ export default function SupportHeader() {
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 translate-x-1/2 w-80 h-80 bg-slate-200/50 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto">
-        <motion.div initial={mounted ? { opacity: 0, y: 20 } : false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-col items-start text-left max-w-4xl"
+        <motion.div initial={mounted ? { opacity: 0, y: 20 } : false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="flex flex-col items-start text-center max-w-4xl mx-auto"
         >
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#fcb915] text-[#0f172a] px-4 py-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-wider uppercase mb-6 shadow-sm">
-            <span className="w-4 h-4 rounded-full bg-[#0f172a] text-[#fcb915] flex items-center justify-center text-[10px]">
-              <FaHeadphones />
-            </span>
-            <span>24/7 SUPPORT DESK</span>
-          </div>
+          <div className="w-fit mx-auto inline-flex items-center gap-2 bg-[#fcb915] text-[#0f172a] px-4 py-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-wider uppercase mb-6 shadow-sm">
+  <span className="w-4 h-4 rounded-full bg-[#0f172a] text-[#fcb915] flex items-center justify-center text-[10px]">
+    <FaHeadphones />
+  </span>
+
+  <span>24/7 SUPPORT DESK</span>
+</div>
 
           {/* Main Headline */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] uppercase mb-5">
@@ -36,7 +37,7 @@ export default function SupportHeader() {
           </h2>
 
           {/* Subtitle Paragraph */}
-          <p className="text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 font-medium max-w-3xl leading-relaxed mx-auto">
             Have questions regarding doorstep parcel pickup, COD wallet payouts, or API integration?
             Our customer success team is here to assist you 24/7.
           </p>
