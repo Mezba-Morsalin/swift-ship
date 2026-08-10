@@ -14,7 +14,12 @@ import {
   FaUserPlus,
   FaBars,
   FaTimes,
+  FaTachometerAlt,
+  FaSignOutAlt,
 } from "react-icons/fa";
+import { authClient } from "@/app/lib/auth-client";
+import { toast } from "sonner";
+import { BeatLoader } from "react-spinners";
 
 const navLinks = [
   { name: "HOME", href: "/" },
@@ -25,8 +30,13 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const [loggingOut, setLoggingOut] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session, isPending } = authClient.useSession();
+
+const user = session?.user;
+const role = user?.role;
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur-3xl border-b border-gray-100">
@@ -76,32 +86,132 @@ export default function Navbar() {
           </nav>
 
           {/* ==================== DESKTOP ACTIONS ==================== */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          {/* Auth Navigation */}
+<div className="hidden lg:flex items-center min-w-[340px] justify-end">
 
-            {/* Track */}
-            <Link
-              href="/tracking"
-              className="flex items-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
-            >
-              <FaSearch className="text-xs" />
-              TRACK
-            </Link>
+  {/* ================================================
+      AUTH STATE LOADING
+  ================================================= */}
+  {isPending ? (
+    <div className="flex items-center justify-center w-full h-[43px]">
+      <BeatLoader
+        size={6}
+        color="#fbbf24"
+        aria-label="Loading"
+      />
+    </div>
+  ) : !session ? (
 
-            {/* Login */}
-            <Link href="/signin" className="flex items-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
-            >
-              <FaSignInAlt className="text-xs" />
-              SIGN IN
-            </Link>
+    /* ================================================
+       LOGGED OUT
+    ================================================= */
+    <div className="flex items-center gap-3">
 
-            {/* Become Merchant */}
-            <Link href="/merchant" className="flex items-center gap-2 bg-[#fcb915] text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white shadow-md shadow-amber-100 transition-all duration-200"
-            >
-              <FaUserPlus className="text-xs" />
-              BECOME MERCHANT
-            </Link>
-          </div>
+      {/* Track */}
+      <Link
+        href="/tracking"
+        className="flex items-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
+      >
+        <FaSearch className="text-xs" />
+        TRACK
+      </Link>
 
+      {/* Sign In */}
+      <Link
+        href="/signin"
+        className="flex items-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
+      >
+        <FaSignInAlt className="text-xs" />
+        SIGN IN
+      </Link>
+
+      {/* Become Merchant */}
+      <Link
+        href="/signup"
+        className="flex items-center gap-2 bg-[#fcb915] text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white shadow-md shadow-amber-100 transition-all duration-200"
+      >
+        <FaUserPlus className="text-xs" />
+        BECOME MERCHANT
+      </Link>
+
+    </div>
+
+  ) : (
+
+    /* ================================================
+       LOGGED IN
+    ================================================= */
+    <div className="flex items-center gap-3">
+
+      {/* Dashboard */}
+      <Link
+        href={
+          role === "merchant"
+            ? "/merchant/dashboard"
+            : "/rider/dashboard"
+        }
+        className="flex items-center gap-2 bg-[#fcb915] text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white shadow-md shadow-amber-100 transition-all duration-200 whitespace-nowrap"
+      >
+        <FaTachometerAlt className="text-xs" />
+
+        {role === "merchant"
+          ? "MERCHANT DASHBOARD"
+          : "RIDER DASHBOARD"}
+      </Link>
+
+      {/* Logout */}
+      <button
+        type="button"
+        disabled={loggingOut}
+        onClick={async () => {
+          if (loggingOut) return;
+
+          setLoggingOut(true);
+
+          try {
+            const { error } = await authClient.signOut();
+
+            if (error) {
+              toast.error(
+                error.message || "Failed to sign out."
+              );
+
+              setLoggingOut(false);
+              return;
+            }
+
+            toast.success("Signed out successfully.");
+
+          } catch (error) {
+            console.error("Logout error:", error);
+
+            toast.error(
+              "Something went wrong. Please try again."
+            );
+
+            setLoggingOut(false);
+          }
+        }}
+        className="flex h-[43px] min-w-[105px] items-center justify-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-4 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-70"
+      >
+        {loggingOut ? (
+          <BeatLoader
+            size={5}
+            color="#fbbf24"
+            aria-label="Logging out"
+          />
+        ) : (
+          <>
+            <FaSignOutAlt className="text-xs" />
+            LOG OUT
+          </>
+        )}
+      </button>
+
+    </div>
+  )}
+
+</div>
           {/* ==================== MOBILE MENU BUTTON ==================== */}
           <div className="flex lg:hidden">
             <button type="button" onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-lg text-slate-900 hover:bg-gray-100 focus:outline-none transition-colors" aria-label="Toggle Menu" aria-expanded={isOpen}
@@ -158,30 +268,137 @@ export default function Navbar() {
                 })}
               </nav>
 
-              {/* Mobile Actions */}
-              <div className="pt-5 mt-4 border-t border-gray-100 flex flex-col space-y-3">
+              {/* ==================================================
+    MOBILE ACTIONS
+================================================== */}
 
-                {/* Track */}
-                <Link href="/tracking" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider py-3 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
-                >
-                  <FaSearch className="text-xs" />
-                  TRACK
-                </Link>
+<div className="flex flex-col gap-3">
 
-                {/* Login */}
-                <Link href="/login" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider py-3 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
-                >
-                  <FaSignInAlt className="text-xs" />
-                  LOGIN
-                </Link>
+  {/* ================================================
+      AUTH STATE LOADING
+  ================================================= */}
+  {isPending ? (
+    <div className="flex h-[105px] w-full items-center justify-center">
+      <BeatLoader
+        size={6}
+        color="#fbbf24"
+        aria-label="Loading"
+      />
+    </div>
+  ) : !session ? (
 
-                {/* Become Merchant */}
-                <Link href="/merchant" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full bg-[#fcb915] text-slate-900 font-bold text-xs tracking-wider py-3 rounded-full hover:bg-amber-400 shadow-md transition-all duration-200"
-                >
-                  <FaUserPlus className="text-xs" />
-                  BECOME MERCHANT
-                </Link>
-              </div>
+    /* ================================================
+       LOGGED OUT
+    ================================================= */
+    <>
+      {/* Track */}
+      <Link
+        href="/tracking"
+        onClick={() => setIsOpen(false)}
+        className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-slate-900 py-3 text-xs font-bold tracking-wider text-slate-900 transition-all duration-200 hover:bg-slate-900 hover:text-white"
+      >
+        <FaSearch className="text-xs" />
+        TRACK
+      </Link>
+
+      {/* Sign In */}
+      <Link
+        href="/signin"
+        onClick={() => setIsOpen(false)}
+        className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-slate-900 py-3 text-xs font-bold tracking-wider text-slate-900 transition-all duration-200 hover:bg-slate-900 hover:text-white"
+      >
+        <FaSignInAlt className="text-xs" />
+        SIGN IN
+      </Link>
+
+      {/* Become Merchant */}
+      <Link
+        href="/signup"
+        onClick={() => setIsOpen(false)}
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#fcb915] py-3 text-xs font-bold tracking-wider text-slate-900 shadow-md shadow-amber-100 transition-all duration-200 hover:bg-amber-400"
+      >
+        <FaUserPlus className="text-xs" />
+        BECOME MERCHANT
+      </Link>
+    </>
+
+  ) : (
+
+    /* ================================================
+       LOGGED IN
+    ================================================= */
+    <>
+      {/* Dashboard */}
+      <Link
+        href={
+          role === "merchant"
+            ? "/merchant/dashboard"
+            : "/rider/dashboard"
+        }
+        onClick={() => setIsOpen(false)}
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#fcb915] py-3 text-xs font-bold tracking-wider text-slate-900 shadow-md shadow-amber-100 transition-all duration-200 hover:bg-amber-400"
+      >
+        <FaTachometerAlt className="text-xs" />
+
+        {role === "merchant"
+          ? "MERCHANT DASHBOARD"
+          : "RIDER DASHBOARD"}
+      </Link>
+
+      {/* Logout */}
+      <button
+        type="button"
+        disabled={loggingOut}
+        onClick={async () => {
+          if (loggingOut) return;
+
+          setLoggingOut(true);
+
+          try {
+            const { error } = await authClient.signOut();
+
+            if (error) {
+              toast.error(
+                error.message || "Failed to sign out."
+              );
+
+              setLoggingOut(false);
+              return;
+            }
+
+            setIsOpen(false);
+
+            toast.success("Signed out successfully.");
+
+          } catch (error) {
+            console.error("Logout error:", error);
+
+            toast.error(
+              "Something went wrong. Please try again."
+            );
+
+            setLoggingOut(false);
+          }
+        }}
+        className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full border-2 border-slate-900 py-3 text-xs font-bold tracking-wider text-slate-900 transition-all duration-200 hover:bg-slate-900 hover:text-white disabled:cursor-not-allowed disabled:opacity-70"
+      >
+        {loggingOut ? (
+          <BeatLoader
+            size={5}
+            color="#fbbf24"
+            aria-label="Logging out"
+          />
+        ) : (
+          <>
+            <FaSignOutAlt className="text-xs" />
+            LOG OUT
+          </>
+        )}
+      </button>
+    </>
+  )}
+
+</div>
             </div>
           </motion.div>
         )}

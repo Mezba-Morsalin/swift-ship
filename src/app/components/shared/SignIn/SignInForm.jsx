@@ -75,6 +75,7 @@ export default function SignInForm() {
       const { data, error } = await authClient.signIn.email({
         email: user.identity,
         password: user.password,
+        callbackURL : "/"
       });
 
       if (error) {
@@ -224,11 +225,7 @@ export default function SignInForm() {
               Merchant Console
             </button>
 
-            <button
-              type="button"
-              onClick={() => handlePortalChange("rider")}
-              disabled={loading}
-              className={`relative z-10 flex-1 rounded-full text-[11.5px] font-extrabold transition-colors duration-200 ${
+            <button type="button" onClick={() => handlePortalChange("rider")} disabled={loading} className={`relative z-10 flex-1 rounded-full text-[11.5px] font-extrabold transition-colors duration-200 ${
                 portal === "rider"
                   ? "text-[#111827]"
                   : "text-slate-500 hover:text-slate-800"
@@ -283,15 +280,7 @@ export default function SignInForm() {
                     strokeWidth={1.8}
                   />
 
-                  <Input
-                    id="identity"
-                    name="identity"
-                    type="email"
-                    autoComplete="username"
-                    placeholder={currentPortal.identityPlaceholder}
-                    required
-                    disabled={loading}
-                    className="h-[48px] rounded-[13px] border border-slate-200 bg-white pl-11 pr-4 text-[13px] text-[#111827] shadow-none transition-all placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-[#fbbf24] focus-visible:ring-[3px] focus-visible:ring-[#fbbf24]/15 disabled:cursor-not-allowed disabled:opacity-60"
+                  <Input id="identity" name="identity" type="email" autoComplete="username" placeholder={currentPortal.identityPlaceholder} required disabled={loading} className="h-[48px] rounded-[13px] border border-slate-200 bg-white pl-11 pr-4 text-[13px] text-[#111827] shadow-none transition-all placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-[#fbbf24] focus-visible:ring-[3px] focus-visible:ring-[#fbbf24]/15 disabled:cursor-not-allowed disabled:opacity-60"
                   />
 
                 </div>
@@ -315,15 +304,7 @@ export default function SignInForm() {
                     strokeWidth={1.8}
                   />
 
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    placeholder="••••••••"
-                    required
-                    disabled={loading}
-                    className="h-[48px] rounded-[13px] border border-slate-200 bg-white pl-11 pr-11 text-[13px] tracking-wide text-[#111827] shadow-none transition-all placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-[#fbbf24] focus-visible:ring-[3px] focus-visible:ring-[#fbbf24]/15 disabled:cursor-not-allowed disabled:opacity-60"
+                  <Input id="password" name="password" type={showPassword ? "text" : "password"} autoComplete="current-password" placeholder="••••••••" required disabled={loading} className="h-[48px] rounded-[13px] border border-slate-200 bg-white pl-11 pr-11 text-[13px] tracking-wide text-[#111827] shadow-none transition-all placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-[#fbbf24] focus-visible:ring-[3px] focus-visible:ring-[#fbbf24]/15 disabled:cursor-not-allowed disabled:opacity-60"
                   />
 
                   <button
@@ -358,12 +339,7 @@ export default function SignInForm() {
                   htmlFor="remember"
                   className="flex cursor-pointer items-center gap-2"
                 >
-                  <input
-                    id="remember"
-                    name="remember"
-                    type="checkbox"
-                    disabled={loading}
-                    className="h-[16px] w-[16px] cursor-pointer rounded-[4px] border-slate-300 accent-[#fbbf24] disabled:cursor-not-allowed"
+                  <input id="remember" name="remember" type="checkbox" disabled={loading} className="h-[16px] w-[16px] cursor-pointer rounded-[4px] border-slate-300 accent-[#fbbf24] disabled:cursor-not-allowed"
                   />
 
                   <span className="text-[11.5px] font-medium text-[#24344d]">
