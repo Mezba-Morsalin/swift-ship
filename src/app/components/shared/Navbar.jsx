@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-import navImg from "../../../public/assets/Navbar.png";
+import navImg from "../../../../public/assets/Navbar.png";
 
 import {
   FaSearch,
@@ -88,10 +88,10 @@ export default function Navbar() {
             </Link>
 
             {/* Login */}
-            <Link href="/login" className="flex items-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
+            <Link href="/signin" className="flex items-center gap-2 border-2 border-slate-900 text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white transition-all duration-200"
             >
               <FaSignInAlt className="text-xs" />
-              LOGIN
+              SIGN IN
             </Link>
 
             {/* Become Merchant */}

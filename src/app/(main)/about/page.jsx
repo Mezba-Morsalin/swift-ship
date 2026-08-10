@@ -1,7 +1,7 @@
-import CtaAbout from '@/components/shared/About/CtaAbout';
-import LeadershipSection from '@/components/shared/About/LeadershipSection';
-import MilestonesSection from '@/components/shared/About/MilestonesSection';
-import MissionVisionSection from '@/components/shared/About/MissionVisionSection';
+import CtaAbout from '@/app/components/shared/About/CtaAbout';
+import LeadershipSection from '@/app/components/shared/About/LeadershipSection';
+import MilestonesSection from '@/app/components/shared/About/MilestonesSection';
+import MissionVisionSection from '@/app/components/shared/About/MissionVisionSection';
 import React from 'react';
 
 const AboutPage = () => {

@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
+import Navbar from "@/app/components/shared/Navbar";
+import Footer from "@/app/components/shared/Footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,6 +20,11 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col font-sans">
         <Navbar />
         {children}
+         <Toaster
+    position="top-right"
+    richColors
+    closeButton
+  />
         <Footer/>
       </body>
     </html>
