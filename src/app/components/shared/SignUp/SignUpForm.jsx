@@ -90,9 +90,11 @@ export default function SignUpForm() {
   const currentForm = signupData[portal];
 
   const handlePortalChange = (value) => {
-    setPortal(value);
-    setShowPassword(false);
-  };
+  if (loading) return;
+
+  setPortal(value);
+  setShowPassword(false);
+};
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -188,27 +190,52 @@ export default function SignUpForm() {
         {/* ==================================================
             PORTAL TOGGLE
         ================================================== */}
-        <div className="mt-7 flex h-[43px] rounded-full bg-[#f1f2f4] p-1">
+        <div className="relative mt-7 flex h-[45px] rounded-full bg-[#f1f2f4] p-1">
 
-          <button type="button" onClick={() => handlePortalChange("merchant")} className={`flex-1 rounded-full text-[12px] font-bold transition-all duration-300 ${
-              portal === "merchant"
-                ? "bg-[#fbbf24] text-[#111827] shadow-sm"
-                : "text-slate-600 hover:text-[#111827]"
-            }`}
-          >
-            Merchant Registration
-          </button>
+  {/* Animated Active Pill */}
+  <motion.div
+    layout
+    transition={{
+      type: "spring",
+      stiffness: 500,
+      damping: 35,
+    }}
+    className={`absolute inset-y-1 w-[calc(50%-4px)] rounded-full bg-[#fbbf24] shadow-[0_3px_8px_rgba(15,23,42,0.10)] ${
+      portal === "merchant"
+        ? "left-1"
+        : "left-[calc(50%+1px)]"
+    }`}
+  />
 
-          <button type="button" onClick={() => handlePortalChange("rider")} className={`flex-1 rounded-full text-[12px] font-bold transition-all duration-300 ${
-              portal === "rider"
-                ? "bg-[#fbbf24] text-[#111827] shadow-sm"
-                : "text-slate-600 hover:text-[#111827]"
-            }`}
-          >
-            Rider Application
-          </button>
+  {/* Merchant */}
+  <button
+    type="button"
+    onClick={() => handlePortalChange("merchant")}
+    disabled={loading}
+    className={`relative z-10 flex-1 rounded-full text-[12px] font-bold transition-colors duration-200 ${
+      portal === "merchant"
+        ? "text-[#111827]"
+        : "text-slate-600 hover:text-[#111827]"
+    }`}
+  >
+    Merchant Registration
+  </button>
 
-        </div>
+  {/* Rider */}
+  <button
+    type="button"
+    onClick={() => handlePortalChange("rider")}
+    disabled={loading}
+    className={`relative z-10 flex-1 rounded-full text-[12px] font-bold transition-colors duration-200 ${
+      portal === "rider"
+        ? "text-[#111827]"
+        : "text-slate-600 hover:text-[#111827]"
+    }`}
+  >
+    Rider Application
+  </button>
+
+</div>
 
         <AnimatePresence mode="wait">
           <motion.form
