@@ -442,24 +442,36 @@ const handleSubmit = async (e) => {
     }`}
   >
     <input
-      id="photo-upload"
-      type="file"
-      accept=".jpg,.jpeg,.png,.webp"
-      className="sr-only"
-      onChange={(e) => {
-        const file = e.target.files?.[0];
+  id="photo-upload"
+  type="file"
+  accept="image/jpeg,image/png,image/webp"
+  className="sr-only"
+  onChange={(e) => {
+    const file = e.target.files?.[0];
 
-        if (!file) return;
+    if (!file) return;
 
-        if (file.size > 1024 * 1024) {
-          toast.error("Maximum image size is 1 MB");
-          e.target.value = "";
-          return;
-        }
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+    ];
 
-        setLogo(file);
-      }}
-    />
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Only JPG, PNG and WEBP images are allowed.");
+      e.target.value = "";
+      return;
+    }
+
+    if (file.size > 1024 * 1024) {
+      toast.error("Maximum image size is 1 MB.");
+      e.target.value = "";
+      return;
+    }
+
+    setLogo(file);
+  }}
+/>
 
     {logo ? (
       /* ==============================
