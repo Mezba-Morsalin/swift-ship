@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { authClient } from "@/app/lib/auth-client";
 import Image from "next/image";
 import { FiImage } from "react-icons/fi";
+import uploadToImage from "@/app/lib/image-bb";
 
 const signupData = {
   merchant: {
@@ -86,20 +87,21 @@ const signupData = {
 
 export default function SignUpForm() {
   const [logo, setLogo] = useState(null);
-  const [portal, setPortal] = useState("merchant");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+const [portal, setPortal] = useState("merchant");
+const [showPassword, setShowPassword] = useState(false);
+const [loading, setLoading] = useState(false);
 
-  const currentForm = signupData[portal];
+const currentForm = signupData[portal];
 
-  const handlePortalChange = (value) => {
+const handlePortalChange = (value) => {
   if (loading) return;
 
   setPortal(value);
   setShowPassword(false);
+  setLogo(null);
 };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (loading) return;
@@ -112,35 +114,66 @@ export default function SignUpForm() {
 
     const role = portal === "merchant" ? "merchant" : "rider";
 
+    // ==========================================
+    // UPLOAD IMAGE TO IMGBB
+    // ==========================================
+    let imageUrl = "";
+
+    if (logo) {
+      try {
+        imageUrl = await uploadToImage(logo);
+      } catch (error) {
+        console.error("Image upload error:", error);
+
+        toast.error(
+          error.message || "Failed to upload profile image."
+        );
+
+        return;
+      }
+    }
+
+    // ==========================================
+    // CREATE ACCOUNT
+    // ==========================================
     const { data, error } = await authClient.signUp.email({
       name: user.name,
       email: user.email,
       password: user.password,
-      image: user.image || "",
+      image: imageUrl,
       role,
     });
 
+    // ==========================================
+    // AUTH ERROR
+    // ==========================================
     if (error) {
       toast.error(
-        error.message || "Something went wrong. Please try again."
+        error.message ||
+          "Something went wrong. Please try again."
       );
+
       return;
     }
 
+    // ==========================================
+    // SUCCESS
+    // ==========================================
     toast.success(
       portal === "merchant"
         ? "Merchant account created successfully!"
         : "Rider account created successfully!"
     );
 
-    console.log(data);
-
+    console.log("User:", data);
+    console.log("Image URL:", imageUrl);
 
   } catch (error) {
-    console.error(error);
+    console.error("Signup error:", error);
 
     toast.error(
-      "Unable to create your account. Please try again."
+      error.message ||
+        "Unable to create your account. Please try again."
     );
   } finally {
     setLoading(false);
