@@ -21,6 +21,8 @@ import Link from "next/link";
 
 import { toast } from "sonner";
 import { authClient } from "@/app/lib/auth-client";
+import Image from "next/image";
+import { FiImage } from "react-icons/fi";
 
 const signupData = {
   merchant: {
@@ -83,6 +85,7 @@ const signupData = {
 };
 
 export default function SignUpForm() {
+  const [logo, setLogo] = useState(null);
   const [portal, setPortal] = useState("merchant");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -375,6 +378,115 @@ export default function SignUpForm() {
                 </button>
               </div>
             </div>
+
+            <div className="w-full space-y-3">
+  {/* Label */}
+  <div className="flex items-center justify-between">
+    <label className="text-sm font-semibold text-slate-800">
+      Upload Photo
+    </label>
+
+    {logo && (
+      <button
+        type="button"
+        onClick={() => {
+          setLogo(null);
+        }}
+        className="text-xs font-medium text-red-500 transition-colors hover:text-red-600"
+      >
+        Remove
+      </button>
+    )}
+  </div>
+
+  {/* Upload Area */}
+  <label
+    htmlFor="photo-upload"
+    className={`group relative flex min-h-[150px] w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all duration-200 ${
+      logo
+        ? "border-amber-300 bg-amber-50/40"
+        : "border-slate-200 bg-slate-50/50 hover:border-[#fcb915] hover:bg-amber-50/40"
+    }`}
+  >
+    <input
+      id="photo-upload"
+      type="file"
+      accept=".jpg,.jpeg,.png,.webp"
+      className="sr-only"
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        if (file.size > 1024 * 1024) {
+          toast.error("Maximum image size is 1 MB");
+          e.target.value = "";
+          return;
+        }
+
+        setLogo(file);
+      }}
+    />
+
+    {logo ? (
+      /* ==============================
+         IMAGE PREVIEW
+      ============================== */
+      <div className="flex flex-col items-center">
+        <div className="relative">
+          <Image
+            src={URL.createObjectURL(logo)}
+            alt="Uploaded photo preview"
+            width={72}
+            height={72}
+            className="h-24 w-24 rounded-2xl border-2 border-white object-cover shadow-md"
+          />
+
+          {/* Success indicator */}
+          <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-[11px] font-bold text-white shadow-sm">
+            ✓
+          </div>
+        </div>
+
+        <p className="mt-3 max-w-[260px] truncate text-xs font-semibold text-slate-700">
+          {logo.name}
+        </p>
+
+        <p className="mt-1 text-[11px] text-slate-400">
+          Click to replace photo
+        </p>
+      </div>
+    ) : (
+      /* ==============================
+         EMPTY UPLOAD STATE
+      ============================== */
+      <>
+        <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#fcb915] shadow-sm ring-1 ring-slate-100 transition-all duration-200 group-hover:scale-105 group-hover:shadow-md">
+          <FiImage className="h-5 w-5" />
+        </div>
+
+        <p className="text-sm font-semibold text-slate-700">
+          Upload your photo
+        </p>
+
+        <p className="mt-1 text-xs text-slate-400">
+          Click to browse from your device
+        </p>
+      </>
+    )}
+  </label>
+
+  {/* Helper Text */}
+  <div className="flex items-center justify-between px-1">
+    <p className="text-[11px] text-slate-400">
+      JPG, PNG or WEBP
+    </p>
+
+    <p className="text-[11px] font-medium text-slate-400">
+      Max 1 MB
+    </p>
+  </div>
+</div>
 
             <div>
               <label
