@@ -2,93 +2,271 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { authClient } from "@/app/lib/auth-client";
+import { PuffLoader } from "react-spinners";
+
 import {
-  FaTruckFast,
+  FaChartColumn,
   FaBoxesPacking,
+  FaStore,
+  FaTruckFast,
+  FaGear,
+  FaChartPie,
+  FaPlus,
   FaWallet,
   FaUser,
-  FaChartColumn,
-  FaStore,
-  FaGear,
-  FaPlus,
-  FaChartPie,
   FaXmark,
-  FaHeadphones,
 } from "react-icons/fa6";
 
-// Navigation configurations for each role based on your design specs
-const ROLE_SIDEBAR_CONFIG = {
-  admin: {
-    activeBg: "bg-[#ff004c] text-white",
-    items: [
-      { label: "COMMAND CENTER", href: "/admin", icon: FaChartColumn },
-      { label: "GLOBAL SHIPMENTS (8)", href: "/admin/shipments", icon: FaBoxesPacking },
-      { label: "MERCHANTS (5)", href: "/admin/merchants", icon: FaStore },
-      { label: "RIDERS FLEET (4)", href: "/admin/riders", icon: FaTruckFast },
-      { label: "PRICING & SETTINGS", href: "/admin/settings", icon: FaGear },
-    ],
-  },
-  rider: {
-    activeBg: "bg-[#fcb915] text-[#0f172a]",
-    items: [
-      { label: "DELIVERY QUEUE (4)", href: "/rider", icon: FaTruckFast },
-      { label: "MERCHANT PICKUPS (2)", href: "/rider/pickups", icon: FaBoxesPacking },
-      { label: "COD CASH DEPOSIT", href: "/rider/deposit", icon: FaWallet },
-      { label: "RIDER PROFILE", href: "/rider/profile", icon: FaUser },
-    ],
-  },
-  merchant: {
-    activeBg: "bg-[#fcb915] text-[#0f172a]",
-    items: [
-      { label: "OVERVIEW", href: "/dashboard", icon: FaChartPie },
-      { label: "CREATE SHIPMENT", href: "/dashboard/create", icon: FaPlus },
-      { label: "MY SHIPMENTS", href: "/dashboard/shipments", icon: FaBoxesPacking },
-      { label: "COD & PAYOUTS", href: "/dashboard/cod-wallet", icon: FaWallet },
-      { label: "STORE SETTINGS", href: "/dashboard/settings", icon: FaGear },
-    ],
-  },
+const navigationConfig = {
+  admin: [
+    {
+      label: "COMMAND CENTER",
+      href: "/dashboard/admin",
+      icon: FaChartColumn,
+    },
+    {
+      label: "GLOBAL SHIPMENTS (8)",
+      href: "/dashboard/admin/shipments",
+      icon: FaBoxesPacking,
+    },
+    {
+      label: "MERCHANTS (5)",
+      href: "/dashboard/admin/merchants",
+      icon: FaStore,
+    },
+    {
+      label: "RIDERS FLEET (4)",
+      href: "/dashboard/admin/riders",
+      icon: FaTruckFast,
+    },
+    {
+      label: "PRICING & SETTINGS",
+      href: "/dashboard/admin/settings",
+      icon: FaGear,
+    },
+  ],
+
+  rider: [
+    {
+      label: "DELIVERY QUEUE (4)",
+      href: "/dashboard/rider",
+      icon: FaTruckFast,
+    },
+    {
+      label: "MERCHANT PICKUPS (2)",
+      href: "/dashboard/rider/pickups",
+      icon: FaBoxesPacking,
+    },
+    {
+      label: "COD CASH DEPOSIT",
+      href: "/dashboard/rider/deposit",
+      icon: FaWallet,
+    },
+    {
+      label: "RIDER PROFILE",
+      href: "/dashboard/rider/profile",
+      icon: FaUser,
+    },
+  ],
+
+  merchant: [
+    {
+      label: "OVERVIEW",
+      href: "/dashboard/merchant",
+      icon: FaChartPie,
+    },
+    {
+      label: "CREATE SHIPMENT",
+      href: "/dashboard/merchant/create",
+      icon: FaPlus,
+    },
+    {
+      label: "SHIPMENTS (8)",
+      href: "/dashboard/merchant/shipments",
+      icon: FaBoxesPacking,
+    },
+    {
+      label: "COD WALLET & PAYOUTS",
+      href: "/dashboard/merchant/cod-wallet",
+      icon: FaWallet,
+    },
+    {
+      label: "STORE SETTINGS",
+      href: "/dashboard/merchant/settings",
+      icon: FaGear,
+    },
+  ],
 };
 
-export default function DashboardSidebar({ isOpen, onClose, role = "merchant" }) {
+export default function DashboardSidebar({
+  isOpen,
+  onClose,
+}) {
   const pathname = usePathname();
-  const currentConfig = ROLE_SIDEBAR_CONFIG[role] || ROLE_SIDEBAR_CONFIG.merchant;
+
+  const {
+    data: session,
+    isPending,
+  } = authClient.useSession();
+
+  const user = session?.user ?? null;
+
+  // IMPORTANT: role case fix
+  const role =
+    user?.role?.toLowerCase() || "merchant";
+
+  const items =
+    navigationConfig[role] || [];
+
+  // =========================
+  // SESSION LOADING
+  // =========================
+  if (isPending) {
+    return (
+      <div className="w-full h-[60px] bg-[#f8fafc] border-b border-slate-200 flex items-center justify-center">
+        <PuffLoader
+          color="#fcb915"
+          size={28}
+        />
+      </div>
+    );
+  }
 
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
+      {/* =========================================
+          MOBILE / TABLET BACKDROP
+      ========================================== */}
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 lg:hidden transition-opacity"
+          className="
+            fixed
+            inset-0
+            bg-slate-950/60
+            backdrop-blur-sm
+            z-40
+            lg:hidden
+          "
         />
       )}
 
-      {/* Sidebar Panel */}
+      {/* =========================================
+          MOBILE / TABLET DRAWER
+      ========================================== */}
       <aside
         className={`
-          fixed top-16 bottom-0 left-0 w-72 bg-[#0b0f19] border-r border-slate-800/80 z-50 flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out lg:translate-x-0
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          fixed
+          top-16
+          left-0
+          bottom-0
+          z-50
+          w-[290px]
+
+          bg-[#f8fafc]
+          border-r
+          border-slate-200
+          shadow-2xl
+
+          transition-transform
+          duration-300
+          ease-out
+
+          lg:hidden
+
+          ${
+            isOpen
+              ? "translate-x-0"
+              : "-translate-x-full"
+          }
         `}
       >
-        <div>
-          {/* Mobile Close Button Header */}
-          <div className="flex items-center justify-between lg:hidden mb-4 pb-2 border-b border-slate-800">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              {role.toUpperCase()} MENU
-            </span>
+        <div className="h-full flex flex-col">
+
+          {/* =====================================
+              DRAWER HEADER
+          ====================================== */}
+          <div
+            className="
+              flex
+              items-center
+              justify-between
+              px-5
+              py-4
+              border-b
+              border-slate-200
+              bg-white
+            "
+          >
+            <div>
+              <p
+                className="
+                  text-[10px]
+                  font-black
+                  tracking-widest
+                  uppercase
+                  text-slate-400
+                "
+              >
+                {role} navigation
+              </p>
+
+              <p
+                className="
+                  text-sm
+                  font-black
+                  text-[#0f172a]
+                  uppercase
+                  mt-1
+                "
+              >
+                SWIFTSHIP OPS
+              </p>
+            </div>
+
             <button
+              type="button"
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-white cursor-pointer"
+              className="
+                w-9
+                h-9
+                rounded-xl
+                bg-slate-100
+                text-slate-500
+                hover:bg-slate-200
+                hover:text-slate-900
+                flex
+                items-center
+                justify-center
+                transition
+                cursor-pointer
+              "
+              aria-label="Close dashboard menu"
             >
-              <FaXmark className="text-base" />
+              <FaXmark />
             </button>
           </div>
 
-          {/* Sidebar Navigation Items */}
-          <nav className="space-y-2">
-            {currentConfig.items.map((item) => {
+          {/* =====================================
+              DRAWER MENU
+          ====================================== */}
+          <nav
+            className="
+              flex-1
+              p-4
+              space-y-2
+              overflow-y-auto
+            "
+          >
+            {items.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href;
+
+              const isActive =
+                item.href ===
+                `/dashboard/${role}`
+                  ? pathname === item.href
+                  : pathname.startsWith(item.href);
 
               return (
                 <Link
@@ -96,41 +274,148 @@ export default function DashboardSidebar({ isOpen, onClose, role = "merchant" })
                   href={item.href}
                   onClick={onClose}
                   className={`
-                    flex items-center gap-3 px-4 py-3 rounded-full text-xs font-black tracking-wider uppercase transition-all duration-200 border
+                    flex
+                    items-center
+                    gap-3
+                    px-4
+                    py-3.5
+                    rounded-xl
+                    border
+
+                    text-[10px]
+                    font-black
+                    uppercase
+                    tracking-wider
+
+                    transition-all
+                    duration-200
+
                     ${
                       isActive
-                        ? `${currentConfig.activeBg} border-transparent shadow-lg`
-                        : "bg-[#151c2e]/60 text-slate-300 border-slate-800/80 hover:bg-[#1e293b] hover:text-white hover:border-slate-700"
+                        ? "bg-[#0f172a] border-[#0f172a] text-white shadow-sm"
+                        : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300"
                     }
                   `}
                 >
-                  <Icon className="text-sm shrink-0" />
-                  <span>{item.label}</span>
+                  <Icon
+                    className={`
+                      text-sm
+
+                      ${
+                        isActive
+                          ? "text-[#fcb915]"
+                          : "text-slate-400"
+                      }
+                    `}
+                  />
+
+                  <span>
+                    {item.label}
+                  </span>
                 </Link>
               );
             })}
           </nav>
         </div>
-
-        {/* Bottom Support Widget */}
-        <div className="bg-[#151c2e]/80 border border-slate-800 rounded-2xl p-4 text-center">
-          <div className="w-8 h-8 rounded-full bg-[#fcb915]/20 text-[#fcb915] flex items-center justify-center mx-auto mb-2 text-sm">
-            <FaHeadphones />
-          </div>
-          <h5 className="text-xs font-black text-white uppercase tracking-wider">
-            SWIFTSHIP HELP DESK
-          </h5>
-          <p className="text-[10px] text-slate-400 font-medium mt-0.5">
-            Real-time operations assistance
-          </p>
-          <a
-            href="tel:+8809612889900"
-            className="mt-3 block w-full py-2 bg-[#fcb915] text-[#0f172a] rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-yellow-400 transition-colors shadow-sm"
-          >
-            CALL HOTLINE
-          </a>
-        </div>
       </aside>
+
+      {/* =========================================
+          DESKTOP HORIZONTAL MENU
+      ========================================== */}
+      <div
+        className="
+          hidden
+          lg:block
+          w-full
+          bg-[#f8fafc]
+          border-b
+          border-slate-200
+        "
+      >
+        <div
+          className="
+            max-w-[1024px]
+            xl:max-w-[1100px]
+            mx-auto
+            px-4
+            sm:px-5
+            lg:px-0
+          "
+        >
+          <nav
+            className="
+              flex
+              items-center
+              gap-1.5
+              overflow-x-auto
+              py-2.5
+              scrollbar-none
+            "
+          >
+            {items.map((item) => {
+              const Icon = item.icon;
+
+              const isActive =
+                item.href ===
+                `/dashboard/${role}`
+                  ? pathname === item.href
+                  : pathname.startsWith(item.href);
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`
+                    group
+
+                    flex
+                    h-[35px]
+                    shrink-0
+                    items-center
+                    gap-2
+
+                    rounded-full
+                    border
+                    px-4
+
+                    text-[9px]
+                    sm:text-[10px]
+                    font-black
+                    uppercase
+                    tracking-wider
+
+                    transition-all
+                    duration-200
+
+                    ${
+                      isActive
+                        ? "border-[#0f172a] bg-[#0f172a] text-white shadow-sm"
+                        : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50 hover:text-[#0f172a]"
+                    }
+                  `}
+                >
+                  <Icon
+                    className={`
+                      shrink-0
+                      text-[11px]
+
+                      ${
+                        isActive
+                          ? "text-[#fcb915]"
+                          : "text-slate-400 group-hover:text-slate-600"
+                      }
+                    `}
+                  />
+
+                  <span className="whitespace-nowrap">
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
     </>
   );
 }

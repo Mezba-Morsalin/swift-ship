@@ -137,12 +137,23 @@ const handleSubmit = async (e) => {
     // CREATE ACCOUNT
     // ==========================================
     const { data, error } = await authClient.signUp.email({
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      image: imageUrl,
-      role,
-    });
+  name: user.name,
+  email: user.email,
+  password: user.password,
+  image: imageUrl,
+  role,
+
+  phone: user.phone,
+  location: user.location,
+
+  ...(role === "merchant"
+    ? {
+        businessName: user.business,
+      }
+    : {
+        nid: user.business,
+      }),
+});
 
     // ==========================================
     // AUTH ERROR
