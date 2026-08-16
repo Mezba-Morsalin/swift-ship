@@ -147,8 +147,8 @@ const role = user?.role;
       <Link
         href={
           role === "merchant"
-            ? "/merchant/dashboard"
-            : "/rider/dashboard"
+            ? "/dashboard/merchant"
+            : "/dashboard/rider"
         }
         className="flex items-center gap-2 bg-[#fcb915] text-slate-900 font-bold text-xs tracking-wider px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white shadow-md shadow-amber-100 transition-all duration-200 whitespace-nowrap"
       >
@@ -332,8 +332,8 @@ const role = user?.role;
       <Link
         href={
           role === "merchant"
-            ? "/merchant/dashboard"
-            : "/rider/dashboard"
+            ? "/dashboard/merchant"
+            : "/dashboard/rider"
         }
         onClick={() => setIsOpen(false)}
         className="flex w-full items-center justify-center gap-2 rounded-full bg-[#fcb915] py-3 text-xs font-bold tracking-wider text-slate-900 shadow-md shadow-amber-100 transition-all duration-200 hover:bg-amber-400"
