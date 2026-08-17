@@ -115,6 +115,13 @@ const handleSubmit = async (e) => {
     const role = portal === "merchant" ? "merchant" : "rider";
 
     // ==========================================
+    // ROLE BASED STATUS & PLAN
+    // ==========================================
+    const status = role === "rider" ? "pending" : "active";
+
+    const plan = role === "merchant" ? "free" : undefined;
+
+    // ==========================================
     // UPLOAD IMAGE TO IMGBB
     // ==========================================
     let imageUrl = "";
@@ -137,23 +144,30 @@ const handleSubmit = async (e) => {
     // CREATE ACCOUNT
     // ==========================================
     const { data, error } = await authClient.signUp.email({
-  name: user.name,
-  email: user.email,
-  password: user.password,
-  image: imageUrl,
-  role,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      image: imageUrl,
 
-  phone: user.phone,
-  location: user.location,
+      // Role
+      role,
 
-  ...(role === "merchant"
-    ? {
-        businessName: user.business,
-      }
-    : {
-        nid: user.business,
-      }),
-});
+      // Common fields
+      phone: user.phone,
+      location: user.location,
+
+      // Role-specific fields
+      ...(role === "merchant"
+        ? {
+            businessName: user.business,
+            status,
+            plan,
+          }
+        : {
+            nid: user.business,
+            status,
+          }),
+    });
 
     // ==========================================
     // AUTH ERROR
@@ -173,11 +187,8 @@ const handleSubmit = async (e) => {
     toast.success(
       portal === "merchant"
         ? "Merchant account created successfully!"
-        : "Rider account created successfully!"
+        : "Rider application submitted successfully!"
     );
-
-    console.log("User:", data);
-    console.log("Image URL:", imageUrl);
 
   } catch (error) {
     console.error("Signup error:", error);
