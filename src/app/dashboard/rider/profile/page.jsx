@@ -79,7 +79,7 @@ const RiderProfilePage = async () => {
   </span>
 </button>
       </div>
-            <RiderProfile/>
+            <RiderProfile user = {user}/>
         </div>
     );
 };
