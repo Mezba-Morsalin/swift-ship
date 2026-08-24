@@ -1,6 +1,7 @@
 import MerchantDashboard from '@/app/components/dashboard/merchant/MerchantDashboard';
 import { auth } from '@/app/lib/auth';
 import { headers } from 'next/headers';
+import Link from 'next/link';
 import React from 'react';
 
 const MerchantDashboardPage = async () => {
