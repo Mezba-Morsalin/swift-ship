@@ -287,7 +287,7 @@ export default function MerchantDashboard({merchant}) {
         </div>
 
       </div>
-    </div> : <div>
+    </div> : <div className="space-y-6">
         {/* ==================================================
           2. STATS OVERVIEW CARDS
       ================================================== */}
