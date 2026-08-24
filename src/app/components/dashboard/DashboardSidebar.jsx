@@ -78,7 +78,7 @@ const navigationConfig = {
     },
     {
       label: "CREATE SHIPMENT",
-      href: "/dashboard/merchant/create",
+      href: "/dashboard/merchant/create-shipment",
       icon: FaPlus,
     },
     {

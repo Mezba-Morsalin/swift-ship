@@ -139,7 +139,7 @@ export default function MerchantDashboard({merchant}) {
   ) : (
     <>
       <Link
-        href="/dashboard/merchant/create"
+        href="/dashboard/merchant/create-shipment"
         className="flex items-center gap-2 rounded-full bg-[#fcb915] px-5 py-2.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-sm transition-colors hover:bg-yellow-400"
       >
         <FaPlus className="text-sm" />
