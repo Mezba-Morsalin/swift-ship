@@ -117,7 +117,7 @@ const handleSubmit = async (e) => {
     // ==========================================
     // ROLE BASED STATUS & PLAN
     // ==========================================
-    const status = role === "rider" ? "pending" : "active";
+    const status = "pending";
 
     const plan = role === "merchant" ? "free" : undefined;
 
