@@ -16,14 +16,14 @@ import {
   CreditCard,
   Truck,
   Clock3,
+  ShieldX,
 } from "lucide-react";
 import { toast } from "sonner";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 
-import { Input } from "@/app/components/ui/input";
-import { Button } from "@/app/components/ui/button";
-import { Textarea } from "@/app/components/ui/textarea";
 
-export default function MerchantStoreSettings() {
+export default function StoreSettings({merchant}) {
   const [saving, setSaving] = useState(false);
 
   const [storeImage, setStoreImage] = useState(
@@ -31,11 +31,11 @@ export default function MerchantStoreSettings() {
   );
 
   const [formData, setFormData] = useState({
-    businessName: "Aura Fashion House Ltd.",
-    ownerName: "Mezba Morsalin",
-    email: "merchant@swiftship.com",
-    phone: "+880 1712-984321",
-    location: "Mirpur-10, Dhaka",
+    businessName: merchant.businessName,
+    ownerName: merchant.name,
+    email: merchant.email,
+    phone: merchant.phone,
+    location: merchant.location,
     city: "Dhaka",
     postalCode: "1216",
     website: "https://aurafashion.com",
@@ -131,13 +131,41 @@ export default function MerchantStoreSettings() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-2">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+       <div
+  className={`flex items-center gap-2 rounded-full border px-3.5 py-2 ${
+    merchant.status === "active"
+      ? "border-emerald-200 bg-emerald-50"
+      : merchant.status === "pending"
+        ? "border-amber-200 bg-amber-50"
+        : "border-red-200 bg-red-50"
+  }`}
+>
+  <span
+    className={`h-2 w-2 rounded-full ${
+      merchant.status === "active"
+        ? "bg-emerald-500"
+        : merchant.status === "pending"
+          ? "bg-amber-500"
+          : "bg-red-500"
+    }`}
+  />
 
-          <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600">
-            STORE ACTIVE
-          </span>
-        </div>
+  <span
+    className={`text-[10px] font-black uppercase tracking-wider ${
+      merchant.status === "active"
+        ? "text-emerald-600"
+        : merchant.status === "pending"
+          ? "text-amber-600"
+          : "text-red-600"
+    }`}
+  >
+    { merchant.status === "active"
+      ? "STORE ACTIVE"
+      : merchant.status === "pending"
+        ? "STORE PENDING"
+        : "STORE REJECTED"}
+  </span>
+</div>
 
       </div>
 
@@ -333,13 +361,7 @@ export default function MerchantStoreSettings() {
                     FULL BUSINESS ADDRESS
                   </label>
 
-                  <Textarea
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    rows={3}
-                    className="resize-none rounded-xl border-2 border-slate-200 bg-white text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
+                  <textarea id="address" name="address" value={formData.address} onChange={handleChange} rows={3} className="resize-none rounded-xl border-2 border-slate-200 bg-white text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
                   />
                 </div>
 
@@ -428,7 +450,7 @@ export default function MerchantStoreSettings() {
 
               </div>
 
-              <Textarea
+              <textarea
                 name="pickupInstructions"
                 value={formData.pickupInstructions}
                 onChange={handleChange}
@@ -489,11 +511,7 @@ export default function MerchantStoreSettings() {
 
                   <div className="relative h-28 w-28 overflow-hidden rounded-2xl border-2 border-[#fcb915] bg-slate-100 shadow-sm">
 
-                    <Image
-                      src={storeImage}
-                      alt="Store profile"
-                      fill
-                      className="object-cover"
+                    <Image src={merchant.image} alt="Store profile" fill className="object-cover"
                     />
 
                   </div>
@@ -522,7 +540,7 @@ export default function MerchantStoreSettings() {
                 </h3>
 
                 <p className="mt-1 text-[11px] text-slate-400">
-                  Merchant ID: MCH-90421
+                 ID: MCH-{merchant.id.slice(-5).toUpperCase()}
                 </p>
 
               </div>
@@ -531,44 +549,93 @@ export default function MerchantStoreSettings() {
 
 
             {/* Account Status */}
-            <div className="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm">
+            <div className={`rounded-2xl border bg-white p-5 shadow-sm ${
+  merchant.status === "active"
+    ? "border-emerald-200"
+    : merchant.status === "pending"
+      ? "border-amber-200"
+      : "border-red-200"
+}`}>
 
               <div className="flex items-start gap-3">
 
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                  <ShieldCheck className="h-5 w-5" />
-                </div>
+                <div
+  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+    merchant.status === "active"
+      ? "bg-emerald-50 text-emerald-600"
+      : merchant.status === "pending"
+        ? "bg-amber-50 text-amber-600"
+        : "bg-red-50 text-red-600"
+  }`}
+>
+  { merchant.status === "active" ? (
+    <ShieldCheck className="h-5 w-5" />
+  ) : merchant.status === "pending" ? (
+    <Clock3 className="h-5 w-5" />
+  ) : (
+    <ShieldX className="h-5 w-5" />
+  )}
+</div>
 
                 <div>
+  <h3 className="text-sm font-black text-[#111827]">
+    {merchant.status === "active"
+      ? "ACCOUNT VERIFIED"
+      : merchant.status === "pending"
+        ? "VERIFICATION PENDING"
+        : "ACCOUNT REJECTED"}
+  </h3>
 
-                  <h3 className="text-sm font-black text-[#111827]">
-                    ACCOUNT VERIFIED
-                  </h3>
-
-                  <p className="mt-1 text-xs leading-5 text-slate-400">
-                    Your merchant account is verified and
-                    currently active.
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="mt-4 rounded-xl bg-emerald-50 px-3 py-2.5">
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600">
-                    STATUS
-                  </span>
-
-                  <span className="rounded-full border border-emerald-200 bg-white px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-emerald-600">
-                    ACTIVE
-                  </span>
-
-                </div>
+  <p className="mt-1 text-xs leading-5 text-slate-400">
+    {merchant.status === "active"
+      ? "Your merchant account is verified and currently active."
+      : merchant.status === "pending"
+        ? "Your merchant account is currently under review. You will be notified once the verification is complete."
+        : "Your merchant account verification was rejected. Please review your information and contact support."}
+  </p>
+</div>
 
               </div>
+
+              <div
+  className={`mt-4 rounded-xl px-3 py-2.5 ${
+    merchant.status === "active"
+      ? "bg-emerald-50"
+      : merchant.status === "pending"
+        ? "bg-amber-50"
+        : "bg-red-50"
+  }`}
+>
+  <div className="flex items-center justify-between">
+    <span
+      className={`text-[10px] font-black uppercase tracking-wider ${
+        merchant.status === "active"
+          ? "text-emerald-600"
+          : merchant.status === "pending"
+            ? "text-amber-600"
+            : "text-red-600"
+      }`}
+    >
+      STATUS
+    </span>
+
+    <span
+      className={`rounded-full border bg-white px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${
+        merchant.status === "active"
+          ? "border-emerald-200 text-emerald-600"
+          : merchant.status === "pending"
+            ? "border-amber-200 text-amber-600"
+            : "border-red-200 text-red-600"
+      }`}
+    >
+      { merchant.status === "active"
+        ? "ACTIVE"
+        : merchant.status === "pending"
+          ? "PENDING"
+          : "REJECTED"}
+    </span>
+  </div>
+</div>
 
             </div>
 
