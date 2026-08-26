@@ -15,6 +15,8 @@ import {
   User,
   Weight,
 } from "lucide-react";
+import { toast } from "sonner";
+import { createShipment } from "@/app/lib/shipment-api";
 
 const districts = [
   "Dhaka Metropolitan (Inside City)",
@@ -75,33 +77,42 @@ export default function CreateShipment() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (loading) return;
+  if (loading) return;
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      // TODO:
-      // Submit shipment data to your API here.
-      // Example payload:
-      //
-      // {
-      //   recipientName: form.name,
-      //   recipientPhone: form.phone,
-      //   destination: form.district,
-      //   category: form.category,
-      //   address: form.address,
-      //   instructions: form.instructions,
-      //   codAmount: codAmount,
-      //   weight: Number(form.weight),
-      // }
+  try {
+    const data = await createShipment({
+      recipientName: form.name,
+      recipientPhone: form.phone,
+      destination: form.district,
+      category: form.category,
+      address: form.address,
+      instructions: form.instructions,
+      codAmount: Number(form.cod),
+      weight: Number(form.weight),
+      status: "pending",
+    });
 
-      await new Promise((resolve) => setTimeout(resolve, 700));
-    } finally {
-      setLoading(false);
-    }
-  };
+    toast.success("Shipment created successfully!", {
+      description: `Waybill ${data?.shipment?.waybill || "created"} is now pending pickup.`,
+    });
+
+    console.log("Shipment created:", data);
+
+  } catch (error) {
+    console.error("Shipment error:", error);
+
+    toast.error("Failed to create shipment", {
+      description:
+        error.message || "Something went wrong. Please try again.",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#f8fafc] px-4 py-6 font-sans text-[#111827] sm:px-6 lg:px-8">
