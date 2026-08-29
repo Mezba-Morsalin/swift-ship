@@ -1,8 +1,8 @@
- "use client";
+
+"use client";
 
 import { useMemo, useState } from "react";
 import {
-  ArrowRight,
   Check,
   ChevronDown,
   House,
@@ -56,19 +56,38 @@ export default function CreateShipment() {
 
   const [loading, setLoading] = useState(false);
 
+  // ==============================
+  // Delivery Charge Calculation
+  // ==============================
   const deliveryCharge = useMemo(() => {
-    const weight = Number(form.weight) || 0;
+  const weight = Number(form.weight) || 0;
 
-    if (weight <= 1) return 60;
-    if (weight <= 2) return 80;
-    if (weight <= 3) return 100;
+  if (weight <= 0) return 0;
 
-    return 100 + (Math.ceil(weight) - 3) * 20;
-  }, [form.weight]);
+  let baseCharge;
+
+  if (form.district === "Dhaka Metropolitan (Inside City)") {
+    baseCharge = 80;
+  } else {
+    baseCharge = 150;
+  }
+
+  if (weight <= 1) {
+    return baseCharge;
+  }
+
+  const extraWeight = Math.ceil(weight) - 1;
+
+  return baseCharge + extraWeight * 20;
+}, [form.district, form.weight]);
 
   const codAmount = Number(form.cod) || 0;
+
   const netPayout = Math.max(codAmount - deliveryCharge, 0);
 
+  // ==============================
+  // Update Form Field
+  // ==============================
   const updateField = (field, value) => {
     setForm((prev) => ({
       ...prev,
@@ -76,6 +95,9 @@ export default function CreateShipment() {
     }));
   };
 
+  // ==============================
+  // Submit Shipment
+  // ==============================
   const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -84,30 +106,44 @@ export default function CreateShipment() {
   setLoading(true);
 
   try {
-    const data = await createShipment({
+    const shipmentPayload = {
       recipientName: form.name,
       recipientPhone: form.phone,
       destination: form.district,
       category: form.category,
       address: form.address,
-      instructions: form.instructions,
-      codAmount: Number(form.cod),
-      weight: Number(form.weight),
+      instructions: form.instructions || "",
+      codAmount: Number(form.cod) || 0,
+      weight: Number(form.weight) || 0,
+
+      // IMPORTANT
+      deliveryCharge: Number(deliveryCharge),
+
       status: "pending",
-    });
+    };
+
+    console.log("========== SHIPMENT PAYLOAD ==========");
+    console.log(shipmentPayload);
+    console.log("Delivery Charge:", deliveryCharge);
+    console.log("District:", form.district);
+    console.log("Weight:", form.weight);
+
+    const data = await createShipment(shipmentPayload);
 
     toast.success("Shipment created successfully!", {
-      description: `Waybill ${data?.shipment?.waybill || "created"} is now pending pickup.`,
+      description: `Waybill ${
+        data?.shipment?.waybill || "created"
+      } is now pending pickup.`,
     });
 
     console.log("Shipment created:", data);
-
   } catch (error) {
     console.error("Shipment error:", error);
 
     toast.error("Failed to create shipment", {
       description:
-        error.message || "Something went wrong. Please try again.",
+        error?.message ||
+        "Something went wrong. Please try again.",
     });
   } finally {
     setLoading(false);
@@ -136,24 +172,29 @@ export default function CreateShipment() {
               </h1>
 
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-                Generate a live tracking number and automatically register the
-                consignment with SwiftShip&apos;s logistics network.
+                Generate a live tracking number and automatically
+                register the consignment with SwiftShip&apos;s
+                logistics network.
               </p>
             </div>
 
             <div className="hidden w-[255px] shrink-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:block">
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#fff8df] text-[#e5a500]">
-                  <ShieldCheck className="h-5 w-5" strokeWidth={2.2} />
+                  <ShieldCheck
+                    className="h-5 w-5"
+                    strokeWidth={2.2}
+                  />
                 </div>
 
                 <div>
                   <p className="text-sm font-black text-[#24344d]">
                     Secure &amp; Reliable
                   </p>
+
                   <p className="mt-1 text-xs leading-5 text-slate-500">
-                    Your shipment is safe with SwiftShip&apos;s secure
-                    network.
+                    Your shipment is safe with SwiftShip&apos;s
+                    secure network.
                   </p>
                 </div>
               </div>
@@ -163,51 +204,85 @@ export default function CreateShipment() {
 
         {/* Recipient Information */}
         <section className="mx-6 rounded-2xl border border-slate-200 bg-white p-5 sm:mx-10 sm:p-6">
-          <SectionHeading number="1" title="Recipient Information" />
+          <SectionHeading
+            number="1"
+            title="Recipient Information"
+          />
 
           <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <Field label="Customer Full Name" required icon={User}>
+            <Field
+              label="Customer Full Name"
+              required
+              icon={User}
+            >
               <input
                 type="text"
                 value={form.name}
-                onChange={(e) => updateField("name", e.target.value)}
+                onChange={(e) =>
+                  updateField("name", e.target.value)
+                }
                 placeholder="e.g. Tanvir Hossain"
                 required
                 className={inputClass}
               />
             </Field>
 
-            <Field label="Mobile Phone (For OTP SMS)" required icon={Phone}>
+            <Field
+              label="Mobile Phone (For OTP SMS)"
+              required
+              icon={Phone}
+            >
               <input
                 type="tel"
                 value={form.phone}
-                onChange={(e) => updateField("phone", e.target.value)}
+                onChange={(e) =>
+                  updateField("phone", e.target.value)
+                }
                 placeholder="e.g. +880 1712-000000"
                 required
                 className={inputClass}
               />
             </Field>
 
-            <Field label="Destination District" required icon={MapPin}>
+            <Field
+              label="Destination District"
+              required
+              icon={MapPin}
+            >
               <SelectField
                 value={form.district}
-                onChange={(value) => updateField("district", value)}
+                onChange={(value) =>
+                  updateField("district", value)
+                }
                 options={districts}
               />
             </Field>
 
-            <Field label="Item Category" required icon={Package}>
+            <Field
+              label="Item Category"
+              required
+              icon={Package}
+            >
               <SelectField
                 value={form.category}
-                onChange={(value) => updateField("category", value)}
+                onChange={(value) =>
+                  updateField("category", value)
+                }
                 options={categories}
               />
             </Field>
 
-            <Field label="Full Doorstep Address" required icon={House} full>
+            <Field
+              label="Full Doorstep Address"
+              required
+              icon={House}
+              full
+            >
               <textarea
                 value={form.address}
-                onChange={(e) => updateField("address", e.target.value)}
+                onChange={(e) =>
+                  updateField("address", e.target.value)
+                }
                 placeholder="e.g. House #14, Road #5, Block B, Gulshan-2, Dhaka"
                 required
                 rows={3}
@@ -236,28 +311,41 @@ export default function CreateShipment() {
 
         {/* Parcel Details */}
         <section className="mx-6 mt-3 rounded-2xl border border-slate-200 bg-white p-5 sm:mx-10 sm:p-6">
-          <SectionHeading number="2" title="Parcel Weight & COD Amount" />
+          <SectionHeading
+            number="2"
+            title="Parcel Weight & COD Amount"
+          />
 
           <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <Field label="Collect Cash on Delivery (৳ COD)" icon={Package}>
+            <Field
+              label="Collect Cash on Delivery (৳ COD)"
+              icon={Package}
+            >
               <input
                 type="number"
                 min="0"
                 step="1"
                 value={form.cod}
-                onChange={(e) => updateField("cod", e.target.value)}
+                onChange={(e) =>
+                  updateField("cod", e.target.value)
+                }
                 placeholder="1200"
                 className={inputClass}
               />
             </Field>
 
-            <Field label="Parcel Weight (KG)" icon={Weight}>
+            <Field
+              label="Parcel Weight (KG)"
+              icon={Weight}
+            >
               <input
                 type="number"
                 min="0.1"
                 step="0.1"
                 value={form.weight}
-                onChange={(e) => updateField("weight", e.target.value)}
+                onChange={(e) =>
+                  updateField("weight", e.target.value)
+                }
                 placeholder="1"
                 className={inputClass}
               />
@@ -283,8 +371,13 @@ export default function CreateShipment() {
                 </div>
 
                 <p className="mt-1.5 flex items-center gap-1.5 text-xs font-bold text-emerald-400">
-                  <Check className="h-3.5 w-3.5" strokeWidth={3} />
-                  Net Merchant Payout: ৳ {netPayout.toLocaleString()}
+                  <Check
+                    className="h-3.5 w-3.5"
+                    strokeWidth={3}
+                  />
+
+                  Net Merchant Payout: ৳{" "}
+                  {netPayout.toLocaleString()}
                 </p>
               </div>
 
@@ -300,7 +393,10 @@ export default function CreateShipment() {
                   </>
                 ) : (
                   <>
-                    <Send className="h-4 w-4" strokeWidth={2.5} />
+                    <Send
+                      className="h-4 w-4"
+                      strokeWidth={2.5}
+                    />
                     Confirm &amp; Generate Waybill
                   </>
                 )}
@@ -335,11 +431,19 @@ function SectionHeading({ number, title }) {
   );
 }
 
-function Field({ label, required, optional, icon: Icon, full, children }) {
+function Field({
+  label,
+  required,
+  optional,
+  icon: Icon,
+  full,
+  children,
+}) {
   return (
     <div className={full ? "md:col-span-2" : ""}>
       <label className="mb-2 block text-[11px] font-black uppercase tracking-[0.04em] text-[#24344d]">
         {label}{" "}
+
         {required ? (
           <span className="text-[#e7a900]">*</span>
         ) : optional ? (
@@ -352,11 +456,20 @@ function Field({ label, required, optional, icon: Icon, full, children }) {
       <div className="relative">
         {Icon && (
           <div className="pointer-events-none absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-l-xl bg-slate-50 text-slate-500">
-            <Icon className="h-[17px] w-[17px]" strokeWidth={1.9} />
+            <Icon
+              className="h-[17px] w-[17px]"
+              strokeWidth={1.9}
+            />
           </div>
         )}
 
-        <div className={Icon ? "[&>input]:pl-16 [&>select]:pl-16 [&>textarea]:pl-16" : ""}>
+        <div
+          className={
+            Icon
+              ? "[&>input]:pl-16 [&>select]:pl-16 [&>textarea]:pl-16"
+              : ""
+          }
+        >
           {children}
         </div>
       </div>

@@ -143,36 +143,6 @@ const MerchantCreateShipmentPage = async () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex shrink-0 items-center gap-3">
-  {merchant?.status === "pending" ? (
-    <div className="flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-5 py-2.5">
-      <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500" />
-
-      <span className="text-xs font-black uppercase tracking-wider text-amber-700">
-        ACCOUNT PENDING
-      </span>
-    </div>
-  ) : (
-    <>
-      <Link
-        href="/dashboard/merchant/create-shipment"
-        className="flex items-center gap-2 rounded-full bg-[#fcb915] px-5 py-2.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-sm transition-colors hover:bg-yellow-400"
-      >
-        <FaPlus className="text-sm" />
-        <span>NEW PARCEL</span>
-      </Link>
-
-      <Link
-        href="/dashboard/merchant/cod-wallet"
-        className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-[#24344d] transition-colors hover:bg-slate-100"
-      >
-        <FaWallet className="text-sm text-[#f59e0b]" />
-        <span>COD WALLET</span>
-      </Link>
-    </>
-  )}
-</div>
       </div> 
 
       {

@@ -20,96 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const shipments = [
-  {
-    waybill: "SWIFT-89421",
-    recipient: "Tanvir Hossain",
-    phone: "+880 1712-984321",
-    destination: "Dhaka Metropolitan",
-    address: "House 14, Road 5, Block B, Gulshan-2, Dhaka",
-    cod: "৳ 2,450",
-    fee: "Fee: 160",
-    status: "OUT FOR DELIVERY",
-    statusStyle: "border-amber-200 bg-amber-50 text-amber-700",
-  },
-  {
-    waybill: "SWIFT-99102",
-    recipient: "Nusrat Jahan",
-    phone: "+880 1819-223344",
-    destination: "Chattogram",
-    address: "Flat B3, Building 12, Agrabad C/A, Chattogram",
-    cod: "৳ 8,900",
-    fee: "Fee: 120",
-    status: "IN TRANSIT",
-    statusStyle: "border-blue-200 bg-blue-50 text-blue-700",
-  },
-  {
-    waybill: "SWIFT-77341",
-    recipient: "Sabbir Ahmed",
-    phone: "+880 1911-556677",
-    destination: "Sylhet",
-    address: "Zindabazar Point, Road 3, Sylhet Sadar",
-    cod: "৳ 1,850",
-    fee: "Fee: 110",
-    status: "DELIVERED",
-    statusStyle: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  },
-  {
-    waybill: "SWIFT-66290",
-    recipient: "Farhana Yeasmin",
-    phone: "+880 1610-112233",
-    destination: "Gazipur",
-    address: "House 8, Road 2, Chowrasta, Gazipur Sadar",
-    cod: "৳ 3,200",
-    fee: "Fee: 130",
-    status: "DELIVERED",
-    statusStyle: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  },
-  {
-    waybill: "SWIFT-55412",
-    recipient: "Mahir Chowdhury",
-    phone: "+880 1515-443322",
-    destination: "Rajshahi",
-    address: "Saheb Bazar Main Road, Rajshahi Sadar",
-    cod: "৳ 1,500",
-    fee: "Fee: 110",
-    status: "RETURNED",
-    statusStyle: "border-rose-200 bg-rose-50 text-rose-700",
-  },
-  {
-    waybill: "SWIFT-89425",
-    recipient: "Dr. Shahriar Alam",
-    phone: "+880 1811-998877",
-    destination: "Dhaka Metropolitan",
-    address: "Apartment 4A, Road 113, Gulshan-2, Dhaka",
-    cod: "৳ 5,200",
-    fee: "Fee: 100",
-    status: "OUT FOR DELIVERY",
-    statusStyle: "border-amber-200 bg-amber-50 text-amber-700",
-  },
-  {
-    waybill: "SWIFT-89430",
-    recipient: "Nusrat Parveen",
-    phone: "+880 1912-334455",
-    destination: "Dhaka Metropolitan",
-    address: "House 98, Park Road, Baridhara DOHS, Dhaka",
-    cod: "৳ 1,800",
-    fee: "Fee: 160",
-    status: "OUT FOR DELIVERY",
-    statusStyle: "border-amber-200 bg-amber-50 text-amber-700",
-  },
-  {
-    waybill: "SWIFT-33104",
-    recipient: "Raisa Islam",
-    phone: "+880 1714-778899",
-    destination: "Dhaka Metropolitan",
-    address: "Flat 5B, Road 27, Dhanmondi, Dhaka",
-    cod: "৳ 4,100",
-    fee: "Fee: 160",
-    status: "PENDING PICKUP",
-    statusStyle: "border-slate-200 bg-slate-50 text-slate-700",
-  },
-];
 
 const statusOptions = [
   "ALL",
@@ -120,26 +30,26 @@ const statusOptions = [
   "RETURNED",
 ];
 
-export default function ShipmentManagement() {
+export default function ShipmentManagement({shipments}) {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
 
   const filteredShipments = useMemo(() => {
-    const query = search.trim().toLowerCase();
+  const query = search.trim().toLowerCase();
 
-    return shipments.filter((item) => {
-      const matchesStatus =
-        status === "ALL" || item.status === status;
+  return shipments.filter((item) => {
+    const matchesStatus =
+      status === "ALL" || item.status === status;
 
-      const matchesSearch =
-        !query ||
-        item.waybill.toLowerCase().includes(query) ||
-        item.recipient.toLowerCase().includes(query) ||
-        item.phone.toLowerCase().includes(query);
+    const matchesSearch =
+      !query ||
+      item.waybill.toLowerCase().includes(query) ||
+      item.recipient.toLowerCase().includes(query) ||
+      item.phone.toLowerCase().includes(query);
 
-      return matchesStatus && matchesSearch;
-    });
-  }, [search, status]);
+    return matchesStatus && matchesSearch;
+  });
+}, [shipments, search, status]);
 
   const copyWaybill = async (waybill) => {
     try {
@@ -245,9 +155,9 @@ export default function ShipmentManagement() {
 
             <tbody>
               {filteredShipments.length > 0 ? (
-                filteredShipments.map((item) => (
+                filteredShipments.map((item, index) => (
                   <tr
-                    key={item.waybill}
+                    key={index}
                     className="border-b border-slate-100 transition-colors hover:bg-slate-50/70"
                   >
 
@@ -255,9 +165,8 @@ export default function ShipmentManagement() {
                     <td className="px-3 py-3.5">
                       <div className="flex items-center gap-1.5">
                         <span className="text-[10px] font-black text-[#24344d]">
-                          {item.waybill}
-                        </span>
-
+  {item._id.slice(0, 6)}...{item._id.slice(-4)}
+</span>
                         <button
                           type="button"
                           onClick={() => copyWaybill(item.waybill)}
@@ -272,11 +181,11 @@ export default function ShipmentManagement() {
                     {/* Recipient */}
                     <td className="px-3 py-3.5">
                       <p className="text-[10px] font-black text-[#111827]">
-                        {item.recipient}
+                        {item.recipientName}
                       </p>
 
                       <p className="mt-0.5 font-mono text-[8px] font-medium text-slate-400">
-                        {item.phone}
+                        {item.recipientPhone}
                       </p>
                     </td>
 
@@ -294,7 +203,7 @@ export default function ShipmentManagement() {
                     {/* COD */}
                     <td className="px-3 py-3.5">
                       <p className="text-[10px] font-black text-[#111827]">
-                        {item.cod}
+                        {item.codAmount}
                       </p>
 
                       <p className="mt-0.5 text-[8px] font-medium text-slate-400">
