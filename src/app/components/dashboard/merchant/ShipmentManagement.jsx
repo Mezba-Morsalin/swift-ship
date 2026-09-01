@@ -203,11 +203,11 @@ export default function ShipmentManagement({shipments}) {
                     {/* COD */}
                     <td className="px-3 py-3.5">
                       <p className="text-[10px] font-black text-[#111827]">
-                        {item.codAmount}
+                        {item.codAmount} Tk
                       </p>
 
                       <p className="mt-0.5 text-[8px] font-medium text-slate-400">
-                        {item.fee}
+                        DC : {item.deliveryCharge} Tk
                       </p>
                     </td>
 

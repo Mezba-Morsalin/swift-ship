@@ -11,60 +11,8 @@ import {
   FaArrowUpRightFromSquare,
 } from "react-icons/fa6";
 
-const recentDeliveries = [
-  {
-    waybill: "SWIFT-89421",
-    recipient: "Tanvir Hossain",
-    phone: "+880 1712-984321",
-    destination: "Dhaka Metropolitan",
-    cod: "৳ 2,450",
-    status: "OUT FOR DELIVERY",
-    statusStyle:
-      "bg-amber-50 text-amber-700 border-amber-200",
-  },
-  {
-    waybill: "SWIFT-99102",
-    recipient: "Nusrat Jahan",
-    phone: "+880 1819-223344",
-    destination: "Chattogram",
-    cod: "৳ 8,900",
-    status: "IN TRANSIT",
-    statusStyle:
-      "bg-blue-50 text-blue-700 border-blue-200",
-  },
-  {
-    waybill: "SWIFT-77341",
-    recipient: "Sabbir Ahmed",
-    phone: "+880 1911-556677",
-    destination: "Sylhet",
-    cod: "৳ 1,850",
-    status: "DELIVERED",
-    statusStyle:
-      "bg-emerald-50 text-emerald-700 border-emerald-200",
-  },
-  {
-    waybill: "SWIFT-66290",
-    recipient: "Farhana Yeasmin",
-    phone: "+880 1610-112233",
-    destination: "Gazipur",
-    cod: "৳ 3,200",
-    status: "DELIVERED",
-    statusStyle:
-      "bg-emerald-50 text-emerald-700 border-emerald-200",
-  },
-  {
-    waybill: "SWIFT-55412",
-    recipient: "Mahir Chowdhury",
-    phone: "+880 1515-443322",
-    destination: "Rajshahi",
-    cod: "৳ 1,500",
-    status: "RETURNED",
-    statusStyle:
-      "bg-rose-50 text-rose-700 border-rose-200",
-  },
-];
 
-export default function MerchantDashboard({merchant}) {
+export default function MerchantDashboard({merchant, shipments}) {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
   };
@@ -300,7 +248,7 @@ export default function MerchantDashboard({merchant}) {
           </span>
 
           <h3 className="mt-1 text-2xl font-black text-[#111827] sm:text-3xl">
-            8
+            {shipments.length}
           </h3>
 
           <span className="mt-3 text-[10px] font-bold text-emerald-600">
@@ -375,8 +323,8 @@ export default function MerchantDashboard({merchant}) {
           </span>
 
           <h3 className="mt-1 text-xl font-black text-[#d99b00] sm:text-2xl">
-            ৳ 84,500
-          </h3>
+  ৳ {(shipments.codAmount + shipments.deliveryCharge).toLocaleString()}
+</h3>
 
           <span className="mt-3 text-[10px] font-bold text-emerald-600">
             Auto-disburse @ 6 PM
@@ -482,9 +430,9 @@ export default function MerchantDashboard({merchant}) {
 
             <tbody className="divide-y divide-slate-100 font-medium">
 
-              {recentDeliveries.map((item) => (
+              {shipments.map((item, index) => (
                 <tr
-                  key={item.waybill}
+                  key={index}
                   className="transition-colors hover:bg-slate-50"
                 >
 
@@ -494,7 +442,7 @@ export default function MerchantDashboard({merchant}) {
                     <div className="flex items-center gap-1.5 font-bold text-[#111827]">
 
                       <span>
-                        {item.waybill}
+                        {item._id.slice(0, 6)}...{item._id.slice(-4)}
                       </span>
 
                       <button
@@ -514,11 +462,11 @@ export default function MerchantDashboard({merchant}) {
                   <td className="px-3 py-3.5">
 
                     <p className="font-bold text-[#24344d]">
-                      {item.recipient}
+                      {item.recipientName}
                     </p>
 
                     <p className="font-mono text-[10px] text-slate-400">
-                      {item.phone}
+                      {item.recipientPhone}
                     </p>
 
                   </td>
@@ -530,7 +478,10 @@ export default function MerchantDashboard({merchant}) {
 
                   {/* COD */}
                   <td className="px-3 py-3.5 font-black text-[#111827]">
-                    {item.cod}
+                    <p>{item.codAmount} Tk</p>
+                    <p className="font-mono text-[10px] text-slate-400">
+                     DC : {item.deliveryCharge} Tk
+                    </p>
                   </td>
 
                   {/* Status */}

@@ -122,12 +122,6 @@ export default function CreateShipment() {
       status: "pending",
     };
 
-    console.log("========== SHIPMENT PAYLOAD ==========");
-    console.log(shipmentPayload);
-    console.log("Delivery Charge:", deliveryCharge);
-    console.log("District:", form.district);
-    console.log("Weight:", form.weight);
-
     const data = await createShipment(shipmentPayload);
 
     toast.success("Shipment created successfully!", {
