@@ -258,64 +258,75 @@ export default function MerchantDashboard({merchant, shipments}) {
 
         {/* Pending Pickup */}
         <div className="flex flex-col justify-between rounded-2xl border border-[#fcb915]/40 bg-white p-4 shadow-sm">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#c58a00]">
-            PENDING PICKUP
-          </span>
+  <span className="text-[10px] font-black uppercase tracking-widest text-[#c58a00]">
+    PENDING PICKUP
+  </span>
 
-          <h3 className="mt-1 text-2xl font-black text-[#d99b00] sm:text-3xl">
-            1
-          </h3>
+  <h3 className="mt-1 text-2xl font-black text-[#d99b00] sm:text-3xl">
+    {
+      shipments.filter(
+        (shipment) => shipment.status?.toLowerCase() === "pending"
+      ).length
+    }
+  </h3>
 
-          <span className="mt-3 text-[10px] font-bold text-slate-400">
-            Pickup scheduled
-          </span>
-        </div>
+  <span className="mt-3 text-[10px] font-bold text-slate-400">
+    Pickup scheduled
+  </span>
+</div>
 
         {/* In Transit */}
         <div className="flex flex-col justify-between rounded-2xl border border-blue-200 bg-white p-4 shadow-sm">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">
-            IN TRANSIT / DELIVERY
-          </span>
+  <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">
+    IN TRANSIT / DELIVERY
+  </span>
 
-          <h3 className="mt-1 text-2xl font-black text-blue-600 sm:text-3xl">
-            4
-          </h3>
+  <h3 className="mt-1 text-2xl font-black text-blue-600 sm:text-3xl">
+    {
+      shipments.filter((shipment) => {
+        const status = shipment.status?.toLowerCase();
 
-          <span className="mt-3 text-[10px] font-bold text-slate-400">
-            Active on GPS
-          </span>
-        </div>
+        return status === "in transit" || status === "out for delivery";
+      }).length
+    }
+  </h3>
+
+  <span className="mt-3 text-[10px] font-bold text-slate-400">
+    Active on GPS
+  </span>
+</div>
 
         {/* Delivered */}
         <div className="flex flex-col justify-between rounded-2xl border border-emerald-200 bg-white p-4 shadow-sm">
-          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
-            DELIVERED
-          </span>
+  <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
+    DELIVERED
+  </span>
 
-          <h3 className="mt-1 text-2xl font-black text-emerald-600 sm:text-3xl">
-            2
-          </h3>
+  <h3 className="mt-1 text-2xl font-black text-emerald-600 sm:text-3xl">
+    {shipments.filter((shipment) => shipment.status === "delivered").length}
+  </h3>
 
-          <span className="mt-3 text-[10px] font-bold text-emerald-600">
-            99.4% On-Time
-          </span>
-        </div>
+  <span className="mt-3 text-[10px] font-bold text-emerald-600">
+    99.4% On-Time
+  </span>
+</div>
 
         {/* Returned */}
         <div className="flex flex-col justify-between rounded-2xl border border-rose-200 bg-white p-4 shadow-sm">
-          <span className="text-[10px] font-black uppercase tracking-widest text-rose-600">
-            RETURNED
-          </span>
-
-          <h3 className="mt-1 text-2xl font-black text-rose-600 sm:text-3xl">
-            1
-          </h3>
-
-          <span className="mt-3 text-[10px] font-bold text-rose-600">
-            ৳0 return fee
-          </span>
-        </div>
-
+  <span className="text-[10px] font-black uppercase tracking-widest text-rose-600">
+    RETURNED
+  </span>
+  <h3 className="mt-1 text-2xl font-black text-rose-600 sm:text-3xl">
+    {
+      shipments.filter(
+        (shipment) => shipment.status?.toLowerCase() === "returned"
+      ).length
+    }
+  </h3>
+  <span className="mt-3 text-[10px] font-bold text-rose-600">
+    ৳0 return fee
+  </span>
+</div>
         {/* Unsettled COD */}
         <div className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-[#fffdf5] p-4 shadow-sm">
           <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
@@ -323,7 +334,9 @@ export default function MerchantDashboard({merchant, shipments}) {
           </span>
 
           <h3 className="mt-1 text-xl font-black text-[#d99b00] sm:text-2xl">
-  ৳ {(shipments.codAmount + shipments.deliveryCharge).toLocaleString()}
+  ৳{" "}
+  {shipments.reduce((total, shipment) =>
+        total + Number(shipment.codAmount || 0) + Number(shipment.deliveryCharge || 0), 0).toLocaleString()}
 </h3>
 
           <span className="mt-3 text-[10px] font-bold text-emerald-600">
@@ -350,11 +363,11 @@ export default function MerchantDashboard({merchant, shipments}) {
 
             <p className="mt-0.5 text-xs text-slate-500">
               Your collected balance of{" "}
-              <strong className="text-[#111827]">
-                ৳ 84,500
-              </strong>{" "}
-              will be deposited to City Bank A/C ****4892
-              with 0% commission fees today at 6:00 PM.
+               ৳{" "}
+  <strong>{shipments.reduce((total, shipment) =>
+        total + Number(shipment.codAmount || 0) + Number(shipment.deliveryCharge || 0), 0).toLocaleString()}
+               will be deposited to City Bank A/C ****4892
+              with 0% commission fees today at 6:00 PM.</strong>
             </p>
           </div>
         </div>
