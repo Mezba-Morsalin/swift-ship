@@ -16,36 +16,49 @@ import {
   FaWallet,
   FaUser,
   FaXmark,
+  FaChartLine,
+  FaWarehouse,
+  FaMoneyBillTransfer,
 } from "react-icons/fa6";
 
 const navigationConfig = {
   admin: [
-    {
-      label: "COMMAND CENTER",
-      href: "/dashboard/admin",
-      icon: FaChartColumn,
-    },
-    {
-      label: "GLOBAL SHIPMENTS (8)",
-      href: "/dashboard/admin/shipments",
-      icon: FaBoxesPacking,
-    },
-    {
-      label: "MERCHANTS (5)",
-      href: "/dashboard/admin/merchants",
-      icon: FaStore,
-    },
-    {
-      label: "RIDERS FLEET (4)",
-      href: "/dashboard/admin/riders",
-      icon: FaTruckFast,
-    },
-    {
-      label: "PRICING & SETTINGS",
-      href: "/dashboard/admin/settings",
-      icon: FaGear,
-    },
-  ],
+  {
+    label: "COMMAND CENTER",
+    href: "/dashboard/admin",
+    icon: FaChartColumn,
+  },
+  {
+    label: "ALL PARCELS",
+    href: "/dashboard/admin/parcels",
+    icon: FaBoxesPacking,
+  },
+  {
+    label: "DISTRIBUTION HUBS",
+    href: "/dashboard/admin/hubs",
+    icon: FaWarehouse,
+  },
+  {
+    label: "RIDER MANAGEMENT",
+    href: "/dashboard/admin/riders",
+    icon: FaTruckFast,
+  },
+  {
+    label: "MERCHANT DIRECTORY",
+    href: "/dashboard/admin/merchants",
+    icon: FaStore,
+  },
+  {
+    label: "COD & PAYOUTS",
+    href: "/dashboard/admin/payouts",
+    icon: FaMoneyBillTransfer,
+  },
+  {
+    label: "ANALYTICS EXPORTS",
+    href: "/dashboard/admin/analytics",
+    icon: FaChartLine,
+  },
+],
 
   rider: [
     {
