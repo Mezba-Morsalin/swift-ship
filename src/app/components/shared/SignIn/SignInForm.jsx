@@ -62,7 +62,6 @@ export default function SignInForm() {
   const [loading, setLoading] = useState(false);
 
   const currentPortal = portalData[portal];
-
   // ==================================================
   // PORTAL CHANGE
   // ==================================================
@@ -72,7 +71,6 @@ export default function SignInForm() {
     setPortal(value);
     setShowPassword(false);
   };
-
   // ==================================================
   // SIGN IN
   // ==================================================
@@ -101,13 +99,11 @@ export default function SignInForm() {
 
         return;
       }
-
       toast.success(
         portal === "merchant"
           ? "Merchant login successful!"
           : "Rider login successful!"
       );
-
       console.log("Login data:", data);
       console.log("Login portal:", portal);
 
@@ -127,7 +123,6 @@ export default function SignInForm() {
       setLoading(false);
     }
   };
-
   return (
     <motion.div initial={{ opacity: 0, y: 24, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{
         duration: 0.5,
@@ -177,7 +172,6 @@ export default function SignInForm() {
           {/* ==================================================
               HEADING
           ================================================== */}
-
           <AnimatePresence mode="wait">
             <motion.div key={`heading-${portal}`} initial={{   opacity: 0,   y: 7, }} animate={{   opacity: 1,   y: 0, }} exit={{   opacity: 0,   y: -7, }} transition={{   duration: 0.2, }} className="mt-6 text-center"
             >
