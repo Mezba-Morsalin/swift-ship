@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
+
 import {
   Mail,
   LockKeyhole,
@@ -11,12 +13,20 @@ import {
   EyeOff,
   ArrowRight,
 } from "lucide-react";
+
 import Link from "next/link";
 import { toast } from "sonner";
 
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { authClient } from "@/app/lib/auth-client";
+
+// ==================================================
+// RIDER APPLICATION GOOGLE FORM
+// Replace this with your Google Form responder link
+// ==================================================
+const RIDER_APPLICATION_FORM_URL =
+  "https://docs.google.com/forms/d/12L3VpdJf_gG9iANmC0PnruLjpNRInVICIqcvDB1E2KU";
 
 const portalData = {
   merchant: {
@@ -40,7 +50,7 @@ const portalData = {
     identityPlaceholder: "rider@swiftship.com",
     passwordLabel: "PASSWORD",
     forgotText: "Forgot PIN?",
-    buttonText: "SIGN IN TO PORTAL",
+    buttonText: "SIGN IN TO DASHBOARD",
     registerText: "Are you a new rider?",
     registerLink: "Apply as Rider",
   },
@@ -53,6 +63,9 @@ export default function SignInForm() {
 
   const currentPortal = portalData[portal];
 
+  // ==================================================
+  // PORTAL CHANGE
+  // ==================================================
   const handlePortalChange = (value) => {
     if (loading) return;
 
@@ -60,6 +73,9 @@ export default function SignInForm() {
     setShowPassword(false);
   };
 
+  // ==================================================
+  // SIGN IN
+  // ==================================================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -75,13 +91,14 @@ export default function SignInForm() {
       const { data, error } = await authClient.signIn.email({
         email: user.identity,
         password: user.password,
-        callbackURL : "/"
+        callbackURL: "/",
       });
 
       if (error) {
         toast.error(
           error.message || "Invalid email or password. Please try again."
         );
+
         return;
       }
 
@@ -94,7 +111,9 @@ export default function SignInForm() {
       console.log("Login data:", data);
       console.log("Login portal:", portal);
 
-      // Example:
+      // ==================================================
+      // FUTURE DASHBOARD REDIRECT
+      // ==================================================
       // router.push(
       //   portal === "merchant"
       //     ? "/merchant/dashboard"
@@ -110,10 +129,7 @@ export default function SignInForm() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
+    <motion.div initial={{ opacity: 0, y: 24, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{
         duration: 0.5,
         ease: [0.22, 1, 0.36, 1],
       }}
@@ -122,28 +138,26 @@ export default function SignInForm() {
       {/* ==================================================
           MAIN CARD
       ================================================== */}
-      <div className="overflow-hidden rounded-[32px] border border-slate-200/80 bg-white shadow-[0_25px_70px_rgba(15,23,42,0.12)]">
 
+      <div className="overflow-hidden rounded-[32px] border border-slate-200/80 bg-white shadow-[0_25px_70px_rgba(15,23,42,0.12)]">
         {/* ==================================================
             CARD CONTENT
         ================================================== */}
-        <div className="px-6 py-8 sm:px-9 sm:py-9">
 
+        <div className="px-6 py-8 sm:px-9 sm:py-9">
           {/* ==================================================
               BRAND
           ================================================== */}
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
+
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{
               delay: 0.1,
               duration: 0.35,
             }}
             className="flex items-center justify-center"
           >
             <div className="flex items-center gap-2.5">
-
               {/* Logo Icon */}
+
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[13px] bg-[#fbbf24] shadow-[0_5px_15px_rgba(251,191,36,0.25)]">
                 <Truck
                   className="h-[22px] w-[22px] text-[#111827]"
@@ -152,36 +166,20 @@ export default function SignInForm() {
               </div>
 
               {/* Logo Text */}
+
               <div className="text-[22px] font-black tracking-[-1.2px]">
                 <span className="text-[#111827]">SWIFT</span>
                 <span className="text-[#f59e0b]">SHIP</span>
               </div>
-
             </div>
           </motion.div>
 
           {/* ==================================================
               HEADING
           ================================================== */}
+
           <AnimatePresence mode="wait">
-            <motion.div
-              key={`heading-${portal}`}
-              initial={{
-                opacity: 0,
-                y: 7,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              exit={{
-                opacity: 0,
-                y: -7,
-              }}
-              transition={{
-                duration: 0.2,
-              }}
-              className="mt-6 text-center"
+            <motion.div key={`heading-${portal}`} initial={{   opacity: 0,   y: 7, }} animate={{   opacity: 1,   y: 0, }} exit={{   opacity: 0,   y: -7, }} transition={{   duration: 0.2, }} className="mt-6 text-center"
             >
               <h1 className="text-[24px] font-black leading-tight tracking-[-0.8px] text-[#111827] sm:text-[25px]">
                 {currentPortal.title}
@@ -196,8 +194,8 @@ export default function SignInForm() {
           {/* ==================================================
               PORTAL SWITCH
           ================================================== */}
-          <div className="relative mt-7 flex h-[45px] rounded-full bg-slate-100 p-1">
 
+          <div className="relative mt-7 flex h-[45px] rounded-full bg-slate-100 p-1">
             <motion.div
               layout
               transition={{
@@ -212,11 +210,7 @@ export default function SignInForm() {
               }`}
             />
 
-            <button
-              type="button"
-              onClick={() => handlePortalChange("merchant")}
-              disabled={loading}
-              className={`relative z-10 flex-1 rounded-full text-[11.5px] font-extrabold transition-colors duration-200 ${
+            <button type="button" onClick={() => handlePortalChange("merchant")} disabled={loading} className={`relative z-10 flex-1 rounded-full text-[11.5px] font-extrabold transition-colors duration-200 ${
                 portal === "merchant"
                   ? "text-[#111827]"
                   : "text-slate-500 hover:text-slate-800"
@@ -233,48 +227,26 @@ export default function SignInForm() {
             >
               Rider / Hub Portal
             </button>
-
           </div>
 
           {/* ==================================================
               FORM
           ================================================== */}
-          <AnimatePresence mode="wait">
-            <motion.form
-              key={portal}
-              onSubmit={handleSubmit}
-              initial={{
-                opacity: 0,
-                x: portal === "merchant" ? -10 : 10,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              exit={{
-                opacity: 0,
-                x: portal === "merchant" ? 10 : -10,
-              }}
-              transition={{
-                duration: 0.22,
-                ease: "easeOut",
-              }}
-              className="mt-7 space-y-5"
-            >
 
+          <AnimatePresence mode="wait">
+            <motion.form key={portal} onSubmit={handleSubmit} initial={{   opacity: 0,   x: portal === "merchant" ? -10 : 10, }} animate={{   opacity: 1,   x: 0, }} exit={{   opacity: 0,   x: portal === "merchant" ? 10 : -10, }} transition={{   duration: 0.22,   ease: "easeOut", }} className="mt-7 space-y-5"
+            >
               {/* ==================================================
                   EMAIL
               ================================================== */}
+
               <div className="space-y-2">
-                <label
-                  htmlFor="identity"
-                  className="block text-[11px] font-extrabold tracking-[0.4px] text-[#24344d]"
+                <label htmlFor="identity" className="block text-[11px] font-extrabold tracking-[0.4px] text-[#24344d]"
                 >
                   {currentPortal.identityLabel}
                 </label>
 
                 <div className="relative">
-
                   <Mail
                     className="absolute left-4 top-1/2 z-10 h-[17px] w-[17px] -translate-y-1/2 text-slate-400"
                     strokeWidth={1.8}
@@ -282,13 +254,13 @@ export default function SignInForm() {
 
                   <Input id="identity" name="identity" type="email" autoComplete="username" placeholder={currentPortal.identityPlaceholder} required disabled={loading} className="h-[48px] rounded-[13px] border border-slate-200 bg-white pl-11 pr-4 text-[13px] text-[#111827] shadow-none transition-all placeholder:text-slate-400 hover:border-slate-300 focus-visible:border-[#fbbf24] focus-visible:ring-[3px] focus-visible:ring-[#fbbf24]/15 disabled:cursor-not-allowed disabled:opacity-60"
                   />
-
                 </div>
               </div>
 
               {/* ==================================================
                   PASSWORD
               ================================================== */}
+
               <div className="space-y-2">
                 <label
                   htmlFor="password"
@@ -298,7 +270,6 @@ export default function SignInForm() {
                 </label>
 
                 <div className="relative">
-
                   <LockKeyhole
                     className="absolute left-4 top-1/2 z-10 h-[17px] w-[17px] -translate-y-1/2 text-slate-400"
                     strokeWidth={1.8}
@@ -326,15 +297,14 @@ export default function SignInForm() {
                       <Eye className="h-[17px] w-[17px]" />
                     )}
                   </button>
-
                 </div>
               </div>
 
               {/* ==================================================
                   REMEMBER / FORGOT
               ================================================== */}
-              <div className="flex items-center justify-between pt-0.5">
 
+              <div className="flex items-center justify-between pt-0.5">
                 <label
                   htmlFor="remember"
                   className="flex cursor-pointer items-center gap-2"
@@ -347,23 +317,17 @@ export default function SignInForm() {
                   </span>
                 </label>
 
-                <button
-                  type="button"
-                  disabled={loading}
-                  className="text-[11.5px] font-bold text-[#f59e0b] transition-colors hover:text-[#d97706] disabled:cursor-not-allowed disabled:opacity-50"
+                <button type="button" disabled={loading} className="text-[11.5px] font-bold text-[#f59e0b] transition-colors hover:text-[#d97706] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {currentPortal.forgotText}
                 </button>
-
               </div>
 
               {/* ==================================================
                   SIGN IN BUTTON
               ================================================== */}
-              <Button
-                type="submit"
-                disabled={loading}
-                className="group h-[48px] w-full rounded-full bg-[#111827] text-[11.5px] font-black tracking-[0.2px] text-white shadow-[0_8px_20px_rgba(15,23,42,0.16)] transition-all duration-300 hover:bg-[#1f2937] hover:shadow-[0_10px_25px_rgba(15,23,42,0.22)] disabled:cursor-not-allowed disabled:opacity-70"
+
+              <Button type="submit" disabled={loading} className="group h-[48px] w-full rounded-full bg-[#111827] text-[11.5px] font-black tracking-[0.2px] text-white shadow-[0_8px_20px_rgba(15,23,42,0.16)] transition-all duration-300 hover:bg-[#1f2937] hover:shadow-[0_10px_25px_rgba(15,23,42,0.22)] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading ? (
                   <>
@@ -382,68 +346,63 @@ export default function SignInForm() {
                   </>
                 )}
               </Button>
-
             </motion.form>
           </AnimatePresence>
 
           {/* ==================================================
               DIVIDER
           ================================================== */}
+
           <div className="my-7 flex items-center gap-3">
             <div className="h-px flex-1 bg-slate-100" />
+
             <span className="text-[9px] font-bold uppercase tracking-widest text-slate-300">
               Secure Access
             </span>
+
             <div className="h-px flex-1 bg-slate-100" />
           </div>
 
           {/* ==================================================
-              REGISTER
+              REGISTER / RIDER APPLICATION
           ================================================== */}
+
           <AnimatePresence mode="wait">
-            <motion.div
-              key={`register-${portal}`}
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              exit={{
-                opacity: 0,
-              }}
-              transition={{
-                duration: 0.2,
-              }}
-              className="text-center"
+            <motion.div key={`register-${portal}`} initial={{   opacity: 0, }} animate={{   opacity: 1, }} exit={{   opacity: 0, }} transition={{   duration: 0.2, }} className="text-center"
             >
               <span className="text-[11.5px] text-[#24344d]">
                 {currentPortal.registerText}{" "}
               </span>
 
-              <Link
-                href="/signup"
-                className="inline-flex items-center gap-1 text-[11.5px] font-bold text-[#f59e0b] transition-colors hover:text-[#d97706]"
-              >
-                {currentPortal.registerLink}
+              {portal === "rider" ? (
+                <a href={RIDER_APPLICATION_FORM_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11.5px] font-bold text-[#f59e0b] transition-colors hover:text-[#d97706]"
+                >
+                  {currentPortal.registerLink}
 
-                <ArrowRight
-                  className="h-3 w-3 transition-transform group-hover:translate-x-0.5"
-                />
-              </Link>
+                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </a>
+              ) : (
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center gap-1 text-[11.5px] font-bold text-[#f59e0b] transition-colors hover:text-[#d97706]"
+                >
+                  {currentPortal.registerLink}
+
+                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              )}
             </motion.div>
           </AnimatePresence>
-
         </div>
       </div>
 
       {/* ==================================================
           SECURITY NOTE
       ================================================== */}
+
       <p className="mt-4 text-center text-[9.5px] font-medium text-slate-400">
         Protected access for authorized SwiftShip partners only.
       </p>
-
     </motion.div>
   );
 }
