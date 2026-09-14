@@ -1,5 +1,6 @@
 import ShipmentManagement from '@/app/components/dashboard/merchant/ShipmentManagement';
 import { auth } from '@/app/lib/auth';
+import { getHubs } from '@/app/lib/getHubs';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +12,9 @@ const MerchantShipmentPage = async() => {
                    headers: await headers(),
                  });
                  const merchant = session?.user
+
+                 const hubs = await getHubs();
+                 console.log("hubs", hubs)
 
               const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipments`)
           const data = await res.json()

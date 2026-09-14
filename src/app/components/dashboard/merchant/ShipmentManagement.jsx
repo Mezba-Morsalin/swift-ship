@@ -139,6 +139,10 @@ export default function ShipmentManagement({shipments}) {
                 </th>
 
                 <th className="px-3 py-3 text-[9px] font-black uppercase tracking-widest text-slate-400">
+                  Destination Hub
+                </th>
+
+                <th className="px-3 py-3 text-[9px] font-black uppercase tracking-widest text-slate-400">
                   COD
                 </th>
 
@@ -194,10 +198,15 @@ export default function ShipmentManagement({shipments}) {
                       <p className="text-[10px] font-bold text-[#24344d]">
                         {item.destination}
                       </p>
+                    </td>
 
-                      <p className="mt-0.5 truncate text-[8px] font-medium text-slate-400">
-                        {item.address}
-                      </p>
+                    <td className="px-3 py-3.5">
+                      <span
+                        className={`text-[8px] font-black uppercase`}
+                      >
+                        {item.hubName}
+                      </span>
+                      <p className="mt-0.5 text-[8px] font-medium text-slate-400">{item.hubCode}</p>
                     </td>
 
                     {/* COD */}

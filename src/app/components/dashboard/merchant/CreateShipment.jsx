@@ -19,17 +19,92 @@ import { toast } from "sonner";
 import { createShipment } from "@/app/lib/shipment-api";
 
 const districts = [
-  "Dhaka Metropolitan (Inside City)",
-  "Dhaka (Outside City)",
+  // Dhaka Metropolitan Hub
+  "Uttara",
+  "Mirpur",
+  "Gulshan",
+  "Banani",
+  "Badda",
+  "Mohammadpur",
+  "Dhanmondi",
+  "Tejgaon",
+  "Khilgaon",
+  "Motijheel",
+  "Jatrabari",
+  "Wari",
+  "Ramna",
+  "Paltan",
+  "Lalbagh",
+
+  // Dhaka Central Sort Facility
+  "Dhaka Outside City",
+  "Inter-Division Shipments",
+
+  // Chattogram Regional Hub
   "Chattogram",
-  "Sylhet",
-  "Gazipur",
-  "Narayanganj",
+  "Cox's Bazar",
+  "Cumilla",
+  "Feni",
+  "Noakhali",
+  "Lakshmipur",
+  "Chandpur",
+  "Brahmanbaria",
+  "Rangamati",
+  "Khagrachhari",
+  "Bandarban",
+
+  // Rajshahi Regional Hub
   "Rajshahi",
+  "Bogura",
+  "Pabna",
+  "Sirajganj",
+  "Natore",
+  "Naogaon",
+  "Chapainawabganj",
+  "Joypurhat",
+
+  // Khulna Regional Hub
   "Khulna",
+  "Jashore",
+  "Kushtia",
+  "Satkhira",
+  "Bagerhat",
+  "Jhenaidah",
+  "Magura",
+  "Narail",
+  "Chuadanga",
+  "Meherpur",
+
+  // Barishal Regional Hub
   "Barishal",
+  "Bhola",
+  "Patuakhali",
+  "Pirojpur",
+  "Jhalokathi",
+  "Barguna",
+
+  // Rangpur Regional Hub
   "Rangpur",
+  "Dinajpur",
+  "Saidpur",
+  "Nilphamari",
+  "Kurigram",
+  "Lalmonirhat",
+  "Gaibandha",
+  "Panchagarh",
+  "Thakurgaon",
+
+  // Sylhet Regional Hub
+  "Sylhet",
+  "Moulvibazar",
+  "Habiganj",
+  "Sunamganj",
+
+  // Mymensingh Regional Hub
   "Mymensingh",
+  "Jamalpur",
+  "Netrokona",
+  "Sherpur",
 ];
 
 const categories = [
