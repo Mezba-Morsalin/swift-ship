@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   FaArrowLeft,
@@ -8,17 +5,20 @@ import {
   FaHouse,
   FaHeadphones,
 } from "react-icons/fa6";
+import { auth } from "./lib/auth";
+import { headers } from "next/headers";
 
-const NotFound = () => {
+const NotFound = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const role = session?.user?.role;
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12 sm:px-6">
       <div className="w-full max-w-lg">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-          className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
-        >
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           {/* Top */}
           <div className="flex items-center justify-between border-b border-slate-100 pb-5">
             <div className="flex items-center gap-3">
@@ -30,6 +30,7 @@ const NotFound = () => {
                 <p className="text-sm font-bold text-slate-900">
                   SwiftShip
                 </p>
+
                 <p className="text-xs text-slate-400">
                   Logistics Management
                 </p>
@@ -52,8 +53,8 @@ const NotFound = () => {
             </h1>
 
             <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-500">
-              The page you&apos;re looking for doesn&apos;t exist or may have been
-              moved. Please check the URL or return to the dashboard.
+              The page you&apos;re looking for doesn&apos;t exist or may have
+              been moved. Please check the URL or return to your dashboard.
             </p>
 
             {/* Actions */}
@@ -66,19 +67,22 @@ const NotFound = () => {
                 Back to Home
               </Link>
 
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-              >
-                <FaArrowLeft className="text-xs" />
-                Dashboard
-              </Link>
+              {role && (
+                <Link
+                  href={`/dashboard/${role}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                >
+                  <FaArrowLeft className="text-xs" />
+                  Dashboard
+                </Link>
+              )}
             </div>
           </div>
 
           {/* Support */}
           <div className="flex items-center justify-center gap-2 border-t border-slate-100 pt-5 text-xs text-slate-400">
             <FaHeadphones className="text-slate-400" />
+
             <span>Need help?</span>
 
             <Link
@@ -88,7 +92,7 @@ const NotFound = () => {
               Contact support
             </Link>
           </div>
-        </motion.div>
+        </div>
 
         <p className="mt-5 text-center text-[11px] font-medium text-slate-400">
           SwiftShip Logistics
