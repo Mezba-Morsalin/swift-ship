@@ -11,6 +11,7 @@ import {
   CircleCheck,
   ChevronRight,
 } from "lucide-react";
+import Link from "next/link";
 import { FaShieldAlt } from "react-icons/fa";
 import { FaBuilding } from "react-icons/fa6";
 import { MdOutlineSensors } from "react-icons/md";
@@ -219,20 +220,14 @@ const HubCard = ({ hubs, admin }) => {
 
           {/* Buttons */}
           <div className="flex items-center gap-2">
-            <button
+            <Link
+            href={`/dashboard/admin/hubs/${hub._id}`}
               type="button"
               className="flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
             >
               Hub Details
               <ChevronRight size={14} />
-            </button>
-
-            <button
-              type="button"
-              className="h-9 rounded-full bg-amber-400 px-5 text-xs font-bold uppercase text-slate-900 transition hover:bg-amber-500"
-            >
-              Parcels
-            </button>
+            </Link>
           </div>
         </div>
       );
