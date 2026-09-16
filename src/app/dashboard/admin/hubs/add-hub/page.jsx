@@ -128,7 +128,7 @@ const AddHub = () => {
             <button
               type="button"
               onClick={() => router.back()}
-              className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-900"
+              className="mb-5 inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-gray-900 border border-slate-400 shadow rounded-2xl py-2 px-5"
             >
               <FaArrowLeft className="text-xs" />
               Back to Hubs
@@ -174,7 +174,7 @@ const AddHub = () => {
                     name="hubCode"
                     value={formData.hubCode}
                     onChange={handleChange}
-                    placeholder="e.g. MYM-CEN"
+                    placeholder="Hub Code"
                     required
                   />
                 </div>
@@ -188,7 +188,7 @@ const AddHub = () => {
                     name="hubName"
                     value={formData.hubName}
                     onChange={handleChange}
-                    placeholder="e.g. Mymensingh Regional Hub"
+                    placeholder="Regional Hub"
                     required
                   />
                 </div>
@@ -237,7 +237,7 @@ const AddHub = () => {
                     name="division"
                     value={formData.division}
                     onChange={handleChange}
-                    placeholder="e.g. Mymensingh"
+                    placeholder="Division Name"
                     required
                   />
                 </div>
@@ -251,7 +251,7 @@ const AddHub = () => {
                     name="district"
                     value={formData.district}
                     onChange={handleChange}
-                    placeholder="e.g. Mymensingh"
+                    placeholder="District Name"
                     required
                   />
                 </div>
@@ -265,7 +265,7 @@ const AddHub = () => {
                     name="area"
                     value={formData.area}
                     onChange={handleChange}
-                    placeholder="e.g. Mymensingh City"
+                    placeholder="District Area"
                     required
                   />
                 </div>
@@ -315,7 +315,8 @@ const AddHub = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  placeholder="e.g. Ganginarpar, Mymensingh-2200"
+                  placeholder="Describe The Hub Address"
+                  className="w-full"
                   rows={3}
                   required
                 />
@@ -350,7 +351,7 @@ const AddHub = () => {
                     name="name"
                     value={formData.manager.name}
                     onChange={handleManagerChange}
-                    placeholder="e.g. Rakibul Hasan"
+                    placeholder="Manager Name"
                     required
                   />
                 </div>
