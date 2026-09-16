@@ -80,11 +80,11 @@ const HubCard = ({ hubs, admin }) => {
           <div className="flex items-center gap-2 sm:gap-3 w-full xl:w-auto">
     
             {/* Manage Hubs */}
-            <button
+            <Link href={'/dashboard/admin/hubs/add-hub'}
               className=" flex-1 sm:flex-none min-w-[140px] flex items-center justify-center gap-2 bg-slate-100/80 hover:bg-slate-200/80 text-slate-900 font-bold text-[10px] sm:text-xs tracking-wider px-4 sm:px-5 py-2.5 sm:py-3 rounded-full transition-all duration-200 border border-slate-200/60">
               <FaBuilding className="text-slate-700 text-xs sm:text-sm shrink-0" />
               <span>Add Distribution Hub</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
