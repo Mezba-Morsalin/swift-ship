@@ -1,5 +1,6 @@
 import Riders from '@/app/components/dashboard/admin/Riders';
 import { auth } from '@/app/lib/auth';
+import { getRiders } from '@/app/lib/getRiders';
 import { MapPin, RefreshCw } from 'lucide-react';
 import { headers } from 'next/headers';
 import Link from 'next/link';
@@ -13,6 +14,12 @@ const page = async () => {
                            headers: await headers(),
                          });
                          const admin = session?.user
+
+    const data = await getRiders()
+
+    const riders = data.data
+
+    console.log("riders", riders)
     return (
         <div className='space-y-6'>
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 sm:p-5 lg:p-6">
@@ -83,7 +90,7 @@ const page = async () => {
           </div>
         </div>
       </div>
-            <Riders/>
+            <Riders riders = {riders}/>
         </div>
     );
 };
