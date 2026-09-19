@@ -33,22 +33,22 @@ export default function RiderDashboard({user}) {
 
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span
-  className={`px-2.5 py-0.5 rounded-full border text-[10px] font-black tracking-wider uppercase ${
-    user?.status === "pending"
-      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-      : user?.status === "verified"
-      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-      : user?.status === "suspended"
-      ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-      : "bg-slate-500/10 text-slate-400 border-slate-500/20"
-  }`}
->
-  Status : {user?.status || "unknown"}
+               <span
+    className={`px-2.5 py-0.5 rounded-full border text-[10px] font-black tracking-wider uppercase ${
+      user?.status === "pending"
+        ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+        : user?.status === "active"
+        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+        : user?.status === "suspended"
+        ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
+        : "bg-slate-500/10 text-slate-400 border-slate-500/20"
+    }`}
+  >
+    Status : {user?.status || "unknown"}
+  </span>
+              <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">
+  RIDER ID: {user?.id ? `RD-${user.id.slice(-4).toUpperCase()}` : "N/A"}
 </span>
-              <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
-                RIDER id : {user.id}
-              </span>
             </div>
             <h1 className="text-xl sm:text-2xl text-slate-900 font-black tracking-tight mt-1">
               {user.name}
@@ -62,9 +62,9 @@ export default function RiderDashboard({user}) {
 
         {/* Status Toggle Button */}
         <button
-  disabled={user?.status !== "verified"}
+  disabled={user?.status !== "active"}
   className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-lg shrink-0 ${
-    user?.status === "verified"
+    user?.status === "active"
       ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-emerald-500/20"
       : user?.status === "pending"
       ? "bg-amber-500/10 text-amber-400 border border-amber-500/20 cursor-not-allowed shadow-none"
@@ -76,7 +76,7 @@ export default function RiderDashboard({user}) {
   <FaPowerOff className="text-sm" />
 
   <span>
-    {user?.status === "verified"
+    {user?.status === "active"
       ? "ON DUTY (ONLINE)"
       : user?.status === "pending"
       ? "PENDING APPROVAL"

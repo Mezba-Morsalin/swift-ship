@@ -42,33 +42,31 @@ export default function RiderProfile({ user }) {
   // ==========================================
   // STATUS
   // ==========================================
-  const status = user?.status?.toLowerCase() || "pending";
+const status = user?.status?.toLowerCase() || "pending";
 
-  const statusConfig = {
-    pending: {
-      label: "pending",
-      className:
-        "border-amber-200 bg-amber-50 text-amber-600",
-      dot: "bg-amber-500",
-    },
+const statusConfig = {
+  pending: {
+    label: "pending",
+    className:
+      "border-amber-200 bg-amber-50 text-amber-600",
+    dot: "bg-amber-500",
+  },
+  active: {
+    label: "active",
+    className:
+      "border-emerald-200 bg-emerald-50 text-emerald-600",
+    dot: "bg-emerald-500",
+  },
+  suspended: {
+    label: "suspended",
+    className:
+      "border-rose-200 bg-rose-50 text-rose-600",
+    dot: "bg-rose-500",
+  },
+};
 
-    verified: {
-      label: "active",
-      className:
-        "border-emerald-200 bg-emerald-50 text-emerald-600",
-      dot: "bg-emerald-500",
-    },
-
-    suspended: {
-      label: "suspended",
-      className:
-        "border-rose-200 bg-rose-50 text-rose-600",
-      dot: "bg-rose-500",
-    },
-  };
-
-  const currentStatus =
-    statusConfig[status] || statusConfig.pending;
+const currentStatus =
+  statusConfig[status] || statusConfig.pending;
 
   return (
     <div className="flex items-center justify-center p-4 sm:p-8 font-sans">
@@ -138,33 +136,6 @@ export default function RiderProfile({ user }) {
             {/* ==========================================
                 SAFETY RATING
             ========================================== */}
-            <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-center sm:justify-between">
-
-              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-                Safety Rating
-              </span>
-
-              <div className="flex flex-wrap items-center gap-2">
-
-                <span className="font-black text-[#f59e0b]">
-                  4.95
-                </span>
-
-                <div className="flex items-center gap-0.5 text-xs text-[#fcb915]">
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                </div>
-
-                <span className="text-[10px] font-bold text-slate-400">
-                  (1,420 Reviews)
-                </span>
-
-              </div>
-
-            </div>
 
           </div>
 

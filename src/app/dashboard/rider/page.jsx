@@ -8,6 +8,7 @@ const RiderDashboardPage = async () => {
        headers: await headers(),
      });
      const user = session?.user
+
     return (
         <div>
             <RiderDashboard user={user}/>
