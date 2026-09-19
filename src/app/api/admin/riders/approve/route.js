@@ -45,6 +45,7 @@ export async function POST(request) {
       body: {
         name: rider.name,
         email: rider.email,
+        image : rider.image,
         password,
         role: "rider",
         phone: rider.phone,
@@ -70,6 +71,7 @@ export async function POST(request) {
       `${process.env.NEXT_PUBLIC_API_URL}/api/riders/${rider._id}`,
       {
         method: "PATCH",
+        cache : "no-store",
         headers: {
           "Content-Type": "application/json",
         },

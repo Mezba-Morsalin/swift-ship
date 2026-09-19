@@ -3,6 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function createShipment(shipmentData) {
   const response = await fetch(`${API_URL}/api/shipments`, {
     method: "POST",
+    cache : "no-store",
     headers: {
       "Content-Type": "application/json",
     },
