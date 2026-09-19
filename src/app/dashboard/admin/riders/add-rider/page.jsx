@@ -182,8 +182,11 @@ export default function AddRiderPage() {
       setError("");
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/hubs`
-      );
+  `${process.env.NEXT_PUBLIC_API_URL}/api/hubs`,
+  {
+    cache: "no-store",
+  }
+);
 
       if (!res.ok) {
         throw new Error("Failed to load hubs.");
