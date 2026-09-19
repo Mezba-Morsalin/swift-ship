@@ -24,10 +24,10 @@ const requireRole = async (role) => {
   return user;
 };
 
-const MerchantLayout = async ({ children }) => {
+const RiderLayout = async ({ children }) => {
   await requireRole("rider");
 
   return <>{children}</>;
 };
 
-export default MerchantLayout;
+export default RiderLayout;

@@ -9,6 +9,8 @@ import {
 import Image from "next/image";
 import React from "react";
 import { FaMotorcycle } from "react-icons/fa6";
+import { Button } from "../../ui/button";
+import RiderActions from "@/app/dashboard/admin/riders/RiderActions";
 
 const Riders = ({ riders }) => {
   return (
@@ -57,82 +59,86 @@ const Riders = ({ riders }) => {
             <div
               key={rider._id}
               className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
-              {" "}
+
               <div className="flex items-start justify-between">
-                {" "}
+
                 <div className="flex items-center gap-3">
-                  {" "}
+
                   <Image src={rider?.image || "/default-avatar.png"} alt={rider.name} height={70} width={70} className="rounded-full h-24 w-24 object-cover"/>
                   <div>
-                    {" "}
+
                     <h3 className="font-semibold text-slate-900">
-                      {" "}
-                      {rider?.name}{" "}
-                    </h3>{" "}
+
+                      {rider?.name}
+                    </h3>
                     <span className="mt-1 inline-flex rounded-md border border-amber-300 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
-                      {" "}
-                      {rider.hubCode}{" "}
-                    </span>{" "}
-                  </div>{" "}
-                </div>{" "}
-                <button className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700">
-                  {" "}
-                  <MoreVertical size={18} />{" "}
-                </button>{" "}
-              </div>{" "}
+
+                      {rider.hubCode}
+                    </span>
+                  </div>
+                </div>
+                <RiderActions rider={rider}/>
+              </div>
               <div className="mt-4">
-                {" "}
-                <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${rider.status === "active" ? "bg-emerald-50 text-emerald-600" : rider.status === "pending" ? "bg-amber-50 text-amber-600" : "bg-slate-100 text-slate-600"}`}>
-                  {" "}
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full ${rider.status === "active" ? "bg-emerald-500" : rider.status === "pending" ? "bg-amber-500" : "bg-slate-400"}`}
-                  />{" "}
-                  {rider.status.charAt(0).toUpperCase() +
-                    rider.status.slice(1)}{" "}
-                </span>{" "}
-              </div>{" "}
-              <div className="my-4 h-px bg-slate-100" />{" "}
+  <span
+    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
+      rider.status === "active"
+        ? "bg-emerald-50 text-emerald-600"
+        : rider.status === "pending"
+        ? "bg-amber-50 text-amber-600"
+        : "bg-rose-50 text-rose-600"
+    }`}
+  >
+    <span
+      className={`h-1.5 w-1.5 rounded-full ${
+        rider.status === "active"
+          ? "bg-emerald-500"
+          : rider.status === "pending"
+          ? "bg-amber-500"
+          : "bg-rose-500"
+      }`}
+    />
+    {rider.status.charAt(0).toUpperCase() + rider.status.slice(1)}
+  </span>
+</div>
+              <div className="my-4 h-px bg-slate-100" />
               <div className="space-y-3 text-sm">
-                {" "}
+
                 <div className="flex items-center gap-3 text-slate-500">
-                  {" "}
-                  <Phone size={16} className="shrink-0 text-slate-400" />{" "}
-                  <span>{rider.phone}</span>{" "}
-                </div>{" "}
+                  <Phone size={16} className="shrink-0 text-slate-400" />
+                  <span>{rider.phone}</span>
+                </div>
                 <div className="flex items-center gap-3 text-slate-500">
-                  {" "}
-                  <Mail size={16} className="shrink-0 text-slate-400" />{" "}
-                  <span className="truncate">{rider.email}</span>{" "}
-                </div>{" "}
+
+                  <Mail size={16} className="shrink-0 text-slate-400" />
+                  <span className="truncate">{rider.email}</span>
+                </div>
                 <div className="flex items-center gap-3 text-slate-500">
-                  {" "}
-                  <MapPin size={16} className="shrink-0 text-slate-400" />{" "}
-                  <span className="truncate">{rider.area}</span>{" "}
-                </div>{" "}
-              </div>{" "}
-              <div className="my-4 h-px bg-slate-100" />{" "}
+                  <MapPin size={16} className="shrink-0 text-slate-400" />
+                  <span className="truncate">{rider.area}</span>
+                </div>
+              </div>
+              <div className="my-4 h-px bg-slate-100" />
               <div className="flex items-center justify-between text-xs">
-                {" "}
+
                 <div className="flex items-center gap-2 text-slate-600">
-                  {" "}
-                  <Bike size={16} className="text-slate-400" />{" "}
-                  <span className="capitalize">{rider.vehicleType}</span>{" "}
-                </div>{" "}
+                  <Bike size={16} className="text-slate-400" />
+                  <span className="capitalize">{rider.vehicleType}</span>
+                </div>
                 <div className="flex items-center gap-2 text-slate-400">
-                  {" "}
-                  <CalendarDays size={15} />{" "}
+
+                  <CalendarDays size={15} />
                   <span>
-                    {" "}
-                    Joined{" "}
+
+                    Joined
                     {new Date(rider.joiningDate).toLocaleDateString(
                       "en-CA",
-                    )}{" "}
-                  </span>{" "}
-                </div>{" "}
-              </div>{" "}
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
-          ))}{" "}
+          ))}
         </div>
       )}
     </div>

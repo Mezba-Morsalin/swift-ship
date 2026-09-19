@@ -286,9 +286,9 @@ export default function SignInForm() {
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 transition-colors hover:text-[#111827] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {showPassword ? (
-                      <EyeOff className="h-[17px] w-[17px]" />
-                    ) : (
                       <Eye className="h-[17px] w-[17px]" />
+                    ) : (
+                      <EyeOff className="h-[17px] w-[17px]" />
                     )}
                   </button>
                 </div>
