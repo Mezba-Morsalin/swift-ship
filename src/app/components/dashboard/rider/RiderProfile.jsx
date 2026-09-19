@@ -46,21 +46,21 @@ export default function RiderProfile({ user }) {
 
   const statusConfig = {
     pending: {
-      label: "PENDING",
+      label: "pending",
       className:
         "border-amber-200 bg-amber-50 text-amber-600",
       dot: "bg-amber-500",
     },
 
     verified: {
-      label: "VERIFIED",
+      label: "active",
       className:
         "border-emerald-200 bg-emerald-50 text-emerald-600",
       dot: "bg-emerald-500",
     },
 
     suspended: {
-      label: "SUSPENDED",
+      label: "suspended",
       className:
         "border-rose-200 bg-rose-50 text-rose-600",
       dot: "bg-rose-500",

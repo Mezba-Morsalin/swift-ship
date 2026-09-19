@@ -23,11 +23,11 @@ export default function RiderDashboard({user}) {
         <div className="flex items-center gap-4">
           <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-emerald-500 shrink-0">
             <Image
-              src={user.image}
-              alt="Rider Portrait"
-              fill
-              className="object-cover"
-            />
+  src={user.image || "/images/default-avatar.png"}
+  alt={user.name}
+  width={40}
+  height={40}
+/>
             <span className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#131927] rounded-full" />
           </div>
 
