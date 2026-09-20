@@ -2,47 +2,47 @@
 
 import { FaStar, FaUserTie } from "react-icons/fa6";
 
-export default function RiderProfile({ user }) {
+export default function RiderProfile({ user, rider }) {
   // ==========================================
   // PROFILE DETAILS
   // ==========================================
   const profileDetails = [
     {
       label: "Rider ID:",
-      value: user?.id ? `RD-${user.id.slice(-4).toUpperCase()}` : "N/A",
+      value: rider?._id ? `RD-${rider?._id.slice(-4).toUpperCase()}` : "N/A",
       isHighlighted: true,
     },
 
     {
       label: "Full Name:",
-      value: user?.name || "N/A",
+      value: rider?.name || "N/A",
     },
 
     {
       label: "Email Address:",
-      value: user?.email || "N/A",
+      value: rider?.email || "N/A",
     },
 
     {
       label: "Mobile Phone:",
-      value: user?.phone || "N/A",
+      value: rider?.phone || "N/A",
     },
 
     {
       label: "NID Number:",
-      value: user?.nid || "N/A",
+      value: rider?.nid || "N/A",
     },
 
     {
       label: "Service Area:",
-      value: user?.location || "N/A",
+      value: rider?.area || "N/A",
     },
   ];
 
   // ==========================================
   // STATUS
   // ==========================================
-const status = user?.status?.toLowerCase() || "pending";
+const status = rider?.status?.toLowerCase() || "pending";
 
 const statusConfig = {
   pending: {
