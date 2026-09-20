@@ -10,7 +10,7 @@ export default function RiderDashboard({user, rider}) {
       {/* 1. TOP RIDER PROFILE BANNER */}
       <div className="bg-slate-100 border shadow rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 border-emerald-500 shrink-0">
+          <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2 shrink-0">
             <Image
   src={rider?.image || "/images/default-avatar.png"}
   alt={rider?.name}
