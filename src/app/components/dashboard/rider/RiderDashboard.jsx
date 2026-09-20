@@ -1,18 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  FaPhone,
-  FaLocationDot,
-  FaClockRotateLeft,
-  FaCircleCheck,
-  FaTruckFast,
-  FaBoxesPacking,
-  FaWallet,
-  FaUser,
-  FaPowerOff,
-  FaMoneyBillWave,
-  FaCheck,
+import { FaPhone, FaLocationDot, FaClockRotateLeft, FaCircleCheck, FaTruckFast, FaBoxesPacking, FaWallet, FaUser, FaPowerOff, FaMoneyBillWave, FaCheck,
 } from "react-icons/fa6";
 
 export default function RiderDashboard({user}) {
