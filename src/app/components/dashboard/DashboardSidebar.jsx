@@ -29,8 +29,8 @@ const navigationConfig = {
     icon: FaChartColumn,
   },
   {
-    label: "ALL PARCELS",
-    href: "/dashboard/admin/parcels",
+    label: "ALL SHIPMENTS",
+    href: "/dashboard/admin/all-shipments",
     icon: FaBoxesPacking,
   },
   {
@@ -169,24 +169,7 @@ export default function DashboardSidebar({
           MOBILE / TABLET DRAWER
       ========================================== */}
       <aside
-        className={`
-          fixed
-          top-16
-          left-0
-          bottom-0
-          z-50
-          w-[290px]
-
-          bg-[#f8fafc]
-          border-r
-          border-slate-200
-          shadow-2xl
-
-          transition-transform
-          duration-300
-          ease-out
-
-          lg:hidden
+        className={` fixed top-16 left-0 bottom-0 z-50 w-[290px] bg-[#f8fafc] border-r border-slate-200 shadow-2xl transition-transform duration-300 ease-out lg:hidden
 
           ${
             isOpen
@@ -201,37 +184,19 @@ export default function DashboardSidebar({
               DRAWER HEADER
           ====================================== */}
           <div
-            className="
-              flex
-              items-center
-              justify-between
-              px-5
-              py-4
-              border-b
-              border-slate-200
-              bg-white
+            className=" flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-white
             "
           >
             <div>
               <p
-                className="
-                  text-[10px]
-                  font-black
-                  tracking-widest
-                  uppercase
-                  text-slate-400
+                className=" text-[10px] font-black tracking-widest uppercase text-slate-400
                 "
               >
                 {role} navigation
               </p>
 
               <p
-                className="
-                  text-sm
-                  font-black
-                  text-[#0f172a]
-                  uppercase
-                  mt-1
+                className=" text-sm font-black text-[#0f172a] uppercase mt-1
                 "
               >
                 SWIFTSHIP OPS
@@ -241,19 +206,7 @@ export default function DashboardSidebar({
             <button
               type="button"
               onClick={onClose}
-              className="
-                w-9
-                h-9
-                rounded-xl
-                bg-slate-100
-                text-slate-500
-                hover:bg-slate-200
-                hover:text-slate-900
-                flex
-                items-center
-                justify-center
-                transition
-                cursor-pointer
+              className=" w-9 h-9 rounded-xl bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900 flex items-center justify-center transition cursor-pointer
               "
               aria-label="Close dashboard menu"
             >
@@ -286,22 +239,7 @@ export default function DashboardSidebar({
                   key={item.href}
                   href={item.href}
                   onClick={onClose}
-                  className={`
-                    flex
-                    items-center
-                    gap-3
-                    px-4
-                    py-3.5
-                    rounded-xl
-                    border
-
-                    text-[10px]
-                    font-black
-                    uppercase
-                    tracking-wider
-
-                    transition-all
-                    duration-200
+                  className={` flex items-center gap-3 px-4 py-3.5 rounded-xl border text-[10px] font-black uppercase tracking-wider transition-all duration-200
 
                     ${
                       isActive
@@ -336,33 +274,15 @@ export default function DashboardSidebar({
           DESKTOP HORIZONTAL MENU
       ========================================== */}
       <div
-        className="
-          hidden
-          lg:block
-          w-full
-          bg-[#f8fafc]
-          border-b
-          border-slate-200
+        className=" hidden lg:block w-full bg-[#f8fafc] border-b border-slate-200
         "
       >
         <div
-          className="
-            max-w-[1024px]
-            xl:max-w-[1100px]
-            mx-auto
-            px-4
-            sm:px-5
-            lg:px-0
+          className=" max-w-[1024px] xl:max-w-[1100px] mx-auto px-4 sm:px-5 lg:px-0
           "
         >
           <nav
-            className="
-              flex
-              items-center
-              gap-1.5
-              overflow-x-auto
-              py-2.5
-              scrollbar-none
+            className=" flex items-center gap-1.5 overflow-x-auto py-2.5 scrollbar-none
             "
           >
             {items.map((item) => {
@@ -378,27 +298,7 @@ export default function DashboardSidebar({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`
-                    group
-
-                    flex
-                    h-[35px]
-                    shrink-0
-                    items-center
-                    gap-2
-
-                    rounded-full
-                    border
-                    px-4
-
-                    text-[9px]
-                    sm:text-[10px]
-                    font-black
-                    uppercase
-                    tracking-wider
-
-                    transition-all
-                    duration-200
+                  className={` group flex h-[35px] shrink-0 items-center gap-2 rounded-full border px-4 text-[9px] sm:text-[10px] font-black uppercase tracking-wider transition-all duration-200
 
                     ${
                       isActive
