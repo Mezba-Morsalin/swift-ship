@@ -247,31 +247,43 @@ const AllShipments = ({ shipments = [] }) => {
 /* ================= STATUS BADGE ================= */
 
 const StatusBadge = ({ status }) => {
-  const statusConfig = {
-    pending: {
-      label: "Pending",
-      className: "bg-amber-50 text-amber-700 ring-amber-600/20",
-      dot: "bg-amber-500",
-    },
+ const statusConfig = {
+  pending: {
+    label: "Pending",
+    className: "bg-amber-50 text-amber-700 ring-amber-600/20",
+    dot: "bg-amber-500",
+  },
 
-    transit: {
-      label: "In Transit",
-      className: "bg-blue-50 text-blue-700 ring-blue-600/20",
-      dot: "bg-blue-500",
-    },
+  accepted: {
+    label: "Accepted",
+    className: "bg-indigo-50 text-indigo-700 ring-indigo-600/20",
+    dot: "bg-indigo-500",
+  },
 
-    delivered: {
-      label: "Delivered",
-      className: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
-      dot: "bg-emerald-500",
-    },
+  transit: {
+    label: "In Transit",
+    className: "bg-blue-50 text-blue-700 ring-blue-600/20",
+    dot: "bg-blue-500",
+  },
 
-    returned: {
-      label: "Returned",
-      className: "bg-red-50 text-red-700 ring-red-600/20",
-      dot: "bg-red-500",
-    },
-  };
+  delivered: {
+    label: "Delivered",
+    className: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
+    dot: "bg-emerald-500",
+  },
+
+  returned: {
+    label: "Returned",
+    className: "bg-red-50 text-red-700 ring-red-600/20",
+    dot: "bg-red-500",
+  },
+
+  cancelled: {
+    label: "Cancelled",
+    className: "bg-slate-50 text-slate-700 ring-slate-600/20",
+    dot: "bg-slate-500",
+  },
+};
 
   const config = statusConfig[status?.toLowerCase()] || {
     label: status || "Unknown",
