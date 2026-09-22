@@ -1,5 +1,6 @@
 "use client";
 
+import ShipmentActions from "@/app/dashboard/admin/all-shipments/ShipmentStatus";
 import {
   Package,
   MapPin,
@@ -192,12 +193,7 @@ const AllShipments = ({ shipments = [] }) => {
 
                   {/* Action */}
                   <td className="px-6 py-4 text-right">
-                    <button
-                      type="button"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
-                    >
-                      <MoreHorizontal className="h-5 w-5" />
-                    </button>
+                    <ShipmentActions shipment={shipment}/>
                   </td>
                 </tr>
               ))
