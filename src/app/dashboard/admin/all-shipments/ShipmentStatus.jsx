@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
 import { MoreVertical } from "lucide-react";
-
-
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -14,7 +12,6 @@ import {
   DialogTitle,
 } from "@/app/components/ui/dialog";
 
-import { useRouter } from "next/navigation";
 import { Button } from "@/app/components/ui/button";
 
 const ShipmentActions = ({ shipment }) => {
@@ -25,34 +22,44 @@ const ShipmentActions = ({ shipment }) => {
 
   if (!shipment) return null;
 
-  const handleStatusUpdate = async (status) => {
+  // ==========================================
+  // Shipment Action
+  // ==========================================
+  const currentAction = shipment.action?.type;
+
+  // ==========================================
+  // Handle Accept / Cancel Action
+  // ==========================================
+  const handleStatusUpdate = async (action) => {
     try {
       setLoading(true);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipments/${shipment._id}`, {
-        method: "PATCH",
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: shipment._id,
-          status,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/shipments/${shipment._id}`,
+        {
+          method: "PATCH",
+          cache: "no-store",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: action,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Failed to update shipment status."
+          data.message || "Failed to update shipment action."
         );
       }
 
       setOpen(false);
       router.refresh();
     } catch (error) {
-      console.error("Failed to update shipment status:", error);
+      console.error("Failed to update shipment action:", error);
     } finally {
       setLoading(false);
     }
@@ -60,6 +67,7 @@ const ShipmentActions = ({ shipment }) => {
 
   return (
     <>
+      {/* Action Button */}
       <Button
         onClick={() => setOpen(true)}
         className="rounded-lg bg-transparent p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
@@ -67,6 +75,7 @@ const ShipmentActions = ({ shipment }) => {
         <MoreVertical size={18} />
       </Button>
 
+      {/* Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -78,62 +87,70 @@ const ShipmentActions = ({ shipment }) => {
           </DialogHeader>
 
           <div className="space-y-3 pt-2">
-  {/* Pending */}
-  {shipment.status === "pending" && (
-    <>
-      <Button
-        disabled={loading}
-        onClick={() => handleStatusUpdate("accepted")}
-        className="w-full justify-start bg-indigo-500 text-white hover:bg-indigo-600"
-      >
-        {loading ? "Updating..." : "Accept Shipment"}
-      </Button>
 
-      <Button
-        disabled={loading}
-        onClick={() => handleStatusUpdate("cancelled")}
-        className="w-full justify-start bg-rose-500 text-white hover:bg-rose-600"
-      >
-        {loading ? "Updating..." : "Cancel Shipment"}
-      </Button>
-    </>
-  )}
+            {/* ==========================================
+                No Action Yet
+            ========================================== */}
+            {!currentAction && shipment.status === "pending" && (
+              <>
+                <Button
+                  disabled={loading}
+                  onClick={() => handleStatusUpdate("accepted")}
+                  className="w-full justify-start bg-indigo-500 text-white hover:bg-indigo-600"
+                >
+                  {loading ? "Processing..." : "Accept Shipment"}
+                </Button>
 
-  {/* Accepted */}
-  {shipment.status === "accepted" && (
-    <div className="rounded-lg bg-indigo-50 px-4 py-3 text-sm text-indigo-700">
-      Shipment accepted. Further actions will be handled by the hub.
-    </div>
-  )}
+                <Button
+                  disabled={loading}
+                  onClick={() => handleStatusUpdate("cancelled")}
+                  className="w-full justify-start bg-rose-500 text-white hover:bg-rose-600"
+                >
+                  {loading ? "Processing..." : "Cancel Shipment"}
+                </Button>
+              </>
+            )}
 
-  {/* In Transit */}
-  {shipment.status === "transit" && (
-    <div className="rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-700">
-      Shipment is currently in transit.
-    </div>
-  )}
+            {/* ==========================================
+                Shipment Accepted
+            ========================================== */}
+            {currentAction === "accepted" && (
+              <div className="rounded-lg bg-indigo-50 px-4 py-3 text-sm text-indigo-700">
+                <p className="font-medium">
+                  Shipment accepted
+                </p>
 
-  {/* Delivered */}
-  {shipment.status === "delivered" && (
-    <div className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-      This shipment has already been delivered.
-    </div>
-  )}
+                <p className="mt-1 text-indigo-600">
+                  This shipment has been accepted and is waiting
+                  for hub processing.
+                </p>
+              </div>
+            )}
 
-  {/* Returned */}
-  {shipment.status === "returned" && (
-    <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-      This shipment has been returned.
-    </div>
-  )}
+            {/* ==========================================
+                Shipment Cancelled
+            ========================================== */}
+            {currentAction === "cancelled" && (
+              <div className="rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                <p className="font-medium">
+                  Shipment cancelled
+                </p>
 
-  {/* Cancelled */}
-  {shipment.status === "cancelled" && (
-    <div className="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
-      This shipment has been cancelled.
-    </div>
-  )}
-</div>
+                <p className="mt-1 text-rose-600">
+                  This shipment has been cancelled.
+                </p>
+              </div>
+            )}
+
+            {/* ==========================================
+                Fallback
+            ========================================== */}
+            {shipment.status !== "pending" && (
+              <div className="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                Shipment status is currently controlled by the hub.
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </>
