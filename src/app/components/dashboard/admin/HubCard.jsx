@@ -231,13 +231,13 @@ const HubCard = ({ hubs, admin }) => {
   </Link>
 
   <Link
-    href={`/dashboard/admin/hubs/hub-shipments`}
-    type="button"
-    className="flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
-  >
-    <FiPackage size={16} />
-    Manage Shipments
-  </Link>
+  href={`/dashboard/admin/hubs/hub-shipments?hubId=${hub._id}`}
+  type="button"
+  className="flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+>
+  <FiPackage size={16} />
+  Manage Shipments
+</Link>
 </div>
         </div>
       );
