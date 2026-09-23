@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { FaShieldAlt } from "react-icons/fa";
 import { FaBuilding } from "react-icons/fa6";
+import { FiPackage } from "react-icons/fi";
 import { MdOutlineSensors } from "react-icons/md";
 
 const HubCard = ({ hubs, admin }) => {
@@ -220,15 +221,24 @@ const HubCard = ({ hubs, admin }) => {
 
           {/* Buttons */}
           <div className="flex items-center gap-2">
-            <Link
-            href={`/dashboard/admin/hubs/${hub._id}`}
-              type="button"
-              className="flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
-            >
-              Hub Details
-              <ChevronRight size={14} />
-            </Link>
-          </div>
+  <Link
+    href={`/dashboard/admin/hubs/${hub._id}`}
+    type="button"
+    className="flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+  >
+    Hub Details
+    <ChevronRight size={14} />
+  </Link>
+
+  <Link
+    href={`/dashboard/admin/hubs/hub-shipments`}
+    type="button"
+    className="flex h-9 flex-1 items-center justify-center gap-1 rounded-full bg-slate-100 text-xs font-bold text-slate-700 transition hover:bg-slate-200"
+  >
+    <FiPackage size={16} />
+    Manage Shipments
+  </Link>
+</div>
         </div>
       );
     })}

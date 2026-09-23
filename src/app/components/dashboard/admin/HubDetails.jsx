@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import {
   FaArrowLeft,
   FaBox,
@@ -14,13 +15,23 @@ import {
 } from "react-icons/fa6";
 
 export default function HubDetails({ hub }) {
-  const stats = hub.shipmentStats;
+  const stats = hub.shipmentStats || {
+    total: 0,
+    pending: 0,
+    atHub: 0,
+    readyRider: 0,
+    outForDelivery: 0,
+    delivered: 0,
+  };
 
   const isActive = hub.operationalStatus === "active";
 
-  const formattedType = hub.type
+  const formattedType = (hub.type || "")
     .replaceAll("_", " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
+
+  const coverageZones = hub.coverageZones || [];
+  const assignedRiders = hub.assignedRiders || [];
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-6">
@@ -100,7 +111,9 @@ export default function HubDetails({ hub }) {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Pending</p>
+                <p className="text-sm font-medium text-gray-500">
+                  Pending
+                </p>
 
                 <p className="mt-2 text-3xl font-bold text-gray-900">
                   {stats.pending}
@@ -149,7 +162,7 @@ export default function HubDetails({ hub }) {
                 </p>
 
                 <p className="mt-2 text-3xl font-bold text-gray-900">
-                  {hub.maxStorage.toLocaleString()}
+                  {(hub.maxStorage || 0).toLocaleString()}
                 </p>
               </div>
 
@@ -254,7 +267,7 @@ export default function HubDetails({ hub }) {
                   </p>
 
                   <p className="mt-1 font-semibold text-gray-900">
-                    {hub.maxStorage.toLocaleString()} parcels
+                    {(hub.maxStorage || 0).toLocaleString()} parcels
                   </p>
                 </div>
 
@@ -304,14 +317,20 @@ export default function HubDetails({ hub }) {
                   ["Pending", stats.pending, "text-amber-600"],
                   ["At Hub", stats.atHub, "text-blue-600"],
                   ["Ready Rider", stats.readyRider, "text-purple-600"],
-                  ["Out for Delivery", stats.outForDelivery, "text-orange-600"],
+                  [
+                    "Out for Delivery",
+                    stats.outForDelivery,
+                    "text-orange-600",
+                  ],
                   ["Delivered", stats.delivered, "text-green-600"],
                   ["Total", stats.total, "text-gray-900"],
                 ].map(([label, value, color]) => (
                   <div key={label} className="bg-white p-5">
                     <p className="text-sm text-gray-500">{label}</p>
 
-                    <p className={`mt-2 text-2xl font-bold ${color}`}>
+                    <p
+                      className={`mt-2 text-2xl font-bold ${color}`}
+                    >
                       {value}
                     </p>
                   </div>
@@ -332,7 +351,7 @@ export default function HubDetails({ hub }) {
               </div>
 
               <div className="flex flex-wrap gap-3 p-6">
-                {hub.coverageZones.map((zone) => (
+                {coverageZones.map((zone) => (
                   <div
                     key={zone}
                     className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3"
@@ -370,30 +389,35 @@ export default function HubDetails({ hub }) {
 
                   <div className="min-w-0">
                     <h3 className="font-bold text-gray-900">
-                      {hub.manager.name}
+                      {hub.manager?.name || "N/A"}
                     </h3>
 
                     <p className="mt-1 text-sm text-gray-500">
-                      {hub.manager.designation}
+                      {hub.manager?.designation || "N/A"}
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <a
-                    href={`tel:${hub.manager.phone}`}
-                    className="flex items-center gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-700 transition hover:bg-gray-100"
-                  >
-                    <FaPhone className="shrink-0 text-amber-500" />
-                    <span>{hub.manager.phone}</span>
-                  </a>
+                  {hub.manager?.phone && (
+                    <a
+                      href={`tel:${hub.manager.phone}`}
+                      className="flex items-center gap-3 rounded-lg bg-gray-50 p-3 text-sm text-gray-700 transition hover:bg-gray-100"
+                    >
+                      <FaPhone className="shrink-0 text-amber-500" />
 
-                  <a
-                    href={`mailto:${hub.manager.email}`}
-                    className="block truncate rounded-lg bg-gray-50 p-3 text-sm text-gray-700 transition hover:bg-gray-100"
-                  >
-                    {hub.manager.email}
-                  </a>
+                      <span>{hub.manager.phone}</span>
+                    </a>
+                  )}
+
+                  {hub.manager?.email && (
+                    <a
+                      href={`mailto:${hub.manager.email}`}
+                      className="block truncate rounded-lg bg-gray-50 p-3 text-sm text-gray-700 transition hover:bg-gray-100"
+                    >
+                      {hub.manager.email}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -419,7 +443,7 @@ export default function HubDetails({ hub }) {
               </div>
 
               <div className="p-6">
-                {hub.assignedRiders.length === 0 ? (
+                {assignedRiders.length === 0 ? (
                   <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 px-5 py-8 text-center">
                     <FaPeopleGroup className="mx-auto text-2xl text-gray-300" />
 
@@ -433,7 +457,7 @@ export default function HubDetails({ hub }) {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {hub.assignedRiders.map((rider) => (
+                    {assignedRiders.map((rider) => (
                       <div
                         key={rider.riderId}
                         className="rounded-xl border border-gray-200 bg-gray-50 p-4"
@@ -452,13 +476,15 @@ export default function HubDetails({ hub }) {
                               {rider.email}
                             </p>
 
-                            <a
-                              href={`tel:${rider.phone}`}
-                              className="mt-2 flex items-center gap-2 text-xs text-gray-600 hover:text-gray-900"
-                            >
-                              <FaPhone className="text-[10px] text-amber-500" />
-                              {rider.phone}
-                            </a>
+                            {rider.phone && (
+                              <a
+                                href={`tel:${rider.phone}`}
+                                className="mt-2 flex items-center gap-2 text-xs text-gray-600 hover:text-gray-900"
+                              >
+                                <FaPhone className="text-[10px] text-amber-500" />
+                                {rider.phone}
+                              </a>
+                            )}
                           </div>
                         </div>
                       </div>
