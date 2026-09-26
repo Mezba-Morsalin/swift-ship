@@ -5,17 +5,7 @@ import RiderShipmentActions from "@/app/dashboard/rider/RiderShipmentActions";
 import Image from "next/image";
 import { useState } from "react";
 
-import {
-  FaPhone,
-  FaLocationDot,
-  FaClockRotateLeft,
-  FaBoxesPacking,
-  FaWallet,
-  FaPowerOff,
-  FaMoneyBillWave,
-  FaCheck,
-  FaTruckFast,
-} from "react-icons/fa6";
+import { FaPhone, FaLocationDot, FaClockRotateLeft, FaBoxesPacking, FaWallet, FaPowerOff, FaMoneyBillWave, FaCheck, FaTruckFast,} from "react-icons/fa6";
 
 export default function RiderDashboard({
   user,
@@ -85,13 +75,7 @@ export default function RiderDashboard({
         <div className="flex items-center gap-4">
           {/* Rider Image */}
           <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-slate-200">
-            <Image
-              src={riderImage}
-              alt={rider?.name || "Rider"}
-              width={64}
-              height={64}
-              className="h-full w-full object-cover"
-              onError={(event) => {
+            <Image src={riderImage} alt={rider?.name || "Rider"} width={64} height={64} className="h-full w-full object-cover" onError={(event) => {
                 event.currentTarget.src =
                   "/images/default-avatar.png";
               }}
