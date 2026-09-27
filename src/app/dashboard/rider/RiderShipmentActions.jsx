@@ -10,10 +10,7 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function RiderShipmentActions({
-  shipment,
-  onUpdated,
-}) {
+export default function RiderShipmentActions({ shipment, onUpdated,}) {
   const [loading, setLoading] = useState(false);
 
   const status =
@@ -90,9 +87,9 @@ export default function RiderShipmentActions({
     }
   };
 
-  // ==================================================
+
   // ALREADY DELIVERED
-  // ==================================================
+
 
   if (isDelivered) {
     return (
@@ -104,9 +101,9 @@ export default function RiderShipmentActions({
     );
   }
 
-  // ==================================================
+
   // ACCEPTED / IN TRANSIT
-  // ==================================================
+
 
   if (isAccepted && isInTransit) {
     return (
@@ -129,9 +126,8 @@ export default function RiderShipmentActions({
     );
   }
 
-  // ==================================================
   // RIDER RECEIVED REQUEST
-  // ==================================================
+
 
   if (isRequested) {
     return (
