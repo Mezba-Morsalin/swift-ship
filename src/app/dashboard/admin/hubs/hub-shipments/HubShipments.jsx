@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+
 import {
   ArrowLeft,
   CheckCircle2,
@@ -47,6 +48,7 @@ const HubShipments = ({
   // ========================================
   // ONLY ACTIVE RIDERS OF THIS HUB
   // ========================================
+
   const riders = (allRiders || []).filter(
     (rider) =>
       rider?.status?.toLowerCase() === "active" &&
@@ -56,6 +58,7 @@ const HubShipments = ({
   // ========================================
   // SHOW MESSAGE
   // ========================================
+
   const showMessage = (type, text) => {
     setMessage({
       type,
@@ -74,6 +77,7 @@ const HubShipments = ({
   // GET ADMIN ACTION TYPE
   // accepted / cancelled
   // ========================================
+
   const getActionType = (shipment) => {
     return shipment?.action?.type?.toLowerCase() || "";
   };
@@ -81,6 +85,7 @@ const HubShipments = ({
   // ========================================
   // DELETE CANCELLED SHIPMENT
   // ========================================
+
   const handleDeleteShipment = async (shipmentId) => {
     const confirmed = window.confirm(
       "Are you sure you want to permanently delete this cancelled shipment?"
@@ -131,6 +136,7 @@ const HubShipments = ({
   // ========================================
   // OPEN ASSIGN RIDER MODAL
   // ========================================
+
   const handleOpenAssign = (shipment) => {
     setSelectedShipment(shipment);
     setSelectedRider("");
@@ -144,89 +150,94 @@ const HubShipments = ({
   // ========================================
   // SEND RIDER REQUEST
   // ========================================
-const handleAssignRider = async () => {
-  if (!selectedRider) {
-    showMessage("error", "Please select a rider.");
-    return;
-  }
 
-  if (!selectedShipment) return;
-
-  const rider = riders.find(
-    (item) => item._id === selectedRider
-  );
-
-  if (!rider) {
-    showMessage("error", "Rider not found.");
-    return;
-  }
-
-  try {
-    setLoading(true);
-
-    const response = await fetch(
-      `${API_URL}/api/shipments/${selectedShipment._id}/assign-rider`,
-      {
-        method: "PATCH",
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          riderId: rider._id,
-          riderName: rider.name,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.message || "Failed to send rider request."
-      );
+  const handleAssignRider = async () => {
+    if (!selectedRider) {
+      showMessage("error", "Please select a rider.");
+      return;
     }
 
-    setShipments((prev) =>
-      prev.map((shipment) =>
-        shipment._id === selectedShipment._id
-          ? {
-              ...shipment,
-              riderId: rider._id,
-              riderName: rider.name,
-              assignmentStatus: "requested",
-              assignedAt: new Date().toISOString(),
-            }
-          : shipment
-      )
+    if (!selectedShipment) return;
+
+    const rider = riders.find(
+      (item) => item._id === selectedRider
     );
 
-    setSelectedShipment(null);
-    setSelectedRider("");
+    if (!rider) {
+      showMessage("error", "Rider not found.");
+      return;
+    }
 
-    showMessage(
-      "success",
-      `Request sent to ${rider.name}.`
-    );
-  } catch (error) {
-    console.error("Assign rider error:", error);
+    try {
+      setLoading(true);
 
-    showMessage(
-      "error",
-      error.message || "Failed to send rider request."
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+      const response = await fetch(
+        `${API_URL}/api/shipments/${selectedShipment._id}/assign-rider`,
+        {
+          method: "PATCH",
+          cache: "no-store",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            riderId: rider._id,
+            riderName: rider.name,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to send rider request."
+        );
+      }
+
+      setShipments((prev) =>
+        prev.map((shipment) =>
+          shipment._id === selectedShipment._id
+            ? {
+                ...shipment,
+                riderId: rider._id,
+                riderName: rider.name,
+                assignmentStatus: "requested",
+                assignedAt: new Date().toISOString(),
+              }
+            : shipment
+        )
+      );
+
+      setSelectedShipment(null);
+      setSelectedRider("");
+
+      showMessage(
+        "success",
+        `Request sent to ${rider.name}.`
+      );
+    } catch (error) {
+      console.error("Assign rider error:", error);
+
+      showMessage(
+        "error",
+        error.message || "Failed to send rider request."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ========================================
   // STATUS STYLE
   // ========================================
+
   const getStatusStyle = (status) => {
     switch (status?.toLowerCase()) {
       case "pending":
         return "border-orange-200 bg-orange-50 text-orange-500";
+
+      case "accepted":
+        return "border-blue-200 bg-blue-50 text-blue-600";
 
       case "in_transit":
       case "in transit":
@@ -238,6 +249,9 @@ const handleAssignRider = async () => {
       case "returned":
         return "border-rose-200 bg-rose-50 text-rose-600";
 
+      case "cancelled":
+        return "border-red-200 bg-red-50 text-red-500";
+
       default:
         return "border-slate-200 bg-slate-50 text-slate-500";
     }
@@ -248,6 +262,7 @@ const handleAssignRider = async () => {
       {/* ========================================
           HEADER
       ======================================== */}
+
       <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
@@ -298,6 +313,7 @@ const handleAssignRider = async () => {
       {/* ========================================
           MESSAGE
       ======================================== */}
+
       {message.text && (
         <div
           className={`rounded-xl border px-4 py-3 text-sm font-semibold ${
@@ -313,6 +329,7 @@ const handleAssignRider = async () => {
       {/* ========================================
           NO SHIPMENTS
       ======================================== */}
+
       {shipments.length === 0 ? (
         <div className="rounded-2xl border border-slate-100 bg-white px-6 py-16 text-center shadow-sm">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-400">
@@ -331,12 +348,20 @@ const handleAssignRider = async () => {
         /* ========================================
            SHIPMENTS
         ======================================== */
+
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
           {shipments.map((shipment) => {
             const status =
               shipment?.status?.toLowerCase() || "";
 
             const actionType = getActionType(shipment);
+
+            const assignmentStatus =
+              shipment?.assignmentStatus?.toLowerCase() || "";
+
+            // ========================================
+            // STATUS FLAGS
+            // ========================================
 
             const isAdminAccepted =
               actionType === "accepted";
@@ -345,7 +370,7 @@ const handleAssignRider = async () => {
               actionType === "cancelled";
 
             const isRiderRequested =
-              shipment?.assignmentStatus === "requested";
+              assignmentStatus === "requested";
 
             const isInTransit =
               status === "in_transit" ||
@@ -353,6 +378,29 @@ const handleAssignRider = async () => {
 
             const isDelivered =
               status === "delivered";
+
+            const isReturned =
+              status === "returned";
+
+            // ========================================
+            // IMPORTANT:
+            // ASSIGN RIDER ONLY WHEN:
+            //
+            // 1. Admin accepted
+            // 2. Rider request not sent
+            // 3. Not in transit
+            // 4. Not delivered
+            // 5. Not returned
+            // 6. Not cancelled
+            // ========================================
+
+            const canAssignRider =
+              isAdminAccepted &&
+              !isRiderRequested &&
+              !isInTransit &&
+              !isDelivered &&
+              !isReturned &&
+              !isCancelled;
 
             return (
               <div
@@ -362,6 +410,7 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     HEADER
                 ======================================== */}
+
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-500">
@@ -380,6 +429,7 @@ const handleAssignRider = async () => {
                   </div>
 
                   {/* ACTUAL SHIPMENT STATUS */}
+
                   <span
                     className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase ${getStatusStyle(
                       shipment.status
@@ -396,6 +446,7 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     ADMIN ACTION
                 ======================================== */}
+
                 <div className="mb-4 flex items-center justify-between rounded-[16px] border border-slate-100 bg-slate-50 px-3 py-3">
                   <div className="flex items-center gap-2">
                     {isAdminAccepted ? (
@@ -424,8 +475,8 @@ const handleAssignRider = async () => {
                         {isAdminAccepted
                           ? "Accepted"
                           : isCancelled
-                            ? "Cancelled"
-                            : "Waiting for Approval"}
+                          ? "Cancelled"
+                          : "Waiting for Approval"}
                       </p>
                     </div>
                   </div>
@@ -442,6 +493,7 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     RECIPIENT
                 ======================================== */}
+
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm">
                     <UserRound
@@ -484,6 +536,7 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     SHIPMENT INFO
                 ======================================== */}
+
                 <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                   <div className="rounded-[16px] bg-slate-50 px-3 py-3">
                     <div className="flex items-center gap-1 text-[9px] font-bold uppercase text-slate-400">
@@ -533,6 +586,7 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     INSTRUCTIONS
                 ======================================== */}
+
                 {shipment.instructions && (
                   <div className="mt-3 rounded-[16px] border border-amber-100 bg-amber-50 px-3 py-3">
                     <p className="text-[9px] font-bold uppercase text-amber-500">
@@ -548,6 +602,7 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     ASSIGNED RIDER
                 ======================================== */}
+
                 {shipment.riderName && (
                   <div className="mt-3 flex items-center gap-2 rounded-[16px] border border-sky-100 bg-sky-50 px-3 py-3">
                     <Truck
@@ -570,8 +625,12 @@ const handleAssignRider = async () => {
                 {/* ========================================
                     ACTIONS
                 ======================================== */}
+
                 <div className="mt-5 flex gap-2">
-                  {/* CANCELLED */}
+                  {/* ========================================
+                      CANCELLED
+                  ======================================== */}
+
                   {isCancelled && (
                     <button
                       type="button"
@@ -593,33 +652,45 @@ const handleAssignRider = async () => {
                     </button>
                   )}
 
-                  {/* ADMIN ACCEPTED + NO RIDER REQUEST */}
-                  {isAdminAccepted &&
-                    !isRiderRequested &&
-                    !isInTransit && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleOpenAssign(shipment)
-                        }
-                        className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-[#111827] text-xs font-bold text-white transition hover:bg-slate-800"
-                      >
-                        <Truck size={15} />
-                        Assign Rider
-                      </button>
-                    )}
+                  {/* ========================================
+                      ADMIN ACCEPTED + CAN ASSIGN RIDER
+                      
+                      IMPORTANT:
+                      Delivered / In Transit হলে এই button
+                      আর দেখাবে না।
+                  ======================================== */}
 
-                  {/* RIDER REQUEST SENT */}
+                  {canAssignRider && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleOpenAssign(shipment)
+                      }
+                      className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-[#111827] text-xs font-bold text-white transition hover:bg-slate-800"
+                    >
+                      <Truck size={15} />
+                      Assign Rider
+                    </button>
+                  )}
+
+                  {/* ========================================
+                      RIDER REQUEST SENT
+                  ======================================== */}
+
                   {isAdminAccepted &&
                     isRiderRequested &&
-                    !isInTransit && (
+                    !isInTransit &&
+                    !isDelivered && (
                       <div className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-orange-50 text-xs font-bold text-orange-500">
                         <Clock3 size={15} />
                         Rider Request Pending
                       </div>
                     )}
 
-                  {/* IN TRANSIT */}
+                  {/* ========================================
+                      IN TRANSIT
+                  ======================================== */}
+
                   {isInTransit && (
                     <div className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-purple-50 text-xs font-bold text-purple-600">
                       <Truck size={15} />
@@ -627,7 +698,10 @@ const handleAssignRider = async () => {
                     </div>
                   )}
 
-                  {/* DELIVERED */}
+                  {/* ========================================
+                      DELIVERED
+                  ======================================== */}
+
                   {isDelivered && (
                     <div className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-emerald-50 text-xs font-bold text-emerald-600">
                       <CheckCircle2 size={15} />
@@ -635,7 +709,21 @@ const handleAssignRider = async () => {
                     </div>
                   )}
 
-                  {/* NORMAL PENDING - ADMIN HAS NOT ACCEPTED */}
+                  {/* ========================================
+                      RETURNED
+                  ======================================== */}
+
+                  {isReturned && (
+                    <div className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-rose-50 text-xs font-bold text-rose-600">
+                      <X size={15} />
+                      Returned
+                    </div>
+                  )}
+
+                  {/* ========================================
+                      NORMAL PENDING
+                  ======================================== */}
+
                   {status === "pending" &&
                     !isAdminAccepted &&
                     !isCancelled && (
@@ -654,10 +742,12 @@ const handleAssignRider = async () => {
       {/* ========================================
           ASSIGN RIDER MODAL
       ======================================== */}
+
       {selectedShipment && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-5 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-[24px] bg-white p-6 shadow-2xl">
             {/* MODAL HEADER */}
+
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-lg font-extrabold text-slate-900">
@@ -682,6 +772,7 @@ const handleAssignRider = async () => {
             </div>
 
             {/* SHIPMENT PREVIEW */}
+
             <div className="mt-5 rounded-[18px] bg-slate-50 p-4">
               <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
                 Shipment
@@ -698,6 +789,7 @@ const handleAssignRider = async () => {
             </div>
 
             {/* RIDER COUNT */}
+
             <div className="mt-4 flex items-center justify-between">
               <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
                 Available Riders
@@ -709,6 +801,7 @@ const handleAssignRider = async () => {
             </div>
 
             {/* RIDER SELECT */}
+
             {riders.length > 0 ? (
               <div className="mt-2">
                 <select
@@ -744,6 +837,7 @@ const handleAssignRider = async () => {
             )}
 
             {/* MODAL ACTIONS */}
+
             <div className="mt-6 flex gap-2">
               <button
                 type="button"
