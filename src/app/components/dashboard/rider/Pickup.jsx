@@ -29,7 +29,7 @@ const pickupsData = [
   },
 ];
 
-export default function Pickups({user, rider}) {
+export default function Pickups({user,rider,shipments = [],}) {
   return (
     <div className="space-y-6">
         <div className="bg-slate-100 border shadow rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">

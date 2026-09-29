@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import {
   FaCheck,
   FaXmark,
@@ -10,7 +9,10 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function RiderShipmentActions({ shipment, onUpdated,}) {
+export default function RiderShipmentActions({
+  shipment,
+  onUpdated,
+}) {
   const [loading, setLoading] = useState(false);
 
   const status =
@@ -19,15 +21,19 @@ export default function RiderShipmentActions({ shipment, onUpdated,}) {
   const assignmentStatus =
     shipment?.assignmentStatus?.toLowerCase() || "";
 
+  // Rider received shipment request
   const isRequested =
     assignmentStatus === "requested";
 
+  // Rider accepted shipment
   const isAccepted =
     assignmentStatus === "accepted";
 
+  // Shipment is currently in transit
   const isInTransit =
-    status === "transit";
+    status === "in_transit";
 
+  // Shipment already delivered
   const isDelivered =
     status === "delivered";
 
@@ -62,8 +68,7 @@ export default function RiderShipmentActions({ shipment, onUpdated,}) {
 
       if (!res.ok) {
         throw new Error(
-          data?.message ||
-            "Failed to update shipment."
+          data?.message || "Failed to update shipment."
         );
       }
 
@@ -87,9 +92,9 @@ export default function RiderShipmentActions({ shipment, onUpdated,}) {
     }
   };
 
-
+  // ==================================================
   // ALREADY DELIVERED
-
+  // ==================================================
 
   if (isDelivered) {
     return (
@@ -101,18 +106,16 @@ export default function RiderShipmentActions({ shipment, onUpdated,}) {
     );
   }
 
-
-  // ACCEPTED / IN TRANSIT
-
+  // ==================================================
+  // ACCEPTED + IN TRANSIT
+  // ==================================================
 
   if (isAccepted && isInTransit) {
     return (
       <button
         type="button"
         disabled={loading}
-        onClick={() =>
-          handleAction("delivered")
-        }
+        onClick={() => handleAction("delivered")}
         className="flex items-center gap-2 rounded-xl bg-[#fcb915] px-5 py-2.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-[0_5px_15px_rgba(252,185,21,0.25)] transition-all duration-200 hover:bg-[#f5b20d] hover:shadow-[0_7px_20px_rgba(252,185,21,0.30)] disabled:cursor-not-allowed disabled:opacity-60"
       >
         <FaTruckFast className="text-sm" />
@@ -126,20 +129,18 @@ export default function RiderShipmentActions({ shipment, onUpdated,}) {
     );
   }
 
+  // ==================================================
   // RIDER RECEIVED REQUEST
-
+  // ==================================================
 
   if (isRequested) {
     return (
       <div className="flex flex-wrap items-center gap-2">
         {/* DECLINE */}
-
         <button
           type="button"
           disabled={loading}
-          onClick={() =>
-            handleAction("rejected")
-          }
+          onClick={() => handleAction("rejected")}
           className="flex items-center gap-2 rounded-xl bg-rose-50 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-rose-500 ring-1 ring-rose-100 transition-all duration-200 hover:bg-rose-100 hover:ring-rose-200 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <FaXmark className="text-sm" />
@@ -152,13 +153,10 @@ export default function RiderShipmentActions({ shipment, onUpdated,}) {
         </button>
 
         {/* ACCEPT */}
-
         <button
           type="button"
           disabled={loading}
-          onClick={() =>
-            handleAction("accepted")
-          }
+          onClick={() => handleAction("accepted")}
           className="flex items-center gap-2 rounded-xl bg-[#fcb915] px-5 py-2.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-[0_5px_15px_rgba(252,185,21,0.25)] transition-all duration-200 hover:bg-[#f5b20d] hover:shadow-[0_7px_20px_rgba(252,185,21,0.30)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           <FaCheck className="text-sm" />

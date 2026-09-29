@@ -3,15 +3,13 @@
 
 import RiderShipmentActions from "@/app/dashboard/rider/RiderShipmentActions";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { FaArrowCircleRight } from "react-icons/fa";
 
 import { FaPhone, FaLocationDot, FaClockRotateLeft, FaBoxesPacking, FaWallet, FaPowerOff, FaMoneyBillWave, FaCheck, FaTruckFast,} from "react-icons/fa6";
 
-export default function RiderDashboard({
-  user,
-  rider,
-  shipments = [],
-}) {
+export default function RiderDashboard({ user,rider,shipments = [], }) {
   // ==================================================
   // SHIPMENT STATE
   // ==================================================
@@ -307,8 +305,9 @@ export default function RiderDashboard({
           3. ACTIVE DELIVERY TASKS HEADER
       ================================================== */}
 
-      <div>
-        <h2 className="text-lg font-black uppercase tracking-tight text-slate-900">
+      <div className="flex justify-between items-center flex-col md:flex-row gap-8">
+        <div>
+          <h2 className="text-lg font-black uppercase tracking-tight text-slate-900">
           ACTIVE DELIVERY TASKS
         </h2>
 
@@ -316,6 +315,10 @@ export default function RiderDashboard({
           Review your assigned shipment requests and delivery
           information.
         </p>
+        </div>
+        <div>
+          <Link className="mb-5 inline-flex items-center gap-2 rounded-2xl border border-slate-400 px-5 py-2 text-sm font-medium text-gray-500 shadow transition hover:border-gray-900 hover:text-gray-900" href={'/dashboard/rider/pickups'}>See All Shipments <FaArrowCircleRight/></Link>
+        </div>
       </div>
 
       {/* ==================================================
@@ -344,7 +347,7 @@ export default function RiderDashboard({
           5. DYNAMIC DELIVERY TASKS
       ================================================== */}
 
-      {safeShipments.map((shipment) => {
+      {safeShipments.slice(0,1).map((shipment) => {
         const status =
           shipment?.status?.toLowerCase() || "pending";
 

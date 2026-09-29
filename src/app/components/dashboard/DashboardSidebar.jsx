@@ -62,12 +62,12 @@ const navigationConfig = {
 
   rider: [
     {
-      label: "DELIVERY QUEUE (4)",
+      label: "DELIVERY QUEUE",
       href: "/dashboard/rider",
       icon: FaTruckFast,
     },
     {
-      label: "MERCHANT PICKUPS (2)",
+      label: "MERCHANT SHIPMENTS PICKUPS",
       href: "/dashboard/rider/pickups",
       icon: FaBoxesPacking,
     },

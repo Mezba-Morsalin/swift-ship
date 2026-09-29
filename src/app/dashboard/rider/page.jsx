@@ -7,19 +7,15 @@ import { getRiderShipments } from "@/app/lib/getRiderShipments";
 import { headers } from "next/headers";
 
 const RiderDashboardPage = async () => {
-  // ==================================================
+
   // GET LOGGED-IN USER
-  // ==================================================
 
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   const user = session?.user;
-
-  // ==================================================
   // GET ALL RIDERS
-  // ==================================================
 
   const riders = await getRiders();
 
@@ -28,9 +24,8 @@ const RiderDashboardPage = async () => {
     (item) => item.userId === user?.id
   );
 
-  // ==================================================
   // RIDER NOT FOUND
-  // ==================================================
+
 
   if (!rider) {
     return (
@@ -60,9 +55,7 @@ const RiderDashboardPage = async () => {
     );
   }
 
-  // ==================================================
   // PENDING RIDER
-  // ==================================================
 
   if (rider.status?.toLowerCase() === "pending") {
     return (
@@ -113,9 +106,8 @@ const RiderDashboardPage = async () => {
     );
   }
 
-  // ==================================================
   // SUSPENDED RIDER
-  // ==================================================
+
 
   if (rider.status?.toLowerCase() === "suspended") {
     return (
