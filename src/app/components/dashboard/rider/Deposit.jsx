@@ -171,7 +171,6 @@ export default function Deposit({user, rider}) {
 
     </div>
 
-
     {/* Cleared This Week */}
     <div className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)]">
 
@@ -196,7 +195,6 @@ export default function Deposit({user, rider}) {
     </div>
 
   </div>
-
 
   {/* ==================================================
       FORM + RECENT CLEARANCES
@@ -226,7 +224,6 @@ export default function Deposit({user, rider}) {
         </div>
 
       </div>
-
 
       <form
         onSubmit={(e) => e.preventDefault()}
@@ -431,7 +428,6 @@ export default function Deposit({user, rider}) {
                 </span>
 
               </div>
-
 
               {/* Method + Amount */}
               <div className="flex items-center justify-between gap-3">
