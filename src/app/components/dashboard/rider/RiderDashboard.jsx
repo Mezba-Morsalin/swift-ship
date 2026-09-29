@@ -346,7 +346,7 @@ export default function RiderDashboard({
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
         <div>
           <h2 className="text-lg font-black uppercase tracking-tight text-slate-900">
-            ACTIVE DELIVERY TASKS
+            Recent Deliveries
           </h2>
 
           <p className="mt-0.5 text-xs text-slate-400">
