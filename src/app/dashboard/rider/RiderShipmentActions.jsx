@@ -6,6 +6,7 @@ import {
   FaXmark,
   FaTruckFast,
 } from "react-icons/fa6";
+import { toast } from "sonner";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -39,12 +40,12 @@ export default function RiderShipmentActions({
 
   const handleAction = async (action) => {
     if (!shipment?._id) {
-      alert("Shipment ID is missing.");
+      toast.error("Shipment ID is missing.");
       return;
     }
 
     if (!API_URL) {
-      alert("API URL is not configured.");
+      toast.error("API URL is not configured.");
       return;
     }
 
@@ -55,6 +56,7 @@ export default function RiderShipmentActions({
         `${API_URL}/api/shipments/${shipment._id}/rider-action`,
         {
           method: "PATCH",
+          cache: "no-store",
           headers: {
             "Content-Type": "application/json",
           },
@@ -72,17 +74,29 @@ export default function RiderShipmentActions({
         );
       }
 
-      // Update parent/dashboard state
+      // Update local dashboard state
       if (data?.shipment) {
         onUpdated?.(data.shipment);
       }
-    } catch (error) {
-      console.error(
-        "Shipment action error:",
-        error
-      );
 
-      alert(
+      // Success toast
+      if (action === "accepted") {
+        toast.success("Shipment accepted successfully.");
+      } else if (action === "rejected") {
+        toast.success("Shipment request declined.");
+      } else if (action === "delivered") {
+        toast.success("Shipment marked as delivered.");
+      } else {
+        toast.success("Shipment updated successfully.");
+      }
+
+      // IMPORTANT:
+      // router.refresh() intentionally not used here.
+      // Local state is already updated through onUpdated().
+    } catch (error) {
+      console.error("Shipment action error:", error);
+
+      toast.error(
         error instanceof Error
           ? error.message
           : "Something went wrong."
@@ -95,7 +109,6 @@ export default function RiderShipmentActions({
   // ==================================================
   // ALREADY DELIVERED
   // ==================================================
-
   if (isDelivered) {
     return (
       <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-emerald-600 ring-1 ring-emerald-100">
@@ -109,7 +122,6 @@ export default function RiderShipmentActions({
   // ==================================================
   // ACCEPTED + IN TRANSIT
   // ==================================================
-
   if (isAccepted && isInTransit) {
     return (
       <button
@@ -132,7 +144,6 @@ export default function RiderShipmentActions({
   // ==================================================
   // RIDER RECEIVED REQUEST
   // ==================================================
-
   if (isRequested) {
     return (
       <div className="flex flex-wrap items-center gap-2">

@@ -1,35 +1,20 @@
 "use client";
 
+import RiderShipmentActions from "@/app/dashboard/rider/RiderShipmentActions";
 import Image from "next/image";
-import { FaBarcode, FaCheck, FaLocationDot, FaPhone, FaPowerOff } from "react-icons/fa6";
+import { useState } from "react";
+import { FaBarcode, FaCheck, FaClockRotateLeft, FaLocationDot, FaPhone, FaPowerOff, FaTruckFast } from "react-icons/fa6";
 
-const pickupsData = [
-  {
-    id: 1,
-    status: "SCHEDULED PICKUP",
-    statusType: "scheduled",
-    parcelCount: 8,
-    merchantName: "Aura Fashion Boutique",
-    location: "Mirpur-10 Warehouse",
-    phone: "+880 1711-223344",
-    actionType: "button",
-    actionText: "CONFIRM BULK BARCODE SCAN",
-  },
 
-  {
-    id: 2,
-    status: "COMPLETED PICKUP",
-    statusType: "completed",
-    parcelCount: 4,
-    merchantName: "TechZone Gadgets",
-    location: "Uttara Sector 7 Depot",
-    phone: "+880 1819-223344",
-    actionType: "badge",
-    actionText: "Scanned & Deposited at Central Hub",
-  },
-];
 
 export default function Pickups({user,rider,shipments = [],}) {
+  
+    const [shipmentList, setShipmentList] = useState(
+      Array.isArray(shipments) ? shipments : []
+    );
+  
+    // Always use state for rendering
+    const safeShipments = shipmentList;
   return (
     <div className="space-y-6">
         <div className="bg-slate-100 border shadow rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -122,155 +107,324 @@ export default function Pickups({user,rider,shipments = [],}) {
       ================================================== */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
-        {pickupsData.map((pickup) => {
-          const isScheduled = pickup.statusType === "scheduled";
-
-          return (
-            <div
-              key={pickup.id}
-              className="group flex flex-col justify-between space-y-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(15,23,42,0.09)]"
-            >
-
-              {/* ==================================================
-                  CARD HEADER
-              ================================================== */}
-              <div className="flex items-center justify-between gap-3">
-
-                {/* Status */}
-                <span
-                  className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
-                    isScheduled
-                      ? "border-amber-200 bg-amber-50 text-amber-600"
-                      : "border-emerald-200 bg-emerald-50 text-emerald-600"
-                  }`}
-                >
-                  {pickup.status}
-                </span>
-
-
-                {/* Parcel Count */}
-                <div
-                  className={`flex items-center gap-1.5 text-xs font-black ${
-                    isScheduled
-                      ? "text-[#d99b00]"
-                      : "text-emerald-600"
-                  }`}
-                >
-                  <span>{pickup.parcelCount}</span>
-                  <span className="font-bold text-slate-400">
-                    Parcels
-                  </span>
-                </div>
-
-              </div>
-
-
-              {/* ==================================================
-                  MERCHANT DETAILS
-              ================================================== */}
-              <div className="space-y-3">
-
-                <div>
-                  <h3 className="text-lg font-black tracking-tight text-[#111827]">
-                    {pickup.merchantName}
+        {safeShipments.length === 0 && (
+                <div className="rounded-2xl border border-slate-200 bg-white px-6 py-14 text-center shadow-sm">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                    <FaTruckFast className="text-2xl" />
+                  </div>
+        
+                  <h3 className="mt-5 text-lg font-black text-slate-900">
+                    No Delivery Requests
                   </h3>
-
-                  <div className="mt-2 flex flex-col gap-2 text-xs font-medium text-slate-400 sm:flex-row sm:items-center sm:gap-3">
-
-                    {/* Location */}
-                    <div className="flex items-center gap-1.5">
-                      <FaLocationDot className="text-[11px] text-slate-400" />
-                      <span>{pickup.location}</span>
-                    </div>
-
-                    <span className="hidden text-slate-300 sm:block">
-                      •
-                    </span>
-
-                    {/* Phone */}
-                    <a
-                      href={`tel:${pickup.phone}`}
-                      className="flex items-center gap-1.5 transition-colors hover:text-slate-700"
-                    >
-                      <FaPhone className="text-[10px] text-slate-400" />
-                      <span>{pickup.phone}</span>
-                    </a>
-
-                  </div>
+        
+                  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-400">
+                    You currently have no shipment requests assigned to
+                    you. New delivery requests will appear here when the
+                    hub assigns a shipment.
+                  </p>
                 </div>
-
-
-                {/* Parcel Summary */}
-                <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/70 px-4 py-3">
-
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
-                      TOTAL PARCELS
-                    </p>
-
-                    <p className="mt-0.5 text-sm font-black text-slate-800">
-                      {pickup.parcelCount} Consignments
-                    </p>
-                  </div>
-
+              )}
+        
+        
+              {safeShipments.map((shipment) => {
+                const status =
+                  shipment?.status?.toLowerCase() || "pending";
+        
+                const assignmentStatus =
+                  shipment?.assignmentStatus?.toLowerCase() || "";
+        
+                const actionType =
+                  shipment?.action?.type?.toLowerCase() || "";
+        
+                const isRequested =
+                  assignmentStatus === "requested";
+        
+                const isAccepted =
+                  assignmentStatus === "accepted";
+        
+                const isDelivered =
+                  status === "delivered";
+        
+                // ==================================================
+                // GOOGLE MAPS URL
+                // ==================================================
+        
+                const locationQuery =
+                  shipment?.address ||
+                  shipment?.destination ||
+                  "";
+        
+                const googleMapsUrl = locationQuery
+                  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      locationQuery
+                    )}`
+                  : null;
+        
+                return (
                   <div
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                      isScheduled
-                        ? "bg-amber-50 text-[#fcb915]"
-                        : "bg-emerald-50 text-emerald-500"
-                    }`}
+                    key={shipment?._id}
+                    className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)]"
                   >
-                    {isScheduled ? (
-                      <FaBarcode className="text-base" />
-                    ) : (
-                      <FaCheck className="text-sm" />
-                    )}
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              {/* ==================================================
-                  ACTION AREA
-              ================================================== */}
-              <div>
-
-                {pickup.actionType === "button" ? (
-
-                  <button
-                    type="button"
-                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#fcb915] px-4 py-3.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-[0_5px_15px_rgba(252,185,21,0.18)] transition-all duration-200 hover:bg-[#f5b20d] hover:shadow-[0_7px_20px_rgba(252,185,21,0.25)] active:scale-[0.99]"
-                  >
-                    <FaBarcode className="text-sm" />
-
-                    <span>
-                      {pickup.actionText}
-                    </span>
-                  </button>
-
-                ) : (
-
-                  <div className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3.5 text-center text-xs font-black uppercase tracking-wider text-emerald-600">
-
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
-                      <FaCheck className="text-[9px]" />
+                    {/* ==================================================
+                        TASK HEADER
+                    ================================================== */}
+        
+                    <div className="flex flex-col gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="text-sm font-black tracking-wider text-[#111827]">
+                          SWIFT-
+                          {shipment?._id
+                            ?.slice(-5)
+                            .toUpperCase() || "N/A"}
+                        </span>
+        
+                        <span className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-bold text-slate-500">
+                          {shipment?.hubCode || "NO HUB"}
+                        </span>
+        
+                        <span className="text-xs text-slate-500">
+                          Destination:{" "}
+                          <strong className="font-bold text-slate-800">
+                            {shipment?.destination || "N/A"}
+                          </strong>
+                        </span>
+                      </div>
+        
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className="text-xs text-slate-400">
+                          Assigned:{" "}
+                          <strong className="font-bold text-slate-700">
+                            {shipment?.assignedAt
+                              ? new Date(
+                                  shipment.assignedAt
+                                ).toLocaleDateString()
+                              : "N/A"}
+                          </strong>
+                        </span>
+        
+                        <span
+                          className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                            isDelivered
+                              ? "border-emerald-200 bg-emerald-50 text-emerald-600"
+                              : isAccepted
+                              ? "border-blue-200 bg-blue-50 text-blue-600"
+                              : isRequested
+                              ? "border-amber-200 bg-amber-50 text-amber-600"
+                              : "border-slate-200 bg-slate-50 text-slate-500"
+                          }`}
+                        >
+                          {isDelivered
+                            ? "DELIVERED"
+                            : isAccepted
+                            ? "ASSIGNED"
+                            : isRequested
+                            ? "REQUESTED"
+                            : actionType || status}
+                        </span>
+                      </div>
                     </div>
-
-                    <span>
-                      {pickup.actionText}
-                    </span>
-
+        
+                    {/* ==================================================
+                        TASK INFORMATION
+                    ================================================== */}
+        
+                    <div className="grid grid-cols-1 gap-5 text-xs md:grid-cols-3">
+                      {/* Recipient */}
+                      <div className="space-y-2 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          RECIPIENT INFORMATION
+                        </span>
+        
+                        <div>
+                          <p className="text-sm font-black text-slate-900">
+                            {shipment?.recipientName || "N/A"}
+                          </p>
+        
+                          {shipment?.recipientPhone && (
+                            <p className="mt-1 font-mono text-xs text-slate-500">
+                              {shipment.recipientPhone}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+        
+                      {/* Address */}
+                      <div className="space-y-2 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          DOORSTEP ADDRESS
+                        </span>
+        
+                        <p className="font-medium leading-relaxed text-slate-700">
+                          {shipment?.address ||
+                            "Address not available"}
+                        </p>
+        
+                        {shipment?.instructions && (
+                          <div className="rounded-lg border border-amber-100 bg-amber-50/70 px-3 py-2">
+                            <p className="text-[11px] font-medium italic leading-relaxed text-amber-700">
+                              Note: {shipment.instructions}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+        
+                      {/* COD */}
+                      <div className="space-y-2 rounded-xl border border-amber-100 bg-amber-50/50 p-4 md:text-right">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          COD CASH TO COLLECT
+                        </span>
+        
+                        <p className="text-2xl font-black text-[#111827]">
+                          ৳{" "}
+                          {Number(
+                            shipment?.codAmount || 0
+                          ).toLocaleString()}
+                        </p>
+        
+                        <div className="flex items-center gap-2 md:justify-end">
+                          <span className="h-1 w-1 rounded-full bg-slate-300" />
+        
+                          <p className="text-[10px] font-semibold text-slate-400">
+                            Weight: {shipment?.weight || 0} kg
+                          </p>
+                        </div>
+        
+                        <p className="text-[10px] font-semibold text-slate-400">
+                          Delivery Charge: ৳{" "}
+                          {Number(
+                            shipment?.deliveryCharge || 0
+                          ).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+        
+                    {/* ==================================================
+                        EXTRA SHIPMENT INFORMATION
+                    ================================================== */}
+        
+                    <div className="grid grid-cols-1 gap-3 border-t border-slate-100 pt-4 sm:grid-cols-2 lg:grid-cols-4">
+                      {/* Category */}
+                      <div className="rounded-xl bg-slate-50 px-4 py-3">
+                        <span className="block text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          CATEGORY
+                        </span>
+        
+                        <span className="mt-1 block text-xs font-bold text-slate-700">
+                          {shipment?.category || "N/A"}
+                        </span>
+                      </div>
+        
+                      {/* Hub */}
+                      <div className="rounded-xl bg-slate-50 px-4 py-3">
+                        <span className="block text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          HUB
+                        </span>
+        
+                        <span className="mt-1 block text-xs font-bold text-slate-700">
+                          {shipment?.hubName ||
+                            shipment?.hubCode ||
+                            "N/A"}
+                        </span>
+                      </div>
+        
+                      {/* Shipment Status */}
+                      <div className="rounded-xl bg-slate-50 px-4 py-3">
+                        <span className="block text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          SHIPMENT STATUS
+                        </span>
+        
+                        <span className="mt-1 block text-xs font-bold capitalize text-slate-700">
+                          {shipment?.status || "Pending"}
+                        </span>
+                      </div>
+        
+                      {/* Assignment */}
+                      <div className="rounded-xl bg-slate-50 px-4 py-3">
+                        <span className="block text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          ASSIGNMENT
+                        </span>
+        
+                        <span className="mt-1 block text-xs font-bold capitalize text-slate-700">
+                          {shipment?.assignmentStatus || "N/A"}
+                        </span>
+                      </div>
+                    </div>
+        
+                    {/* ==================================================
+                        ACTION FOOTER
+                    ================================================== */}
+        
+                    <div className="flex flex-col gap-3 border-t border-slate-100 pt-4 lg:flex-row lg:items-center lg:justify-between">
+                      {/* Left Actions */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        {/* Call Buyer */}
+                        {shipment?.recipientPhone && (
+                          <a
+                            href={`tel:${shipment.recipientPhone}`}
+                            className="flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-emerald-600 ring-1 ring-emerald-100 transition-all duration-200 hover:bg-emerald-100 hover:ring-emerald-200"
+                          >
+                            <FaPhone className="text-xs" />
+                            <span>CALL BUYER</span>
+                          </a>
+                        )}
+        
+                        {/* GPS Route */}
+                        {googleMapsUrl ? (
+                          <a
+                            href={googleMapsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 rounded-xl bg-blue-50 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-blue-600 ring-1 ring-blue-100 transition-all duration-200 hover:bg-blue-100 hover:ring-blue-200"
+                          >
+                            <FaLocationDot className="text-xs" />
+                            <span>GPS ROUTE</span>
+                          </a>
+                        ) : (
+                          <button
+                            type="button"
+                            disabled
+                            className="flex cursor-not-allowed items-center gap-2 rounded-xl bg-slate-100 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-slate-400 ring-1 ring-slate-200"
+                          >
+                            <FaLocationDot className="text-xs" />
+                            <span>GPS UNAVAILABLE</span>
+                          </button>
+                        )}
+        
+                        {/* Timeline */}
+                        <button
+                          type="button"
+                          className="flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2.5 text-xs font-black uppercase tracking-wider text-slate-600 ring-1 ring-slate-200 transition-all duration-200 hover:bg-slate-200"
+                        >
+                          <FaClockRotateLeft className="text-xs" />
+                          <span>TIMELINE</span>
+                        </button>
+                      </div>
+        
+                      {/* Right Actions */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <RiderShipmentActions
+                          shipment={shipment}
+                          onUpdated={(updatedShipment) => {
+                            if (!updatedShipment?._id) {
+                              return;
+                            }
+        
+                            setShipmentList(
+                              (currentShipments) =>
+                                currentShipments.map((item) =>
+                                  item._id ===
+                                  updatedShipment._id
+                                    ? updatedShipment
+                                    : item
+                                )
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-
-                )}
-
-              </div>
-
-            </div>
-          );
-        })}
+                );
+              })}
 
       </div>
     </div>

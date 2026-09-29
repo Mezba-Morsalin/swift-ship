@@ -1,15 +1,29 @@
-
 "use client";
 
 import RiderShipmentActions from "@/app/dashboard/rider/RiderShipmentActions";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+
 import { FaArrowCircleRight } from "react-icons/fa";
 
-import { FaPhone, FaLocationDot, FaClockRotateLeft, FaBoxesPacking, FaWallet, FaPowerOff, FaMoneyBillWave, FaCheck, FaTruckFast,} from "react-icons/fa6";
+import {
+  FaPhone,
+  FaLocationDot,
+  FaClockRotateLeft,
+  FaBoxesPacking,
+  FaWallet,
+  FaPowerOff,
+  FaMoneyBillWave,
+  FaCheck,
+  FaTruckFast,
+} from "react-icons/fa6";
 
-export default function RiderDashboard({ user,rider,shipments = [], }) {
+export default function RiderDashboard({
+  user,
+  rider,
+  shipments = [],
+}) {
   // ==================================================
   // SHIPMENT STATE
   // ==================================================
@@ -18,7 +32,7 @@ export default function RiderDashboard({ user,rider,shipments = [], }) {
     Array.isArray(shipments) ? shipments : []
   );
 
-  // Always use state for rendering
+  // Always use local state for rendering
   const safeShipments = shipmentList;
 
   // ==================================================
@@ -60,6 +74,24 @@ export default function RiderDashboard({ user,rider,shipments = [], }) {
     : rider?.image || "/images/default-avatar.png";
 
   // ==================================================
+  // HANDLE UPDATED SHIPMENT
+  // ==================================================
+
+  const handleShipmentUpdated = (updatedShipment) => {
+    if (!updatedShipment?._id) {
+      return;
+    }
+
+    setShipmentList((currentShipments) =>
+      currentShipments.map((item) =>
+        item?._id === updatedShipment._id
+          ? updatedShipment
+          : item
+      )
+    );
+  };
+
+  // ==================================================
   // RENDER
   // ==================================================
 
@@ -73,7 +105,13 @@ export default function RiderDashboard({ user,rider,shipments = [], }) {
         <div className="flex items-center gap-4">
           {/* Rider Image */}
           <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-slate-200">
-            <Image src={riderImage} alt={rider?.name || "Rider"} width={64} height={64} className="h-full w-full object-cover" onError={(event) => {
+            <Image
+              src={riderImage}
+              alt={rider?.name || "Rider"}
+              width={64}
+              height={64}
+              className="h-full w-full object-cover"
+              onError={(event) => {
                 event.currentTarget.src =
                   "/images/default-avatar.png";
               }}
@@ -305,19 +343,26 @@ export default function RiderDashboard({ user,rider,shipments = [], }) {
           3. ACTIVE DELIVERY TASKS HEADER
       ================================================== */}
 
-      <div className="flex justify-between items-center flex-col md:flex-row gap-8">
+      <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
         <div>
           <h2 className="text-lg font-black uppercase tracking-tight text-slate-900">
-          ACTIVE DELIVERY TASKS
-        </h2>
+            ACTIVE DELIVERY TASKS
+          </h2>
 
-        <p className="mt-0.5 text-xs text-slate-400">
-          Review your assigned shipment requests and delivery
-          information.
-        </p>
+          <p className="mt-0.5 text-xs text-slate-400">
+            Review your assigned shipment requests and delivery
+            information.
+          </p>
         </div>
+
         <div>
-          <Link className="mb-5 inline-flex items-center gap-2 rounded-2xl border border-slate-400 px-5 py-2 text-sm font-medium text-gray-500 shadow transition hover:border-gray-900 hover:text-gray-900" href={'/dashboard/rider/pickups'}>See All Shipments <FaArrowCircleRight/></Link>
+          <Link
+            className="mb-5 inline-flex items-center gap-2 rounded-2xl border border-slate-400 px-5 py-2 text-sm font-medium text-gray-500 shadow transition hover:border-gray-900 hover:text-gray-900"
+            href="/dashboard/rider/pickups"
+          >
+            See All Shipments
+            <FaArrowCircleRight />
+          </Link>
         </div>
       </div>
 
@@ -344,10 +389,10 @@ export default function RiderDashboard({ user,rider,shipments = [], }) {
       )}
 
       {/* ==================================================
-          5. DYNAMIC DELIVERY TASKS
+          FIRST SHIPMENT
       ================================================== */}
 
-      {safeShipments.slice(0,1).map((shipment) => {
+      {safeShipments.slice(0, 1).map((shipment) => {
         const status =
           shipment?.status?.toLowerCase() || "pending";
 
@@ -625,21 +670,7 @@ export default function RiderDashboard({ user,rider,shipments = [], }) {
               <div className="flex flex-wrap items-center gap-2">
                 <RiderShipmentActions
                   shipment={shipment}
-                  onUpdated={(updatedShipment) => {
-                    if (!updatedShipment?._id) {
-                      return;
-                    }
-
-                    setShipmentList(
-                      (currentShipments) =>
-                        currentShipments.map((item) =>
-                          item._id ===
-                          updatedShipment._id
-                            ? updatedShipment
-                            : item
-                        )
-                    );
-                  }}
+                  onUpdated={handleShipmentUpdated}
                 />
               </div>
             </div>
