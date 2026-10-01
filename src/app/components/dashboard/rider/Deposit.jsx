@@ -350,22 +350,14 @@ export default function Deposit({user, rider}) {
             DEPOSIT SLIP / TRANSACTION REF ID
           </label>
 
-          <input
-            type="text"
-            placeholder="e.g. TRX-9923810 or Counter Slip #12"
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-[#fcb915] focus:bg-white focus:ring-2 focus:ring-amber-100"
-          />
+          <input type="text" placeholder="e.g. TRX-9923810 or Counter Slip #12" className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-[#fcb915] focus:bg-white focus:ring-2 focus:ring-amber-100" />
 
         </div>
-
 
         {/* ==================================================
             SUBMIT
         ================================================== */}
-        <button
-          type="submit"
-          className="mt-1 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#fcb915] px-4 py-3.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-[0_5px_15px_rgba(252,185,21,0.18)] transition-all duration-200 hover:bg-[#f5b20d] hover:shadow-[0_7px_20px_rgba(252,185,21,0.25)] active:scale-[0.99]"
-        >
+        <button type="submit" className="mt-1 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#fcb915] px-4 py-3.5 text-xs font-black uppercase tracking-wider text-[#111827] shadow-[0_5px_15px_rgba(252,185,21,0.18)] transition-all duration-200 hover:bg-[#f5b20d] hover:shadow-[0_7px_20px_rgba(252,185,21,0.25)] active:scale-[0.99]">
           <FaArrowUpFromBracket className="text-sm" />
           <span>SUBMIT FOR CLEARANCE</span>
         </button>
@@ -374,14 +366,12 @@ export default function Deposit({user, rider}) {
 
     </div>
 
-
     {/* ==================================================
         RECENT CLEARANCES
     ================================================== */}
     <div className="flex flex-col justify-between space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] lg:col-span-2">
 
       <div>
-
         {/* Header */}
         <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
 
@@ -401,17 +391,12 @@ export default function Deposit({user, rider}) {
 
         </div>
 
-
         {/* History */}
         <div className="space-y-3">
 
           {depositHistory.map((item) => (
 
-            <div
-              key={item.id}
-              className="space-y-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 transition-all duration-200 hover:border-slate-200 hover:bg-white"
-            >
-
+            <div key={item.id} className="space-y-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 transition-all duration-200 hover:border-slate-200 hover:bg-white">
               {/* ID + Status */}
               <div className="flex items-center justify-between gap-3">
 
@@ -442,7 +427,6 @@ export default function Deposit({user, rider}) {
 
               </div>
 
-
               {/* Date */}
               <p className="border-t border-slate-200/70 pt-2 text-[10px] font-medium text-slate-400">
                 {item.date}
@@ -455,7 +439,6 @@ export default function Deposit({user, rider}) {
         </div>
 
       </div>
-
 
       {/* Bottom Info */}
       <div className="mt-4 rounded-xl border border-amber-100 bg-amber-50/60 p-3 text-center text-[10px] font-medium leading-relaxed text-amber-700">
