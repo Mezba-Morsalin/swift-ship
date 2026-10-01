@@ -39,12 +39,7 @@ export default function Deposit({user, rider}) {
                 <div className="bg-slate-100 border shadow rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                           <div className="relative w-16 h-16 rounded-xl overflow-hidden border-2  shrink-0">
-                            <Image
-                  src={rider?.image || "/images/default-avatar.png"}
-                  alt={rider?.name}
-                  width={40}
-                  height={40}
-                />
+                            <Image src={rider?.image || "/images/default-avatar.png"} alt={rider?.name} width={40} height={40}/>
                             <span className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#131927] rounded-full" />
                           </div>
                 
@@ -225,10 +220,7 @@ export default function Deposit({user, rider}) {
 
       </div>
 
-      <form
-        onSubmit={(e) => e.preventDefault()}
-        className="space-y-5"
-      >
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
 
         {/* ==================================================
             PAYMENT METHOD
@@ -242,10 +234,7 @@ export default function Deposit({user, rider}) {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
 
             {/* Hub Cash */}
-            <button
-              type="button"
-              onClick={() => setDepositMethod("hub")}
-              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 text-left text-xs font-black uppercase tracking-wider transition-all ${
+            <button type="button" onClick={() => setDepositMethod("hub")} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 text-left text-xs font-black uppercase tracking-wider transition-all ${
                 depositMethod === "hub"
                   ? "border-[#fcb915] bg-amber-50 text-[#111827] shadow-sm"
                   : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:bg-white"
@@ -274,12 +263,8 @@ export default function Deposit({user, rider}) {
 
             </button>
 
-
             {/* bKash / Nagad */}
-            <button
-              type="button"
-              onClick={() => setDepositMethod("mfs")}
-              className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 text-left text-xs font-black uppercase tracking-wider transition-all ${
+            <button type="button" onClick={() => setDepositMethod("mfs")} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 text-left text-xs font-black uppercase tracking-wider transition-all ${
                 depositMethod === "mfs"
                   ? "border-[#fcb915] bg-amber-50 text-[#111827] shadow-sm"
                   : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:bg-white"
@@ -328,13 +313,7 @@ export default function Deposit({user, rider}) {
               ৳
             </span>
 
-            <input
-              type="number"
-              placeholder="8450"
-              value={depositAmount}
-              onChange={(e) => setDepositAmount(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-9 pr-4 text-sm font-bold text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-[#fcb915] focus:bg-white focus:ring-2 focus:ring-amber-100"
-            />
+            <input type="number" placeholder="8450" value={depositAmount} onChange={(e) => setDepositAmount(e.target.value)} className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-9 pr-4 text-sm font-bold text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-[#fcb915] focus:bg-white focus:ring-2 focus:ring-amber-100"/>
 
           </div>
 
