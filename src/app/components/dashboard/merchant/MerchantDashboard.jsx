@@ -346,7 +346,6 @@ const deliveredCOD = shipments
                   }).length
                 }
               </h3>
-
               <span className="mt-3 text-[10px] font-bold text-slate-400">
                 Active on GPS
               </span>
