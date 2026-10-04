@@ -481,9 +481,9 @@ const deliveredCOD = shipments
 
           </div>
 
-          {/* ==================================================
-              4. RECENT DELIVERIES & LIVE STATUS TABLE
-          ================================================== */}
+
+              {/* 4. RECENT DELIVERIES & LIVE STATUS TABLE */}
+
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 
             <div className="flex items-center justify-between">
