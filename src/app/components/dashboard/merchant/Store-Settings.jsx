@@ -138,8 +138,7 @@ export default function StoreSettings({merchant}) {
       : merchant.status === "pending"
         ? "border-amber-200 bg-amber-50"
         : "border-red-200 bg-red-50"
-  }`}
->
+  }`}>
   <span
     className={`h-2 w-2 rounded-full ${
       merchant.status === "active"
@@ -147,8 +146,7 @@ export default function StoreSettings({merchant}) {
         : merchant.status === "pending"
           ? "bg-amber-500"
           : "bg-red-500"
-    }`}
-  />
+    }`}/>
 
   <span
     className={`text-[10px] font-black uppercase tracking-wider ${
@@ -157,8 +155,7 @@ export default function StoreSettings({merchant}) {
         : merchant.status === "pending"
           ? "text-amber-600"
           : "text-red-600"
-    }`}
-  >
+    }`}>
     { merchant.status === "active"
       ? "STORE ACTIVE"
       : merchant.status === "pending"
@@ -219,13 +216,7 @@ export default function StoreSettings({merchant}) {
                   <div className="relative">
                     <Building2 className="absolute left-4 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-slate-400" />
 
-                    <Input
-                      id="businessName"
-                      name="businessName"
-                      value={formData.businessName}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 bg-white pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="businessName" name="businessName" value={formData.businessName} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 bg-white pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
                 </div>
 
@@ -242,13 +233,7 @@ export default function StoreSettings({merchant}) {
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-slate-400" />
 
-                    <Input
-                      id="ownerName"
-                      name="ownerName"
-                      value={formData.ownerName}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="ownerName" name="ownerName" value={formData.ownerName} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
                 </div>
 
@@ -265,14 +250,7 @@ export default function StoreSettings({merchant}) {
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-slate-400" />
 
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
                 </div>
 
@@ -289,14 +267,7 @@ export default function StoreSettings({merchant}) {
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-slate-400" />
 
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
                 </div>
 
@@ -313,13 +284,7 @@ export default function StoreSettings({merchant}) {
                   <div className="relative">
                     <Globe className="absolute left-4 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-slate-400" />
 
-                    <Input
-                      id="website"
-                      name="website"
-                      value={formData.website}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="website" name="website" value={formData.website} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 pl-11 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
                 </div>
 
@@ -376,13 +341,7 @@ export default function StoreSettings({merchant}) {
                       AREA
                     </label>
 
-                    <Input
-                      id="location"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 text-sm shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="location" name="location" value={formData.location} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 text-sm shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
 
 
@@ -394,13 +353,7 @@ export default function StoreSettings({merchant}) {
                       CITY
                     </label>
 
-                    <Input
-                      id="city"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 text-sm shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="city" name="city" value={formData.city} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 text-sm shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
 
 
@@ -412,13 +365,7 @@ export default function StoreSettings({merchant}) {
                       POSTAL CODE
                     </label>
 
-                    <Input
-                      id="postalCode"
-                      name="postalCode"
-                      value={formData.postalCode}
-                      onChange={handleChange}
-                      className="h-11 rounded-xl border-2 border-slate-200 text-sm shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                    />
+                    <Input id="postalCode" name="postalCode" value={formData.postalCode} onChange={handleChange} className="h-11 rounded-xl border-2 border-slate-200 text-sm shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"/>
                   </div>
 
                 </div>
@@ -450,14 +397,7 @@ export default function StoreSettings({merchant}) {
 
               </div>
 
-              <textarea
-                name="pickupInstructions"
-                value={formData.pickupInstructions}
-                onChange={handleChange}
-                rows={4}
-                className="resize-none rounded-xl border-2 border-slate-200 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0"
-                placeholder="Example: Call the merchant before arriving..."
-              />
+              <textarea name="pickupInstructions" value={formData.pickupInstructions} onChange={handleChange} rows={4} className="resize-none rounded-xl border-2 border-slate-200 text-sm text-[#111827] shadow-none focus-visible:border-[#fcb915] focus-visible:ring-0" placeholder="Example: Call the merchant before arriving..."/>
 
             </div>
 
@@ -465,11 +405,7 @@ export default function StoreSettings({merchant}) {
             {/* Save Button */}
             <div className="flex justify-end">
 
-              <Button
-                type="submit"
-                disabled={saving}
-                className="h-11 rounded-full bg-[#111827] px-6 text-xs font-black uppercase tracking-wider text-white shadow-sm transition-colors hover:bg-[#24344d]"
-              >
+              <Button type="submit" disabled={saving} className="h-11 rounded-full bg-[#111827] px-6 text-xs font-black uppercase tracking-wider text-white shadow-sm transition-colors hover:bg-[#24344d]">
                 {saving ? (
                   <>
                     <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-[#fcb915]" />
@@ -523,13 +459,7 @@ export default function StoreSettings({merchant}) {
                   >
                     <Camera className="h-4 w-4" />
 
-                    <input
-                      id="store-image"
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      className="sr-only"
-                      onChange={handleImageChange}
-                    />
+                    <input id="store-image" type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={handleImageChange}/>
                   </label>
 
                 </div>
