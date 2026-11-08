@@ -1,6 +1,6 @@
 import DeliveryRateEstimator from '@/app/components/shared/Pricing/DeliveryRateEstimator';
 import DistrictRateMatrix from '@/app/components/shared/Pricing/DistrictRateMatrix';
-import MerchantVolumePlans from '@/app/components/shared/Pricing/MerchantVolumePlans';
+import DeliveryRateDetails from '@/app/components/shared/Pricing/DeliveryRateDetails';
 import ShippingCalculatorHeader from '@/app/components/shared/Pricing/ShippingCalculatorHeader';
 import React from 'react';
 
@@ -10,7 +10,7 @@ const PricingPage = () => {
             <ShippingCalculatorHeader/>
             <DeliveryRateEstimator/>
             <DistrictRateMatrix/>
-            <MerchantVolumePlans/>
+            <DeliveryRateDetails/>
         </div>
     );
 };
