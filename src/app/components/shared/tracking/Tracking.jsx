@@ -14,7 +14,7 @@ import {
   FaHeadset,
 } from "react-icons/fa";
 
-export default function TrackPage() {
+export default function Tracking() {
   const [trackingId, setTrackingId] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
